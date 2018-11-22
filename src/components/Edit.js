@@ -42,9 +42,9 @@ export default class Edit extends Component {
 
   textArea = React.createRef()
 
-  submitHandler = (onSubmit) => {
+  submitHandler = () => {
     if (this.state.inputBody !== '') {
-      onSubmit(this.state.inputBody)
+      this.props.onSubmit(this.state.inputBody)
       this.setState({ inputBody: '' })
     } else {
       console.log('nothing to save')
@@ -53,7 +53,6 @@ export default class Edit extends Component {
   }
 
   render () {
-    const { onSubmit } = this.props
     return (
       <Wrapper>
         <main>
@@ -66,7 +65,7 @@ export default class Edit extends Component {
           />
         </main>
         <Footer>
-          <TextButton label="Submit" onClick={() => this.submitHandler(onSubmit)} />
+          <TextButton label="Submit" onClick={this.submitHandler} />
         </Footer>
       </Wrapper>
     )
