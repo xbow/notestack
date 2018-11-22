@@ -50,13 +50,12 @@ export default class Edit extends Component {
       console.log('nothing to save')
     }
     this.textArea.current.focus()
-
   }
 
   render () {
     const { onSubmit } = this.props
     return (
-      <Wrapper className="Edit">
+      <Wrapper>
         <main>
           <Textarea
             autoFocus

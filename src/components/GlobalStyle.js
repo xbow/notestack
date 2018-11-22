@@ -12,7 +12,7 @@ body {
   padding: 0;
 }
 
-#root {
+.App {
   background-color: #fff;
   height: 100vh;
   max-width: 360px;
@@ -24,5 +24,4 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 `

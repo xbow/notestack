@@ -4,7 +4,7 @@ import GlobalStyle from '../components/GlobalStyle'
 export default class PageWrapper extends Component {
   render () {
     return (
-      <div id="root">
+      <div class="App">
         {this.props.children}
         <GlobalStyle />
       </div>
