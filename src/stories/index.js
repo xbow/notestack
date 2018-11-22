@@ -13,8 +13,8 @@ import ElementWrapper from './ElementWrapper'
 import Edit from '../components/Edit'
 import TextButton from '../components/TextButton'
 
-storiesOf('Edit (page component)', module)
-  .add('Create and Edit notes', () =>
+storiesOf('Page components', module)
+  .add('Edit', () =>
     <PageWrapper>
       <Edit
         onSubmit={action('submitted')}
@@ -23,8 +23,9 @@ storiesOf('Edit (page component)', module)
 
 storiesOf('Buttons', module)
   .add('TextButton', () =>
-    <ElementWrapper><TextButton
-      label={text('label', 'Submit')}
-      onClick={action('click')}
-    />
+    <ElementWrapper>
+      <TextButton
+        label={text('label', 'Submit')}
+        onClick={action('click')}
+      />
     </ElementWrapper>)
