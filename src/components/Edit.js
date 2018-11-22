@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+import TextButton from './TextButton'
+
 const Wrapper = styled.div`
   height: 100%;
+  padding: 5px;
   display: grid;
   grid-template-rows: auto 40px;
+  grid-gap: 5px;
 `
 
 const Textarea = styled.textarea`
@@ -12,6 +16,11 @@ const Textarea = styled.textarea`
   width: 100%;
   font-size: 1em;
   resize: none;
+  border: none;
+
+  :focus {
+    outline: none;
+  }
 `
 
 const Footer = styled.footer`
@@ -31,9 +40,7 @@ export default class Edit extends Component {
     toggle: false
   }
 
-  /* keyDownHandler = () => {
-    //  event.target.inputBody
-  } */
+  textArea = React.createRef()
 
   submitHandler = (onSubmit) => {
     if (this.state.inputBody !== '') {
@@ -41,26 +48,26 @@ export default class Edit extends Component {
       this.setState({ inputBody: '' })
     } else {
       console.log('nothing to save')
-      this.refs.textarea.focus()
     }
+    this.textArea.current.focus()
+
   }
 
   render () {
     const { onSubmit } = this.props
-
     return (
       <Wrapper className="Edit">
         <main>
           <Textarea
             autoFocus
-            ref="textarea"
+            ref={this.textArea}
             value={this.state.inputBody}
             placeholder="Write a note..."
             onChange={event => this.setState({ inputBody: event.target.value })}
           />
         </main>
         <Footer>
-          <span onClick={() => this.submitHandler(onSubmit)}>[Submit]</span>
+          <TextButton label="Submit" onClick={() => this.submitHandler(onSubmit)} />
         </Footer>
       </Wrapper>
     )

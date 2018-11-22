@@ -5,31 +5,20 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { text, boolean, number } from '@storybook/addon-knobs'
 
-// VANILLA IMPORTS
-
-import { Button, Welcome } from '@storybook/react/demo';
-
-// MY IMPORTS
+import GlobalStyle from '../components/GlobalStyle'
 
 import Edit from '../components/Edit'
+import TextButton from '../components/TextButton'
 
-// VANILLA STORIES
+storiesOf('Edit (page component)', module)
+  .add('Create and Edit notes', () =>
+    <Edit
+      onSubmit={action('submitted')}
+    />)
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
-
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  ));
-
-// MY STORIES
-
-storiesOf('Edit', module)
-  .add('Create and Edit notes', () => <Edit onSubmit={action('submitted')} />)
-
-
+storiesOf('Buttons', module)
+  .add('TextButton', () =>
+    <TextButton
+      label={text('label', 'Submit')}
+      onClick={action('click')}
+    />)

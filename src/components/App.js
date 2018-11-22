@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
-import styled from 'styled-components'
 
 import List from './List.js'
 import Edit from './Edit.js'
-
-
-/* NOT IN USE 
-const Wrapper = styled.div`
-  background-color: lightgreen;
-` */
 
 let notes = [
   { body: 'This is a placeholder note. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc, auctor vestibulum dignissim nec, consectetur ut tellus. In auctor venenatis luctus.' }
@@ -23,6 +16,7 @@ class App extends Component {
       ...notes
     ]
 
+    // Remove this when the List component is finished
     console.log(notes)
   }
 
