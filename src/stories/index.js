@@ -6,7 +6,8 @@ import { linkTo } from '@storybook/addon-links';
 import { text, boolean, number } from '@storybook/addon-knobs'
 import styled from 'styled-components'
 
-import PageWrapper from './PageWrapper'
+import GlobalStyle from '../components/GlobalStyle'
+import { PageWrapper } from '../components/PageWrapper'
 import ElementWrapper from './ElementWrapper'
 
 import Edit from '../components/Edit'

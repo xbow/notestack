@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
+import { PageWrapper } from './PageWrapper'
 import List from './List.js'
 import Edit from './Edit.js'
 
@@ -23,11 +24,11 @@ class App extends Component {
   render () {
     return (
       <Router>
-        <React.Fragment>
+        <PageWrapper>
           <Route exact path="/" render={() => <List />} />
           <Route path="/list" render={() => <List />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
-        </React.Fragment>
+        </PageWrapper>
       </Router>
     )
   }

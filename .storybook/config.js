@@ -1,9 +1,19 @@
+import React from 'react'
+
 import { configure, addDecorator, setAddon } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { withOptions } from '@storybook/addon-options'
-
+import GlobalStyle from '../src/components/GlobalStyle'
 
 addDecorator(withKnobs)
+
+addDecorator(story => (
+  <React.Fragment>
+    {story()}
+    <GlobalStyle />
+  </React.Fragment>
+))
+
 
 addDecorator(
   withOptions({
