@@ -5,14 +5,14 @@ import GlobalStyle from '../src/components/GlobalStyle';
 
 addDecorator(withKnobs)
 
-addDecorator(story => (
+/* addDecorator(story => (
   <React.Fragment>
     <div id="root">
       {story()}
     </div>
     <GlobalStyle />
   </React.Fragment>)
-);
+); */
 
 function loadStories () {
   require('../src/stories');
