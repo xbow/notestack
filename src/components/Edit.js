@@ -35,7 +35,7 @@ export default class Edit extends Component {
     //  event.target.inputBody
   } */
 
-  submitHandler = (event, onSubmit) => {
+  submitHandler = (onSubmit) => {
     if (this.state.inputBody !== '') {
       onSubmit(this.state.inputBody)
       this.setState({ inputBody: '' })
