@@ -20,7 +20,7 @@ export default class TextButton extends Component {
 
   render () {
     return (
-      <Button onClick={this.props.onClick}>{this.props.label}</Button>
+      <Button data-cy="TextButton" onClick={this.props.onClick}>{this.props.label}</Button>
     )
   }
 }
