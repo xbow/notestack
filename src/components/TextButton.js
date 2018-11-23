@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Button = styled.span`
   display: inline-block;
@@ -11,6 +12,12 @@ const Button = styled.span`
 `
 
 export default class TextButton extends Component {
+
+  static propTypes = {
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+  }
+
   render () {
     return (
       <Button onClick={this.props.onClick}>{this.props.label}</Button>

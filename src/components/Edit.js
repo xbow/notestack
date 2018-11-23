@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 import TextButton from './TextButton'
 
@@ -34,6 +35,10 @@ const Footer = styled.footer`
 `
 
 export default class Edit extends Component {
+
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  }
 
   state = {
     inputBody: '',
