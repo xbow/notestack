@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { BrowserRouter as Router, Route, NavLink as Link } from 'react-router-dom'
 
 import TextButton from './TextButton'
 
@@ -65,6 +66,9 @@ export default class Edit extends Component {
           />
         </main>
         <Footer>
+          <Link to="/list">
+            <TextButton label="List notes" />
+          </Link>
           <TextButton label="Submit" onClick={this.submitHandler} />
         </Footer>
       </Wrapper>
