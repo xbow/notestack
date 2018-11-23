@@ -33,7 +33,8 @@ export default class List extends Component {
 
   renderCards = () => {
     return this.props.getCardsData().map(item => (
-      <Card>{item.excerpt}</Card>
+      <Card>{item.excerpt}<Link to={`/edit/${item.id}`}>[...]</Link></Card>
+      // google react router navigate to url for onClick functionality
     ))
   }
 
