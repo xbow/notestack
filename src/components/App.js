@@ -16,17 +16,24 @@ class App extends Component {
       { body: body },
       ...notes
     ]
-
     // Remove this when the List component is finished
     console.log(notes)
   }
+
+  getCardsData = () => {
+    const cards = notes.map(item => item.body
+      .replace(/(([^\s]+\s\s*){20})(.*)/, "$1…"))
+    console.log(cards)
+    return cards
+  }
+
 
   render () {
     return (
       <Router>
         <PageWrapper>
-          <Route exact path="/" render={() => <List />} />
-          <Route path="/list" render={() => <List />} />
+          <Route exact path="/" render={() => <List getCardsData={this.getCardsData} />} />
+          <Route path="/list" render={() => <List getCardsData={this.getCardsData} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
         </PageWrapper>
       </Router>
