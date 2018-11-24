@@ -13,14 +13,6 @@ import ElementWrapper from './ElementWrapper'
 import Edit from '../components/Edit'
 import TextButton from '../components/TextButton'
 
-storiesOf('Page components', module)
-  .add('Edit', () =>
-    <PageWrapper>
-      <Edit
-        onSubmit={action('submitted')}
-      />
-    </PageWrapper>)
-
 storiesOf('Buttons', module)
   .add('TextButton', () =>
     <ElementWrapper>
