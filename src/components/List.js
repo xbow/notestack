@@ -22,6 +22,11 @@ const Card = styled.section`
   padding: 16px 8px;
 `
 
+const IconMore = styled.span`
+  display: inline-block;
+  float: right;
+`
+
 const Footer = styled.footer`
   display: flex;
   flex-direction: row;
@@ -32,14 +37,12 @@ const Footer = styled.footer`
 export default class List extends Component {
 
   renderCards = () => {
-    return this.props.getCardsData().map(item => (
-      <Card>{item.excerpt}<Link to={`/edit/${item.id}`}>[...]</Link></Card>
-      // google react router navigate to url for onClick functionality
+    return this.props.getExcerpts().map(item => (
+      <Card>{item.excerpt}<IconMore><Link to={`/edit/${item.id}`}>[...]</Link></IconMore></Card>
     ))
   }
 
   render () {
-    const { getCardsData } = this.props
     return (
       <Wrapper>
         <Main>

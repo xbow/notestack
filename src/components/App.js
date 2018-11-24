@@ -21,7 +21,9 @@ let notes = [
 
 class App extends Component {
 
-  saveNote = (id, body) => {
+  saveNote = (id, body, nextRoute) => {
+
+  // toDo: if a nextRoute was given, redirect the user there after saving
 
     if (id !== null) {
       const index = notes.findIndex(item => item.id === id)
@@ -37,11 +39,11 @@ class App extends Component {
     }
   }
 
-  getCardsData = () => {
+  getExcerpts = () => {
     return notes.map(item => {
       return {
         id: item.id, 
-        excerpt: 'id: ' + item.id + ' ' + item.body.replace(/(([^\s]+\s\s*){18})(.*)/, "$1…")
+        excerpt: item.body.replace(/(([^\s]+\s\s*){18})(.*)/, "$1…")
       }
     })
   }
@@ -56,8 +58,8 @@ class App extends Component {
     return (
       <Router>
         <PageWrapper>
-          <Route exact path="/" render={() => <List getCardsData={this.getCardsData} />} />
-          <Route path="/list" render={() => <List getCardsData={this.getCardsData} />} />
+          <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
+          <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
           <Route 
             path="/edit/:id" 

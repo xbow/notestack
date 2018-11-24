@@ -38,18 +38,22 @@ const Footer = styled.footer`
 export default class Edit extends Component {
 
   constructor(props) {
+    // Without super(props), 'this' returns undefined.
+    // I don't understand why?
     super(props)
     if (props.note) {
       console.log('note found')
       const { id, body } = props.note
       console.log(props.note)
       this.state = ({
+        createMode: false,
         id: id,
         inputBody: body,
       })
     } else {
       console.log('no note found')
       this.state = {
+        createMode: true,
         id: null,
         inputBody: '',
       }
@@ -70,6 +74,7 @@ export default class Edit extends Component {
   }
 
   render () {
+    const { createMode } = this.state
     return (
       <Wrapper>
         <main>
@@ -85,7 +90,7 @@ export default class Edit extends Component {
           <Link to="/list">
             <TextButton label="List notes" />
           </Link>
-          <TextButton label="Submit" onClick={this.submitHandler} />
+          <TextButton label={createMode ? 'Create' : 'Save'} onClick={this.submitHandler} />
         </Footer>
       </Wrapper>
     )
