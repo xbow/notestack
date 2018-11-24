@@ -46,7 +46,7 @@ class App extends Component {
     return notes.map(item => {
       return {
         id: item.id,  
-        excerpt: item.body.replace(/(([^\s]+\s\s*){14})(.*)$/s, "$1…")
+        excerpt: item.body.replace(/(([^\s]+\s\s*){14})(.*)/s, "$1…")
       }
     })
   }
