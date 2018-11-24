@@ -36,6 +36,11 @@ const Footer = styled.footer`
 
 export default class Edit extends Component {
 
+  nextRoute = '/list'
+  textArea = React.createRef()
+
+  state = { hasChanged: false}
+
   constructor(props) {
     // Without super(props), 'this' returns undefined.
     // I don't understand why?
@@ -60,12 +65,15 @@ export default class Edit extends Component {
     }
   }
 
-  textArea = React.createRef()
-
   submitHandler = () => {
+    const nextRoute = !this.state.createMode && this.nextRoute
     if (this.state.inputBody !== '') {
-      this.props.onSubmit(this.state.id, this.state.inputBody)
-      this.setState({ inputBody: '' })
+      this.props.onSubmit(
+        this.state.id, 
+        this.state.inputBody,
+        nextRoute
+        )
+      !nextRoute && this.setState({ inputBody: '' })
     } else {
       console.log('nothing to save')
     }
@@ -82,14 +90,17 @@ export default class Edit extends Component {
             ref={this.textArea}
             value={this.state.inputBody}
             placeholder="Write a note..."
-            onChange={event => this.setState({ inputBody: event.target.value })}
+            onChange={event => this.setState({ hasChanged: true, inputBody: event.target.value })}
           />
         </main>
         <Footer>
           <Link to="/list">
             <TextButton label="List notes" />
           </Link>
-          <TextButton label={createMode ? 'Create' : 'Save'} onClick={this.submitHandler} />
+          <TextButton 
+            label={createMode ? 'Submit' : 'Save'} 
+            onClick={this.submitHandler}
+            isActive={this.state.hasChanged && this.state.inputBody !== '' ? true : false} />
         </Footer>
       </Wrapper>
     )

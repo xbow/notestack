@@ -10,7 +10,6 @@ import GlobalStyle from '../components/GlobalStyle'
 import { PageWrapper } from '../components/PageWrapper'
 import ElementWrapper from './ElementWrapper'
 
-import Edit from '../components/Edit'
 import TextButton from '../components/TextButton'
 
 storiesOf('Buttons', module)
@@ -19,5 +18,7 @@ storiesOf('Buttons', module)
       <TextButton
         label={text('label', 'Submit')}
         onClick={action('click')}
+        altLabel={text('altLabel', 'Inactive')}
+        isActive={boolean('isActive', true)}
       />
     </ElementWrapper>)

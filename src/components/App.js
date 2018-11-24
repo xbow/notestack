@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import uid from 'uid';
 
 import { PageWrapper } from './PageWrapper'
@@ -21,6 +21,8 @@ let notes = [
 
 class App extends Component {
 
+  state = { redirect: false }
+
   saveNote = (id, body, nextRoute) => {
 
   // toDo: if a nextRoute was given, redirect the user there after saving
@@ -36,6 +38,9 @@ class App extends Component {
         },
         ...notes
       ]
+    }
+    if (nextRoute) {
+      this.setState({redirect: nextRoute})
     }
   }
 
@@ -53,17 +58,27 @@ class App extends Component {
     return notes[targetId]
   }
 
+  conditionalRedirect () {
+    if (this.state.redirect) {
+      const target = this.state.redirect
+      this.setState({redirect: false})
+      console.log('redirecting...')
+      return <Redirect to={target} />
+    }
+  }
 
   render () {
-    return (
+    return (      
       <Router>
         <PageWrapper>
+          {console.log('rendering App')}
+          {this.conditionalRedirect()}
           <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
           <Route 
             path="/edit/:id" 
-            render={({ match }) => <Edit note={this.getNoteById(match.params.id)} 
+              render={({ match }) => <Edit note={this.getNoteById(match.params.id)} 
             onSubmit={this.saveNote} />} 
           />
         </PageWrapper>
