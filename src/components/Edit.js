@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { BrowserRouter as Router, Route, NavLink as Link } from 'react-router-dom'
+import uid from 'uid';
 
 import TextButton from './TextButton'
 
@@ -36,16 +37,31 @@ const Footer = styled.footer`
 
 export default class Edit extends Component {
 
-  state = {
-    inputBody: '',
-    toggle: false
+  constructor(props) {
+    super(props)
+    if (props.note) {
+      console.log('note found')
+      const { id, body } = props.note
+      console.log(props.note)
+      this.state = ({
+        id: id,
+        inputBody: body,
+      })
+    } else {
+      console.log('no note found')
+      this.state = {
+        id: null,
+        inputBody: '',
+      }
+      console.log('id created: ' + this.state.id)
+    }
   }
 
   textArea = React.createRef()
 
   submitHandler = () => {
     if (this.state.inputBody !== '') {
-      this.props.onSubmit(this.state.inputBody)
+      this.props.onSubmit(this.state.id, this.state.inputBody)
       this.setState({ inputBody: '' })
     } else {
       console.log('nothing to save')

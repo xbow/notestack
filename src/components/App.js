@@ -21,21 +21,34 @@ let notes = [
 
 class App extends Component {
 
-  saveNote = body => {
-    notes = [
-      { body: body },
-      ...notes
-    ]
-    // Remove this when the List component is finished
-    console.log(notes)
+  saveNote = (id, body) => {
+
+    if (id !== null) {
+      const index = notes.findIndex(item => item.id === id)
+      notes[index].body = body
+    } else {
+      notes = [
+        {
+          id: uid(),
+          body: body
+        },
+        ...notes
+      ]
+    }
   }
 
   getCardsData = () => {
     return notes.map(item => {
       return {
-        id: item.id, excerpt: item.body.replace(/(([^\s]+\s\s*){18})(.*)/, "$1…")
+        id: item.id, 
+        excerpt: 'id: ' + item.id + ' ' + item.body.replace(/(([^\s]+\s\s*){18})(.*)/, "$1…")
       }
     })
+  }
+
+  getNoteById = (id) => {
+    const targetId = notes.findIndex(item => item.id === id)
+    return notes[targetId]
   }
 
 
@@ -46,7 +59,11 @@ class App extends Component {
           <Route exact path="/" render={() => <List getCardsData={this.getCardsData} />} />
           <Route path="/list" render={() => <List getCardsData={this.getCardsData} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
-          <Route path="/edit/:id" render={({ match }) => <Edit id={match.params.id} onSubmit={this.saveNote} />} />
+          <Route 
+            path="/edit/:id" 
+            render={({ match }) => <Edit note={this.getNoteById(match.params.id)} 
+            onSubmit={this.saveNote} />} 
+          />
         </PageWrapper>
       </Router>
     )
