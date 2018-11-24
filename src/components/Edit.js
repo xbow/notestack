@@ -46,22 +46,18 @@ export default class Edit extends Component {
     // I don't understand why?
     super(props)
     if (props.note) {
-      console.log('note found')
       const { id, body } = props.note
-      console.log(props.note)
       this.state = ({
         createMode: false,
         id: id,
         inputBody: body,
       })
     } else {
-      console.log('no note found')
       this.state = {
         createMode: true,
         id: null,
         inputBody: '',
       }
-      console.log('id created: ' + this.state.id)
     }
   }
 
@@ -74,9 +70,7 @@ export default class Edit extends Component {
         nextRoute
         )
       !nextRoute && this.setState({ inputBody: '' })
-    } else {
-      console.log('nothing to save')
-    }
+    } 
     this.textArea.current.focus()
   }
 
