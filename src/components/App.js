@@ -24,9 +24,6 @@ class App extends Component {
   state = { redirect: false }
 
   saveNote = (id, body, nextRoute) => {
-
-  // toDo: if a nextRoute was given, redirect the user there after saving
-
     if (id !== null) {
       const index = notes.findIndex(item => item.id === id)
       notes[index].body = body
@@ -45,6 +42,8 @@ class App extends Component {
   }
 
   getExcerpts = () => {
+    console.log('get excerpts')
+    console.log(notes)
     return notes.map(item => {
       return {
         id: item.id, 

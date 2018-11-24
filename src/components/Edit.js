@@ -34,6 +34,10 @@ const Footer = styled.footer`
   border-top-color: black;
 `
 
+const Left = styled.span`
+  margin-right: auto;
+`
+
 export default class Edit extends Component {
 
   nextRoute = '/list'
@@ -88,9 +92,11 @@ export default class Edit extends Component {
           />
         </main>
         <Footer>
-          <Link to="/list">
-            <TextButton label="List notes" />
-          </Link>
+          <Left>
+            <Link to="/list">
+              <TextButton label="List notes" />
+            </Link>
+          </Left>
           <TextButton 
             label={createMode ? 'Submit' : 'Save'} 
             onClick={this.submitHandler}
