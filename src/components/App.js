@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import uid from 'uid';
 
 import { PageWrapper } from './PageWrapper'
@@ -20,9 +20,7 @@ let notes = [
 
 class App extends Component {
 
-  state = { redirect: false }
-
-  saveNote = (id, body, nextRoute) => {
+  saveNote = (id, body) => {
     if (id !== null) {
       const index = notes.findIndex(item => item.id === id)
       notes[index].body = body
@@ -34,9 +32,6 @@ class App extends Component {
         },
         ...notes
       ]
-    }
-    if (nextRoute) {
-      this.setState({redirect: nextRoute})
     }
   }
 
@@ -56,21 +51,11 @@ class App extends Component {
     return notes[targetId]
   }
 
-  conditionalRedirect () {
-    if (this.state.redirect) {
-      const target = this.state.redirect
-      this.setState({redirect: false})
-      console.log('redirecting...')
-      return <Redirect to={target} />
-    }
-  }
-
   render () {
     return (      
       <Router>
         <PageWrapper>
           {console.log('rendering App')}
-          {this.conditionalRedirect()}
           <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />

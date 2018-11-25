@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import TextButton from './TextButton'
 
@@ -43,7 +43,10 @@ export default class Edit extends Component {
   nextRoute = '/list'
   textArea = React.createRef()
 
-  state = { hasChanged: false}
+  state = {
+    hasChanged: false,
+    redirect: false,
+  }
 
   constructor(props) {
     // Without super(props), 'this' returns undefined.
@@ -66,22 +69,29 @@ export default class Edit extends Component {
   }
 
   submitHandler = () => {
-    const nextRoute = !this.state.createMode && this.nextRoute
     if (this.state.inputBody !== '') {
       this.props.onSubmit(
         this.state.id, 
         this.state.inputBody,
-        nextRoute
         )
-      !nextRoute && this.setState({ inputBody: '' })
+      this.state.createMode || this.setState({ redirect: true })
+      this.state.createMode && this.setState({ inputBody: '' })
     } 
     this.textArea.current.focus()
+  }
+
+  conditionalRedirect () {
+    if (this.state.redirect) {
+      console.log('redirecting...')
+      return <Redirect to={this.nextRoute} />
+    }
   }
 
   render () {
     const { createMode } = this.state
     return (
       <Wrapper>
+        {this.conditionalRedirect()}
         <main>
           <Textarea
             autoFocus
