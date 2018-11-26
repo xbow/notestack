@@ -76,7 +76,6 @@ export default class Edit extends Component {
 
   conditionalRedirect () {
     if (this.state.redirect) {
-      console.log('redirecting...')
       return <Redirect to={this.nextRoute} />
     }
   }

@@ -25,28 +25,30 @@ class App extends Component {
   }
 
   saveNote = (id, body) => {
-    let { notes } = this.state
-    if (id !== null) {
-      const index = notes.findIndex(item => item.id === id)
-      notes[index].body = body
-    } else {
-      notes = [
+    const { notes } = this.state
+    const index = notes.findIndex(item => item.id === id)
+
+    this.setState({
+      notes: id == null ? [
         {
           id: uid(),
-          body: body
+          body
         },
         ...notes
-      ]
-    }
-    this.setState({ notes: notes })
+      ] : [
+          ...notes.slice(0, index),
+          { ...notes[index], body },
+          ...notes.slice(index + 1)
+        ]
+    })
   }
 
   getExcerpts = () => {
-    console.log('get excerpts')
+    const first14Words = /(([^\s]+\s\s*){14})(.*)/s
     return this.state.notes.map(item => {
       return {
         id: item.id,
-        excerpt: item.body.replace(/(([^\s]+\s\s*){14})(.*)/s, "$1…")
+        excerpt: item.body.replace(first14Words, "$1…")
       }
     })
   }
@@ -73,7 +75,6 @@ class App extends Component {
     return (
       <Router>
         <PageWrapper>
-          {console.log('rendering App')}
           <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
