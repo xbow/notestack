@@ -23,10 +23,10 @@ const Button = styled.span`
 
 export default class TextButton extends Component {
   render () {
-    const { label, onClick, altLabel, isActive=true } = this.props
+    const { label, onClick, altLabel, isActive = true } = this.props
     return (
-      <Button className={ isActive ? 'active' : 'inactive' } onClick={isActive ? onClick : null}>
-        {isActive ? label : altLabel || label }
+      <Button className={isActive ? 'active' : 'inactive'} onClick={isActive ? onClick : null}>
+        {isActive ? label : altLabel || label}
       </Button>
     )
   }

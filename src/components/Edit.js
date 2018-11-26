@@ -43,40 +43,34 @@ export default class Edit extends Component {
   nextRoute = '/list'
   textArea = React.createRef()
 
-  state = {
-    hasChanged: false,
-    redirect: false,
+  static defaultProps = {
+    note: {
+      id: null,
+      inputBody: ''
+    }
   }
 
   constructor(props) {
-    // Without super(props), 'this' returns undefined.
-    // I don't understand why?
     super(props)
-    if (props.note) {
-      const { id, body } = props.note
-      this.state = ({
-        createMode: false,
-        id: id,
-        inputBody: body,
-      })
-    } else {
-      this.state = {
-        createMode: true,
-        id: null,
-        inputBody: '',
-      }
+    const { id, body } = props.note
+
+    this.state = {
+      hasChanged: false,
+      createMode: !props.note.id,
+      id: id,
+      inputBody: body
     }
   }
 
   submitHandler = () => {
     if (this.state.inputBody !== '') {
       this.props.onSubmit(
-        this.state.id, 
+        this.state.id,
         this.state.inputBody,
-        )
+      )
       this.state.createMode || this.setState({ redirect: true })
       this.state.createMode && this.setState({ inputBody: '' })
-    } 
+    }
     this.textArea.current.focus()
   }
 
@@ -107,10 +101,10 @@ export default class Edit extends Component {
               <TextButton label="List notes" />
             </Link>
           </Left>
-          <TextButton 
-            label={createMode ? 'Submit' : 'Save'} 
+          <TextButton
+            label={createMode ? 'Submit' : 'Save'}
             onClick={this.submitHandler}
-            isActive={this.state.hasChanged && this.state.inputBody !== '' ? true : false} />
+            isActive={this.state.hasChanged && this.state.inputBody !== ''} />
         </Footer>
       </Wrapper>
     )

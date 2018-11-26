@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { BrowserRouter as Router, Route, NavLink as Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import TextButton from './TextButton'
 
@@ -38,7 +38,11 @@ export default class List extends Component {
 
   renderCards = () => {
     return this.props.getExcerpts().map(item => (
-      <Card>{item.excerpt}<IconMore><Link to={`/edit/${item.id}`}>[...]</Link></IconMore></Card>
+      <Card>{item.excerpt}
+        <IconMore>
+          <Link to={`/edit/${item.id}`}>[...]</Link>
+        </IconMore>
+      </Card>
     ))
   }
 

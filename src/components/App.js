@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   saveNote = (id, body) => {
-    let {notes} = this.state
+    let { notes } = this.state
     if (id !== null) {
       const index = notes.findIndex(item => item.id === id)
       notes[index].body = body
@@ -45,15 +45,15 @@ class App extends Component {
     console.log('get excerpts')
     return this.state.notes.map(item => {
       return {
-        id: item.id,  
+        id: item.id,
         excerpt: item.body.replace(/(([^\s]+\s\s*){14})(.*)/s, "$1…")
       }
     })
   }
 
   getNoteById = (id) => {
-    const targetId = this.state.notes.findIndex(item => item.id === id)
-    return this.state.notes[targetId]
+    const index = this.state.notes.findIndex(item => item.id === id)
+    return this.state.notes[index]
   }
 
   save () {
@@ -70,17 +70,17 @@ class App extends Component {
 
   render () {
     this.save()
-    return (      
+    return (
       <Router>
         <PageWrapper>
           {console.log('rendering App')}
           <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
-          <Route 
-            path="/edit/:id" 
-              render={({ match }) => <Edit note={this.getNoteById(match.params.id)} 
-            onSubmit={this.saveNote} />} 
+          <Route
+            path="/edit/:id"
+            render={({ match }) => <Edit note={this.getNoteById(match.params.id)}
+              onSubmit={this.saveNote} />}
           />
         </PageWrapper>
       </Router>
