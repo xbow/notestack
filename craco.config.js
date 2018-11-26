@@ -1,5 +1,17 @@
 module.exports = {
   babel: {
-    plugins: ['babel-plugin-styled-components'],
+    ignore: ['craco.config.js'],
+    plugins:
+      process.env.NODE_ENV === 'development'
+        ? ['babel-plugin-styled-components']
+        : [
+          'babel-plugin-styled-components',
+          [
+            'babel-plugin-jsx-remove-data-test-id',
+            {
+              attributes: ['data-cy'],
+            },
+          ],
+        ],
   },
 }

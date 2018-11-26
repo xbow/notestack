@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import TextButton from './TextButton'
 
@@ -42,6 +43,11 @@ export default class Edit extends Component {
 
   nextRoute = '/list'
   textArea = React.createRef()
+
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    // update this!
+  }
 
   static defaultProps = {
     note: {

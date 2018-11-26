@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Button = styled.span`
   display: inline-block;
@@ -22,10 +23,16 @@ const Button = styled.span`
 `
 
 export default class TextButton extends Component {
+
+  static propTypes = {
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+  }
+
   render () {
     const { label, onClick, altLabel, isActive = true } = this.props
     return (
-      <Button className={isActive ? 'active' : 'inactive'} onClick={isActive ? onClick : null}>
+      <Button data-cy="TextButton" className={isActive ? 'active' : 'inactive'} onClick={isActive ? onClick : null}>
         {isActive ? label : altLabel || label}
       </Button>
     )
