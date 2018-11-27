@@ -25,6 +25,17 @@ const IconMore = styled.span`
 
 export default class List extends Component {
 
+  navIcons = [
+    {
+      name: 'search',
+      link: '/search'
+    },
+    {
+      name: 'tag',
+      link: '/tags'
+    }
+  ]
+
   renderCards = () => {
     return this.props.getExcerpts().map(item => (
       <Card>{item.excerpt}
@@ -38,7 +49,7 @@ export default class List extends Component {
   render () {
     return (
       <PageWrapper>
-        <Navbar>foo</Navbar>
+        <Navbar icons={this.navIcons}></Navbar>
         <Main>
           {this.renderCards()}
         </Main>

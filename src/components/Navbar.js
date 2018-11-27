@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+
+import PropTypes from 'prop-types'
+
 import * as colors from './vars/colors'
-import OptionsIcon from './icons/options'
 import Icon from './Icon'
 
 const Header = styled.header`
@@ -26,22 +29,36 @@ const NavIcons = styled.div`
   justify-content: flex-end;
   
   &>* {
+    display: inline-flex;
     width: 35px;
     justify-self: center;
+    align-self: center;
+  }
+
+  & a, a:link, a:visited {
+    color: inherit;
+    cursor: default;
+  }
+
+  & a:hover {
+    color: deeppink;
+    cursor: default;
   }
   `
 
-
 export default class Navbar extends Component {
+
+  static propTypes = {
+    navIcons: PropTypes.arrayOf(PropTypes.object)
+  }
+
   render () {
     return (
       <Header>
-        <Icon name="options" />
+        <Icon name="options" link="options" />
         <AppTitle>Notestack</AppTitle>
         <NavIcons>
-          <Icon name="search" />
-          <Icon name="list" />
-          <Icon name="tags" />
+          {this.props.icons && this.props.icons.map(item => <Link to={item.link}> <Icon name={item.name} /> </Link>)}
         </NavIcons>
       </Header>
     )

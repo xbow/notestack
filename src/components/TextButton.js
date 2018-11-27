@@ -26,7 +26,7 @@ export default class TextButton extends Component {
 
   static propTypes = {
     label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
   }
 
   render () {

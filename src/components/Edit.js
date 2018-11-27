@@ -16,6 +16,10 @@ const Wrapper = styled.div`
   grid-gap: 5px;
 `
 
+const Main = styled.main`
+  padding: 5px;
+`
+
 const Textarea = styled.textarea`
   height: 100%;
   width: 100%;
@@ -34,8 +38,23 @@ const Left = styled.span`
 
 export default class Edit extends Component {
 
-  nextRoute = '/list'
   textArea = React.createRef()
+  nextRoute = '/list'
+  navIcons = [
+    {
+      name: 'search',
+      link: '/search'
+    },
+    {
+      name: 'list',
+      link: '/list'
+    },
+    {
+      name: 'tag',
+      link: '/tags'
+    }
+
+  ]
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -84,8 +103,8 @@ export default class Edit extends Component {
     return (
       <PageWrapper>
         {this.conditionalRedirect()}
-        <Navbar />
-        <main>
+        <Navbar icons={this.navIcons} />
+        <Main>
           <Textarea
             autoFocus
             ref={this.textArea}
@@ -93,7 +112,7 @@ export default class Edit extends Component {
             placeholder="Write a note..."
             onChange={event => this.setState({ hasChanged: true, inputBody: event.target.value })}
           />
-        </main>
+        </Main>
         <Footer>
           <Left>
             <Link to="/list">
