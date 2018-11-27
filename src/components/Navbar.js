@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import * as colors from './vars/colors'
 import OptionsIcon from './icons/options'
+import Icon from './Icon'
 
 const Header = styled.header`
   margin: 0 5px;
@@ -9,7 +10,7 @@ const Header = styled.header`
   // background: ${colors.headerBackground};
   border-bottom: 1px solid black;
   display: grid;
-  grid-template-columns: 40px auto 120px;
+  grid-template-columns: 40px auto auto;
   align-items: center;
 `
 
@@ -20,11 +21,12 @@ const AppTitle = styled.h1`
 `
 
 const NavIcons = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 35px);
-  justify-content: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   
-  &>span {
+  &>* {
+    width: 35px;
     justify-self: center;
   }
   `
@@ -34,12 +36,12 @@ export default class Navbar extends Component {
   render () {
     return (
       <Header>
-        <OptionsIcon color="red" />
+        <Icon name="options" />
         <AppTitle>Notestack</AppTitle>
         <NavIcons>
-          <span>1</span>
-          <span>2</span>
-          <span>3</span>
+          <Icon name="search" />
+          <Icon name="list" />
+          <Icon name="tags" />
         </NavIcons>
       </Header>
     )
