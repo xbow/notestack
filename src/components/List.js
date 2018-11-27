@@ -2,17 +2,13 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+import PageWrapper from './PageWrapper'
+import Navbar from './Navbar'
+import Footer from './Footer'
 import TextButton from './TextButton'
 
-const Wrapper = styled.div`
-  height: 100vh;
-  padding: 5px;
-  display: grid;
-  grid-template-rows: auto 40px;
-  grid-gap: 12px;
-`
-
 const Main = styled.main`
+  padding: 5px;
   overflow-y: scroll;
 `
 
@@ -25,13 +21,6 @@ const Card = styled.section`
 const IconMore = styled.span`
   display: inline-block;
   float: right;
-`
-
-const Footer = styled.footer`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
 `
 
 export default class List extends Component {
@@ -48,7 +37,8 @@ export default class List extends Component {
 
   render () {
     return (
-      <Wrapper>
+      <PageWrapper>
+        <Navbar>foo</Navbar>
         <Main>
           {this.renderCards()}
         </Main>
@@ -57,7 +47,7 @@ export default class List extends Component {
             <TextButton label="Create" />
           </Link>
         </Footer>
-      </Wrapper>
+      </PageWrapper>
 
     )
   }

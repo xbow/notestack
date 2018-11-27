@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import uid from 'uid';
 
-import { PageWrapper } from './PageWrapper'
 import List from './List.js'
 import Edit from './Edit.js'
 
@@ -74,7 +73,7 @@ class App extends Component {
     this.save()
     return (
       <Router>
-        <PageWrapper>
+        <React.Fragment>
           <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
@@ -83,7 +82,7 @@ class App extends Component {
             render={({ match }) => <Edit note={this.getNoteById(match.params.id)}
               onSubmit={this.saveNote} />}
           />
-        </PageWrapper>
+        </React.Fragment>
       </Router>
     )
   }

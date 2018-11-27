@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import PageWrapper from './PageWrapper'
+import Navbar from './Navbar'
+import Footer from './Footer'
 import TextButton from './TextButton'
 
 const Wrapper = styled.div`
@@ -23,16 +26,6 @@ const Textarea = styled.textarea`
   :focus {
     outline: none;
   }
-`
-
-const Footer = styled.footer`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: black;
 `
 
 const Left = styled.span`
@@ -89,8 +82,9 @@ export default class Edit extends Component {
   render () {
     const { createMode } = this.state
     return (
-      <Wrapper>
+      <PageWrapper>
         {this.conditionalRedirect()}
+        <Navbar />
         <main>
           <Textarea
             autoFocus
@@ -111,7 +105,7 @@ export default class Edit extends Component {
             onClick={this.submitHandler}
             isActive={this.state.hasChanged && this.state.inputBody !== ''} />
         </Footer>
-      </Wrapper>
+      </PageWrapper >
     )
   }
 }

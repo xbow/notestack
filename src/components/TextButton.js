@@ -6,7 +6,7 @@ const Button = styled.span`
   display: inline-block;
   border: 1px solid black;
   border-radius: 6px;
-  margin: 0 6px;
+  margin: 0 3px;
   padding: 4px 12px;
   white-space: nowrap;
   color: black;
