@@ -21,6 +21,7 @@ const Footer = styled.footer`
 
 const Placeholder = styled.span`
   color: #999;
+  width: 100%;
   margin-left: 5px;
 
   &:hover {
