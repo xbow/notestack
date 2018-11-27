@@ -11,28 +11,12 @@ import ElementWrapper from './ElementWrapper'
 import PageWrapper from './PageWrapper'
 
 import TextButton from '../components/TextButton'
-import Navbar from '../components/Navbar'
 import Icon from '../components/Icon'
+import { IconLegend } from './IconLegend'
 import Footer from '../components/Footer'
 
-const navIcons = [
-  {
-    name: 'search',
-    link: '/search'
-  },
-  {
-    name: 'list',
-    link: '/list'
-  },
-  {
-    name: 'tag',
-    link: '/tags'
-  }
-]
-
-const navIconsString = navIcons.map(item => {
-  return item.toString()
-})
+import Navbar from '../components/Navbar'
+import { navbarLegend, navIcons } from './NavbarDemo'
 
 storiesOf('Buttons and Icons', module)
   .add('TextButton', () =>
@@ -48,8 +32,7 @@ storiesOf('Buttons and Icons', module)
     <ElementWrapper>
       <Icon name={text('name', 'tag')} />
       <aside>
-        <p>Pass "name" as prop to render icon with that name.</p>
-        <p>Available icons: "options", "list", "search", "tag".</p>
+        {IconLegend}
       </aside>
     </ElementWrapper>)
 storiesOf('Headers and Footers', module)
@@ -57,24 +40,7 @@ storiesOf('Headers and Footers', module)
     <PageWrapper>
       <Navbar icons={navIcons}></Navbar>
       <aside>
-        <code>{`
-  const navIcons = [
-  {
-      name: 'search',
-      link: '/search'
-    },
-  {
-      name: 'list',
-      link: '/list'
-    },
-  {
-      name: 'tag',
-      link: '/tags'
-    }
-  ]
-
-  <Navbar icons=navIcons />
-         `}</code>
+        {navbarLegend}
       </aside>
     </PageWrapper>)
   .add('Footer', () =>
