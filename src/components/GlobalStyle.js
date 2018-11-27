@@ -16,4 +16,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+header, footer {
+  & a {
+    text-decoration: none;
+  }
+
+  & a, a:link, a:visited {
+    color: inherit;
+    cursor: default;
+  }
+
+  & a:hover {
+    color: deeppink;
+    cursor: default;
+  }
+}
 `

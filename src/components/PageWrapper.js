@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   height: 100vh;
   max-width: 360px;
   display: grid;
-  grid-template-rows: 40px auto 40px;
+  grid-template-rows: 38px auto 38px;
   grid-gap: 5px;
   background-color: #fff;
   margin: 0 auto;

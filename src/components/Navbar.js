@@ -9,7 +9,7 @@ import Icon from './Icon'
 
 const Header = styled.header`
   margin: 0 5px;
-  padding: 5px 0;
+  padding: 6px 0 3px;
   // background: ${colors.headerBackground};
   border-bottom: 1px solid black;
   display: grid;
@@ -28,23 +28,13 @@ const NavIcons = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   
-  &>* {
+  & * {
     display: inline-flex;
     width: 35px;
-    justify-self: center;
+    justify-self: flex-end;
     align-self: center;
   }
-
-  & a, a:link, a:visited {
-    color: inherit;
-    cursor: default;
-  }
-
-  & a:hover {
-    color: deeppink;
-    cursor: default;
-  }
-  `
+`
 
 export default class Navbar extends Component {
 

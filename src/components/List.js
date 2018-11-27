@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
-import Footer from './Footer'
+import NewNoteFooter from './NewNoteFooter'
 import TextButton from './TextButton'
 
 const Main = styled.main`
@@ -53,11 +53,11 @@ export default class List extends Component {
         <Main>
           {this.renderCards()}
         </Main>
-        <Footer>
+        <NewNoteFooter>
           <Link to="/create">
             <TextButton label="Create" />
           </Link>
-        </Footer>
+        </NewNoteFooter>
       </PageWrapper>
 
     )
