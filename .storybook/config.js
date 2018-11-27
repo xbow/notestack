@@ -1,4 +1,5 @@
 import React from 'react'
+import { MemoryRouter } from 'react-router-dom'
 
 import { configure, addDecorator, setAddon } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
@@ -9,7 +10,9 @@ addDecorator(withKnobs)
 
 addDecorator(story => (
   <React.Fragment>
-    {story()}
+    <MemoryRouter initialEntries={['/']}>
+      {story()}
+    </MemoryRouter>
     <GlobalStyle />
   </React.Fragment>
 ))

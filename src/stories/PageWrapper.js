@@ -1,31 +1,30 @@
 import React, { Component } from 'react'
-import GlobalStyle from '../components/GlobalStyle'
 import styled from 'styled-components'
 
-
 const Wrapper = styled.div`
+  height: 90vh;
+  max-width: 360px;
+  margin: 5% auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 360px;
-  margin: 40px auto;
+  justify-content: ${props => props.justify};
 
   & aside {
-    margin-top: 40px;
-    padding: 10px;
-    border: 1px dashed #555;
-  }
+  margin-top: 40px;
+  padding: 10px;
+  border: 1px dashed #555;
 
   & code { 
     white-space: pre-wrap;
   }
+
+  }
 `
 
-export default class ElementWrapper extends Component {
+export default class PageWrapper extends Component {
   render () {
     return (
-      <Wrapper>
+      <Wrapper justify={this.props.justify || 'flex-start'}>
         {this.props.children}
       </Wrapper >
     )
