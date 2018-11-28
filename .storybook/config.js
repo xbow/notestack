@@ -59,7 +59,7 @@ addDecorator(
      * sorts stories
      * @type {Boolean}
      */
-    sortStoriesByKind: true,
+    sortStoriesByKind: false,
     /**
      * regex for finding the hierarchy separator
      * @example:
