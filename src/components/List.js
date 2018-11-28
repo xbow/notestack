@@ -9,8 +9,13 @@ import Card from './Card'
 import TextButton from './TextButton'
 
 const Main = styled.main`
-  padding: 5px;
+  padding: 0 5px;
   overflow-y: scroll;
+`
+
+const EmptyMessage = styled.div`
+  padding: 65px 5px;
+  text-align: center;
 `
 
 export default class List extends Component {
@@ -26,18 +31,16 @@ export default class List extends Component {
     }
   ]
 
-  renderCards = () => {
-    return this.props.getExcerpts().map(item => (
-      <Card id={item.id} text={item.excerpt} />
-    ))
-  }
-
   render () {
+    const { items } = this.props
+
     return (
       <PageWrapper>
         <Navbar icons={this.navIcons}></Navbar>
         <Main>
-          {this.renderCards()}
+          {items
+            ? items.map(item => <Card id={item.id} text={item.excerpt} />)
+            : <EmptyMessage>no cards found</EmptyMessage>}
         </Main>
         <NewNoteFooter>
           <Link to="/create">

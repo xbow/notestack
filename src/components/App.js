@@ -74,8 +74,8 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
-          <Route exact path="/" render={() => <List getExcerpts={this.getExcerpts} />} />
-          <Route path="/list" render={() => <List getExcerpts={this.getExcerpts} />} />
+          <Route exact path="/" render={() => <List items={this.getExcerpts()} />} />
+          <Route path="/list" render={() => <List items={this.getExcerpts()} />} />
           <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
           <Route
             path="/edit/:id"
