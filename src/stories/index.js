@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import GlobalStyle from '../components/GlobalStyle'
 import ElementWrapper from './ElementWrapper'
 import PageWrapper from './PageWrapper'
+import Legend from './Legend'
 
 import TextButton from '../components/TextButton'
 import Icon from '../components/Icon'
@@ -31,17 +32,17 @@ storiesOf('Buttons and Icons', module)
   .add('Icon', () =>
     <ElementWrapper>
       <Icon name={text('name', 'tag')} />
-      <aside>
+      <Legend>
         {IconLegend}
-      </aside>
+      </Legend>
     </ElementWrapper>)
 storiesOf('Headers and Footers', module)
   .add('Navbar (Header)', () =>
     <PageWrapper>
       <Navbar icons={navIcons}></Navbar>
-      <aside>
+      <Legend>
         {navbarLegend}
-      </aside>
+      </Legend>
     </PageWrapper>)
   .add('Footer', () =>
     <PageWrapper justify="flex-end">
