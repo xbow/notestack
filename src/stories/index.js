@@ -41,7 +41,7 @@ storiesOf('Buttons and Icons', module)
 storiesOf('Content Elements', module)
   .add('Card (for listing notes)', () =>
     <ElementWrapper>
-      <Card text={text('text', lorem14)} id={text('id', '7331')}></Card>
+      <Card text={text('text', lorem14)} id={text('id', '1337')}></Card>
     </ElementWrapper >)
 storiesOf('Headers and Footers', module)
   .add('Navbar (Header)', () =>
