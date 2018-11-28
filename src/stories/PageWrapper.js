@@ -8,17 +8,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: ${props => props.justify};
-
-  & aside {
-  margin-top: 40px;
-  padding: 10px;
-  border: 1px dashed #555;
-
-  & code { 
-    white-space: pre-wrap;
-  }
-
-  }
 `
 
 export default class PageWrapper extends Component {
