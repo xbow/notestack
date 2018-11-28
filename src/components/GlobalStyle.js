@@ -9,7 +9,7 @@ export default createGlobalStyle`
 
 body {
   background-color: ${color.body};
-  color: ${color.text}
+  color: ${color.text};
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
