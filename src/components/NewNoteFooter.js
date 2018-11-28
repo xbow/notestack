@@ -13,6 +13,9 @@ const Footer = styled.footer`
 
   & a {
     display: inherit;
+    & :hover {
+      cursor: text;
+    }
     & * {
       align-self: center;
     }
