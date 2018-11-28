@@ -5,22 +5,12 @@ import { Link } from 'react-router-dom'
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
 import NewNoteFooter from './NewNoteFooter'
+import Card from './Card'
 import TextButton from './TextButton'
 
 const Main = styled.main`
   padding: 5px;
   overflow-y: scroll;
-`
-
-const Card = styled.section`
-  margin: 12px 0;
-  border: 1px solid #ccc;
-  padding: 16px 8px;
-`
-
-const IconMore = styled.span`
-  display: inline-block;
-  float: right;
 `
 
 export default class List extends Component {
@@ -38,11 +28,7 @@ export default class List extends Component {
 
   renderCards = () => {
     return this.props.getExcerpts().map(item => (
-      <Card>{item.excerpt}
-        <IconMore>
-          <Link to={`/edit/${item.id}`}>[...]</Link>
-        </IconMore>
-      </Card>
+      <Card id={item.id} text={item.excerpt} />
     ))
   }
 

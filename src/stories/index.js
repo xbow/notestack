@@ -15,9 +15,11 @@ import TextButton from '../components/TextButton'
 import Icon from '../components/Icon'
 import { IconLegend } from './IconLegend'
 import Footer from '../components/Footer'
-
 import Navbar from '../components/Navbar'
 import { navbarLegend, navIcons } from './NavbarDemo'
+import Card from '../components/Card'
+
+const lorem14 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nulla ante, tristique a vulputate.'
 
 storiesOf('Buttons and Icons', module)
   .add('TextButton', () =>
@@ -36,6 +38,11 @@ storiesOf('Buttons and Icons', module)
         {IconLegend}
       </Legend>
     </ElementWrapper>)
+storiesOf('Content Elements', module)
+  .add('Card (for listing notes)', () =>
+    <ElementWrapper>
+      <Card text={text('text', lorem14)} id={text('id', '7331')}></Card>
+    </ElementWrapper >)
 storiesOf('Headers and Footers', module)
   .add('Navbar (Header)', () =>
     <PageWrapper>
