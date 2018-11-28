@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
@@ -19,6 +20,11 @@ const EmptyMessage = styled.div`
 `
 
 export default class List extends Component {
+
+  static propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired
+  }
+
 
   navIcons = [
     {

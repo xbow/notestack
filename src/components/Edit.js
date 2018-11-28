@@ -51,7 +51,7 @@ export default class Edit extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    // update this!
+    note: PropTypes.object
   }
 
   static defaultProps = {

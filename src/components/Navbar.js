@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import * as color from './res/colors'
-
 import PropTypes from 'prop-types'
+
+import * as color from './res/colors'
 
 import Icon from './Icon'
 

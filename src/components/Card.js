@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+
 import * as color from './res/colors'
 
 const CardWrapper = styled.section`
@@ -24,6 +26,12 @@ const CardContent = styled.div`
 `
 
 export default class Card extends Component {
+
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired
+  }
+
   render () {
 
     const { text, id } = this.props
