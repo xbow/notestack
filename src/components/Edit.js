@@ -16,6 +16,7 @@ const Textarea = styled.textarea`
   height: 100%;
   width: 100%;
   font-size: 1em;
+  line-height: 1.5;
   resize: none;
   border: none;
 

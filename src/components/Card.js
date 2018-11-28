@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import * as color from './res/colors'
 
 const CardWrapper = styled.section`
-  margin: 12px 0;
-  border: 1px solid ${color.lineLight};
-  padding: 16px 8px;
+  margin: 8px 0 0;
+  border-bottom: 1px solid ${color.lineLight};
+  padding: 8px 8px 14px;
   &:hover {
+    background-color: ${color.paleHighlight};
     border-color: ${color.active};
   }
   &>a {
