@@ -11,7 +11,7 @@ const Footer = styled.footer`
 
 const FooterContent = styled.div`
   margin: 0 5px;
-  padding: 5px 2px;
+  padding: 7px 2px 0;
   border-top: 1px solid black;
   display: flex;
   justify-content: flex-start;
