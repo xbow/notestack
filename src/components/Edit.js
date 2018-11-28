@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import * as color from './res/colors'
 
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
@@ -19,6 +20,7 @@ const Textarea = styled.textarea`
   line-height: 1.5;
   resize: none;
   border: none;
+  background: ${color.background};
 
   :focus {
     outline: none;
