@@ -47,7 +47,9 @@ export default class Navbar extends Component {
         <Icon name="options" link="options" />
         <AppTitle>Notestack</AppTitle>
         <NavIcons>
-          {this.props.icons && this.props.icons.map(item => <Link to={item.link}> <Icon name={item.name} /> </Link>)}
+          {this.props.icons
+            && this.props.icons
+              .map((item, i) => <Link key={i} to={item.link}> <Icon key={i} name={item.name} /> </Link>)}
         </NavIcons>
       </Header>
     )

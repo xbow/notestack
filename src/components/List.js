@@ -45,7 +45,7 @@ export default class List extends Component {
         <Navbar icons={this.navIcons}></Navbar>
         <Main>
           {items
-            ? items.map(item => <Card id={item.id} text={item.excerpt} />)
+            ? items.map(item => <Card key={item.id} id={item.id} text={item.excerpt} />)
             : <EmptyMessage>no cards found</EmptyMessage>}
         </Main>
         <NewNoteFooter>
