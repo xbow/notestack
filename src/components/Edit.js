@@ -8,14 +8,6 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import TextButton from './TextButton'
 
-const Wrapper = styled.div`
-  height: 100%;
-  padding: 5px;
-  display: grid;
-  grid-template-rows: auto 40px;
-  grid-gap: 5px;
-`
-
 const Main = styled.main`
   padding: 5px;
 `

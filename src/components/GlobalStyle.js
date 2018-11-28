@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import * as color from './res/colors'
 
 export default createGlobalStyle`
 
@@ -7,7 +8,8 @@ export default createGlobalStyle`
 }
 
 body {
-  background-color: #eee;
+  background-color: ${color.body};
+  color: ${color.text}
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import icons from './icons'
+import icons from './res/icons'
 
 export default class Icon extends Component {
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Icon from '../components/Icon'
-import icons from '../components/icons'
+import icons from '../components/res/icons'
 
 export const IconLegend =
   <React.Fragment>

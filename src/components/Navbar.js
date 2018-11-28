@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import * as color from './res/colors'
 
 import PropTypes from 'prop-types'
 
-import * as colors from './vars/colors'
 import Icon from './Icon'
 
 const Header = styled.header`
   margin: 0 5px;
   padding: 6px 0 3px;
-  // background: ${colors.headerBackground};
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${color.lineDark};
   display: grid;
   grid-template-columns: 40px auto auto;
   align-items: center;

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import * as color from './res/colors'
 
 const CardWrapper = styled.section`
   margin: 12px 0;
-  border: 1px solid #ccc;
+  border: 1px solid ${color.lineLight};
   padding: 16px 8px;
   &:hover {
-    border-color: deeppink;
+    border-color: ${color.active};
   }
   &>a {
   color: inherit;
