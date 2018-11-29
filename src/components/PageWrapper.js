@@ -4,7 +4,7 @@ import * as color from './res/colors'
 
 const Wrapper = styled.div`
   height: 100vh;
-  max-width: 360px;
+  max-width: 640px;
   display: grid;
   grid-template-rows: 38px auto 38px;
   grid-gap: 5px;
