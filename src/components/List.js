@@ -28,13 +28,9 @@ export default class List extends Component {
 
   navIcons = [
     {
-      name: 'search',
-      link: '/search'
+      name: 'plus-circle',
+      link: '/create'
     },
-    {
-      name: 'tag',
-      link: '/tags'
-    }
   ]
 
   render () {

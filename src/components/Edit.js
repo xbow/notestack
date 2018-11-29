@@ -37,18 +37,9 @@ export default class Edit extends Component {
   nextRoute = '/list'
   navIcons = [
     {
-      name: 'search',
-      link: '/search'
-    },
-    {
       name: 'list',
       link: '/list'
     },
-    {
-      name: 'tag',
-      link: '/tags'
-    }
-
   ]
 
   static propTypes = {
