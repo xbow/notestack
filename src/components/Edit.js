@@ -61,7 +61,7 @@ export default class Edit extends Component {
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
-      id: id,
+      id,
       inputBody: body
     }
   }
