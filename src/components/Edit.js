@@ -95,7 +95,6 @@ export default class Edit extends Component {
         <Main>
           <TagInput></TagInput>
           <Textarea
-            autoFocus
             ref={this.textArea}
             value={this.state.inputBody}
             placeholder="Write a note..."

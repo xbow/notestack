@@ -7,6 +7,8 @@ import * as color from './res/colors'
 
 export default class TagInput extends Component {
 
+  inputElement = React.createRef()
+  
   state = {
     tags: [
       { id: uid(), name: 'Foobar'},
@@ -22,7 +24,6 @@ export default class TagInput extends Component {
     suggestions: [],
     tagList: [],
   }
-
 
   getSuggestions = value => {
     const { tags } = this.state
@@ -43,11 +44,14 @@ export default class TagInput extends Component {
 
   pickSuggestion = tag => {
     this.setState({
+      searchString: '',
+      suggestions: [],
       tagList: [
         ...this.state.tagList,
         tag
       ]
     })
+    this.inputElement.current.focus()
   }
 
   updateSearchString = searchString => {
@@ -62,9 +66,9 @@ export default class TagInput extends Component {
     return tagList[index]
   }
 
-  componentDidUpdate() {
+  /* componentDidUpdate() {
     this.getSuggestions(this.state.searchString)
-  }
+  }*/
 
   onChangeHandler = event => {
     const value = event.target.value
@@ -80,9 +84,9 @@ export default class TagInput extends Component {
         <div name="tag-list">
           {this.state.tagList.map(tag => <span key={tag.id}>{tag.name}</span>)}
         </div>
-        <input 
+        <input
           name="input-tag"
-          autoFocus
+          ref={this.inputElement}
           value={this.state.searchString} 
           onChange={this.onChangeHandler}
         />
