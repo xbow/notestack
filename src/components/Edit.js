@@ -8,6 +8,8 @@ import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import TextButton from './TextButton'
+import TagInput from './TagInput'
+// import TagList from '.TagList'
 
 const Main = styled.main`
   padding: 5px;
@@ -91,6 +93,7 @@ export default class Edit extends Component {
         {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
+          <TagInput></TagInput>
           <Textarea
             autoFocus
             ref={this.textArea}
