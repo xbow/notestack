@@ -39,13 +39,12 @@ export default class TagInput extends Component {
   inputElement = React.createRef()
 
   state = {
-    topics: this.props.topics,
     searchString: '',
     suggestions: [],
   }
 
   getSuggestions = value => {
-    const { topics } = this.state
+    const { topics } = this.props
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
     return inputLength === 0 ? [] : topics.filter(item =>

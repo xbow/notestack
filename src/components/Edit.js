@@ -80,27 +80,13 @@ export default class Edit extends Component {
   }
 
   getNoteTopics () {
-    console.log('getNoteTopics: ' + this.state.topicIDs)
-    console.log('from Topics: ' + JSON.stringify(this.props.topics))
-
-    let matchingTopics = []
-    this.state.topicIDs.forEach(topicID => {
-      this.props.topics.forEach(topic => {
-        topic.id === topicID && matchingTopics.push(topic)
-      })
-    })
-    console.log(matchingTopics)
-    return matchingTopics
+    return this.state.topicIDs.map(id => this.props.topics.find(topic => topic.id === id))
   }
 
   getSuggestableTopics () {
-    let allTopics = this.props.topics
-    let topicsIDsToExclude = this.state.topicIDs
-    let suggestableTopics = []
-    allTopics.forEach(topic => {
-      topicsIDsToExclude.includes(topic.id) || suggestableTopics.push(topic)
-    })
-    return suggestableTopics
+    const allTopics = this.props.topics
+    const topicsIDsToExclude = this.state.topicIDs
+    return allTopics.filter(topic => !topicsIDsToExclude.includes(topic.id))
   }
 
   submitHandler = () => {
