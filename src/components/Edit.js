@@ -61,7 +61,6 @@ export default class Edit extends Component {
   constructor(props) {
     super(props)
     const { id, body, topicIDs } = props.note
-    console.log('initial topic Ids: ' + topicIDs)
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
@@ -72,15 +71,12 @@ export default class Edit extends Component {
   }
 
   pickTopic = id => {
-    console.log('pickTopic initial ids: ' + this.state.topicIDs)
-    console.log('topic picked: ' + id)
     this.setState({
       topicIDs: [
         ...this.state.topicIDs,
         id
       ]
     })
-    console.log('updated state: ' + JSON.stringify(this.state.topicIDs))
   }
 
   /*createTopic = topic => {
@@ -105,6 +101,16 @@ export default class Edit extends Component {
     })
     console.log(matchingTopics)
     return matchingTopics
+  }
+
+  getSuggestableTopics () {
+    let allTopics = this.props.topics
+    let topicsIDsToExclude = this.state.topicIDs
+    let suggestableTopics = []
+    allTopics.forEach(topic => {
+      topicsIDsToExclude.includes(topic.id) || suggestableTopics.push(topic)
+    })
+    return suggestableTopics
   }
 
   submitHandler = () => {
@@ -135,7 +141,7 @@ export default class Edit extends Component {
         <Main>
           {/* PASS THIS NOTE'S TOPICS TO TAGLIST*/}
           <TagList topics={this.getNoteTopics()} />
-          <TagInput topics={this.props.topics} onPick={this.pickTopic} /*onCreate={this.createTopic}*/ />
+          <TagInput topics={this.getSuggestableTopics()} onPick={this.pickTopic} /*onCreate={this.createTopic}*/ />
           <Textarea
             ref={this.textArea}
             value={this.state.inputBody}

@@ -46,10 +46,8 @@ export default class TagInput extends Component {
 
   getSuggestions = value => {
     const { topics } = this.state
-
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
-
     return inputLength === 0 ? [] : topics.filter(item =>
       item.name.toLowerCase().slice(0, inputLength) === inputValue
     )
@@ -68,15 +66,8 @@ export default class TagInput extends Component {
     </SuggestionsWrapper>
   }
 
-
   pickSuggestion = topicID => {
-    /*  
-        Note to self: only topicID is needed here. 
-        Edit.js knows the whole topic object 
-        and will send all necessary data to TagList.js
-    */
     this.props.onPick(topicID)
-    console.log('TagInput onPick: ' + topicID)
     this.setState({
       searchString: '',
       suggestions: [],
@@ -84,36 +75,6 @@ export default class TagInput extends Component {
     this.inputElement.current.focus()
   }
 
-  /* Old local test implementation
-   
-  pickSuggestion = topic => {
-    this.setState({
-      searchString: '',
-      suggestions: [],
-      tagList: [
-        ...this.state.tagList,
-        tag
-      ]
-    })
-    this.inputElement.current.focus()
-  }*/
-
-  updateSearchString = searchString => {
-    this.setState({
-      searchString
-    })
-  }
-
-  // Am I using this at all?
-  getTagById = tagId => {
-    const { tagList } = this.state
-    const index = tagList.findIndex(item => item.id === tagId)
-    return tagList[index]
-  }
-
-  /* componentDidUpdate() {
-    this.getSuggestions(this.state.searchString)
-  }*/
 
   onChangeHandler = event => {
     const value = event.target.value
