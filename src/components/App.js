@@ -17,13 +17,23 @@ let dummyNotes = [
   { id: uid(), body: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. ' },
 ]
 
+let dummyTopics = [
+  { id: uid(), name: 'Foo' },
+  { id: uid(), name: 'Fritz' },
+  { id: uid(), name: 'Brobnar' },
+  { id: uid(), name: 'Five' },
+  { id: uid(), name: 'Badabam' },
+]
+
 class App extends Component {
 
   state = {
-    notes: this.load()
+    notes: this.loadNotes(),
+    topics: this.loadTopics(),
+    keywords: this.loadKeywords(),
   }
 
-  saveNote = (id, body) => {
+  saveNote = (id, body, topicIDs) => {
     const { notes } = this.state
     const index = notes.findIndex(item => item.id === id)
 
@@ -31,12 +41,13 @@ class App extends Component {
       notes: id == null ? [
         {
           id: uid(),
-          body
+          body,
+          topicIDs,
         },
         ...notes
       ] : [
           ...notes.slice(0, index),
-          { ...notes[index], body },
+          { ...notes[index], body, topicIDs },
           ...notes.slice(index + 1)
         ]
     })
@@ -57,11 +68,19 @@ class App extends Component {
     return this.state.notes[index]
   }
 
-  save () {
+  saveNotes () {
     localStorage.setItem('Notestack', JSON.stringify(this.state.notes))
   }
 
-  load () {
+  saveTopics () {
+    localStorage.setItem('Notestack-Topics', JSON.stringify(this.state.topics))
+  }
+
+  saveKeywords () {
+    localStorage.setItem('Notestack-Keywords', JSON.stringify(this.state.keywords))
+  }
+
+  loadNotes () {
     try {
       return JSON.parse(localStorage.getItem('Notestack')) || dummyNotes
     } catch (err) {
@@ -69,17 +88,34 @@ class App extends Component {
     }
   }
 
+  loadTopics () {
+    try {
+      return JSON.parse(localStorage.getItem('Notestack-Topics')) || dummyTopics
+    } catch (err) {
+      return dummyTopics
+    }
+  }
+
+  loadKeywords () {
+    try {
+      return JSON.parse(localStorage.getItem('Notestack-Keywords')) || []
+    } catch (err) {
+      return []
+    }
+  }
+
   render () {
-    this.save()
+    this.saveNotes()
+    this.saveTopics()
     return (
       <Router>
         <React.Fragment>
           <Route exact path="/" render={() => <List items={this.getExcerpts()} />} />
           <Route path="/list" render={() => <List items={this.getExcerpts()} />} />
-          <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
+          <Route path="/create" render={() => <Edit topics={this.state.topics} onSubmit={this.saveNote} />} />
           <Route
             path="/edit/:id"
-            render={({ match }) => <Edit note={this.getNoteById(match.params.id)}
+            render={({ match }) => <Edit topics={this.state.topics} note={this.getNoteById(match.params.id)}
               onSubmit={this.saveNote} />}
           />
         </React.Fragment>

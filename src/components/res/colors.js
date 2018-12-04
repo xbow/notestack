@@ -1,5 +1,6 @@
 export const text = '#111'
 export const background = '#eee'
+export const white = '#f9f9f9'
 export const paleHighlight = '#e6e6e8'
 export const lineDark = '#111'
 export const lineLight = '#aaa'

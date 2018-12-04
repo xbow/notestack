@@ -9,7 +9,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import TextButton from './TextButton'
 import TagInput from './TagInput'
-// import TagList from '.TagList'
+import TagList from './TagList'
 
 const Main = styled.main`
   padding: 5px;
@@ -46,26 +46,65 @@ export default class Edit extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    topics: PropTypes.array.isRequired,
     note: PropTypes.object
   }
 
   static defaultProps = {
     note: {
       id: null,
-      inputBody: ''
+      inputBody: '',
+      topicIDs: [],
     }
   }
 
   constructor(props) {
     super(props)
-    const { id, body } = props.note
-
+    const { id, body, topicIDs } = props.note
+    console.log('initial topic Ids: ' + topicIDs)
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
-      id: id,
-      inputBody: body
+      id,
+      inputBody: body,
+      topicIDs: topicIDs || []
     }
+  }
+
+  pickTopic = id => {
+    console.log('pickTopic initial ids: ' + this.state.topicIDs)
+    console.log('topic picked: ' + id)
+    this.setState({
+      topicIDs: [
+        ...this.state.topicIDs,
+        id
+      ]
+    })
+    console.log('updated state: ' + JSON.stringify(this.state.topicIDs))
+  }
+
+  /*createTopic = topic => {
+    this.setState({
+      newTopics: [
+        newTopic
+        ...this.state.newTopics
+      ]
+    })
+    this.pickTopic(topic.id)
+  }*/
+
+  getNoteTopics () {
+    console.log('getNoteTopics: ' + this.state.topicIDs)
+    console.log('from Topics: ' + JSON.stringify(this.props.topics))
+
+    let matchingTopics = []
+    this.state.topicIDs.forEach(topicID => {
+      this.props.topics.forEach(topic => {
+        topic.id === topicID && matchingTopics.push(topic)
+      })
+    })
+    console.log(matchingTopics)
+    return matchingTopics
   }
 
   submitHandler = () => {
@@ -73,6 +112,7 @@ export default class Edit extends Component {
       this.props.onSubmit(
         this.state.id,
         this.state.inputBody,
+        this.state.topicIDs
       )
       this.state.createMode || this.setState({ redirect: true })
       this.state.createMode && this.setState({ inputBody: '' })
@@ -93,7 +133,9 @@ export default class Edit extends Component {
         {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
-          <TagInput></TagInput>
+          {/* PASS THIS NOTE'S TOPICS TO TAGLIST*/}
+          <TagList topics={this.getNoteTopics()} />
+          <TagInput topics={this.props.topics} onPick={this.pickTopic} /*onCreate={this.createTopic}*/ />
           <Textarea
             ref={this.textArea}
             value={this.state.inputBody}
