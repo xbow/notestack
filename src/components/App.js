@@ -33,9 +33,11 @@ class App extends Component {
     keywords: this.loadKeywords(),
   }
 
-  saveNote = (id, body, topicIDs) => {
+  saveNote = (id, body, topicIDs, newTopics) => {
     const { notes } = this.state
     const index = notes.findIndex(item => item.id === id)
+
+    console.log('saveNote newTopics', newTopics)
 
     this.setState({
       notes: id == null ? [

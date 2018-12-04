@@ -67,13 +67,34 @@ export default class TagInput extends Component {
 
   pickSuggestion = topicID => {
     this.props.onPick(topicID)
+    this.resetInput()
+  }
+
+  handleKeyDown = event => {
+    event.key === 'Enter' && this.handleSubmitTopic(event)
+  }
+
+  handleSubmitTopic (event) {
+    const topicName = event.target.value
+
+    console.log('topic Name: ', topicName)
+
+    const matchingTopic = this.props.topics.find(topic => topic.name === topicName)
+
+    console.log(matchingTopic ? matchingTopic.id : 'no matching topic')
+
+    matchingTopic && this.pickSuggestion(matchingTopic.id)
+
+    this.resetInput()
+  }
+
+  resetInput () {
     this.setState({
       searchString: '',
       suggestions: [],
     })
     this.inputElement.current.focus()
   }
-
 
   onChangeHandler = event => {
     const value = event.target.value
@@ -91,6 +112,7 @@ export default class TagInput extends Component {
           ref={this.inputElement}
           placeholder="Enter a keyword..."
           value={this.state.searchString}
+          onKeyDown={this.handleKeyDown}
           onChange={this.onChangeHandler}
         />
         {this.state.suggestions.length > 0 ? this.renderSuggestions() : ''}
