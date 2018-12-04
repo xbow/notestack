@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
+import uid from 'uid';
+
 import PropTypes from 'prop-types'
 import * as color from './res/colors'
 
@@ -55,18 +57,20 @@ export default class Edit extends Component {
       id: null,
       inputBody: '',
       topicIDs: [],
+      newTopics: [],
     }
   }
 
   constructor(props) {
     super(props)
-    const { id, body, topicIDs } = props.note
+    const { id, body, topicIDs, newTopics } = props.note
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
       id,
       inputBody: body,
-      topicIDs: topicIDs || []
+      topicIDs: topicIDs || [],
+      newTopics: newTopics || []
     }
   }
 
@@ -80,7 +84,9 @@ export default class Edit extends Component {
   }
 
   getNoteTopics () {
-    return this.state.topicIDs.map(id => this.props.topics.find(topic => topic.id === id))
+    return this.state.topicIDs
+      .map(id => this.props.topics.find(topic => topic.id === id))
+      .concat(this.state.newTopics)
   }
 
   getSuggestableTopics () {
@@ -89,12 +95,31 @@ export default class Edit extends Component {
     return allTopics.filter(topic => !topicsIDsToExclude.includes(topic.id))
   }
 
+  addNewTopic = topicName => {
+    const newTopicID = uid()
+
+    this.setState({
+      TopicIDs: [
+        ...this.state.topicIDs,
+        newTopicID
+      ],
+      newTopics: [
+        ...this.state.newTopics,
+        {
+          id: newTopicID,
+          name: topicName
+        }
+      ]
+    })
+  }
+
   submitHandler = () => {
     if (this.state.inputBody !== '') {
       this.props.onSubmit(
         this.state.id,
         this.state.inputBody,
-        this.state.topicIDs
+        this.state.topicIDs,
+        this.state.newTopics,
       )
       this.state.createMode || this.setState({ redirect: true })
       this.state.createMode && this.setState({ inputBody: '' })
@@ -116,7 +141,12 @@ export default class Edit extends Component {
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList topics={this.getNoteTopics()} />
-          <TagInput topics={this.getSuggestableTopics()} onPick={this.pickTopic} />
+          <TagInput
+            suggestableTopics={this.getSuggestableTopics()}
+            appliedTopics={this.getNoteTopics()}
+            onPick={this.pickTopic}
+            addNewTopic={this.addNewTopic}
+          />
           <Textarea
             ref={this.textArea}
             value={this.state.inputBody}

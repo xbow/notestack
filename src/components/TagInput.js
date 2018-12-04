@@ -44,10 +44,10 @@ export default class TagInput extends Component {
   }
 
   getSuggestions = value => {
-    const { topics } = this.props
+    const { suggestableTopics } = this.props
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
-    return inputLength === 0 ? [] : topics.filter(item =>
+    return inputLength === 0 ? [] : suggestableTopics.filter(item =>
       item.name.toLowerCase().slice(0, inputLength) === inputValue
     )
   }
@@ -79,13 +79,13 @@ export default class TagInput extends Component {
 
     console.log('topic Name: ', topicName)
 
-    const matchingTopic = this.props.topics.find(topic => topic.name === topicName)
+    const alreadyApplied = this.props.appliedTopics.find(topic => topic.name === topicName)
+    const matchingTopic = this.props.suggestableTopics.find(topic => topic.name === topicName)
 
     console.log(matchingTopic ? matchingTopic.id : 'no matching topic')
 
-    matchingTopic && this.pickSuggestion(matchingTopic.id)
-
-    this.resetInput()
+    !alreadyApplied && matchingTopic && this.pickSuggestion(matchingTopic.id)
+    !alreadyApplied && !matchingTopic && this.props.addNewTopic(topicName) && this.resetInput()
   }
 
   resetInput () {
