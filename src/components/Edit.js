@@ -79,16 +79,6 @@ export default class Edit extends Component {
     })
   }
 
-  /*createTopic = topic => {
-    this.setState({
-      newTopics: [
-        newTopic
-        ...this.state.newTopics
-      ]
-    })
-    this.pickTopic(topic.id)
-  }*/
-
   getNoteTopics () {
     console.log('getNoteTopics: ' + this.state.topicIDs)
     console.log('from Topics: ' + JSON.stringify(this.props.topics))
@@ -139,9 +129,8 @@ export default class Edit extends Component {
         {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
-          {/* PASS THIS NOTE'S TOPICS TO TAGLIST*/}
           <TagList topics={this.getNoteTopics()} />
-          <TagInput topics={this.getSuggestableTopics()} onPick={this.pickTopic} /*onCreate={this.createTopic}*/ />
+          <TagInput topics={this.getSuggestableTopics()} onPick={this.pickTopic} />
           <Textarea
             ref={this.textArea}
             value={this.state.inputBody}

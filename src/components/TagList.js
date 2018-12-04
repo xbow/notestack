@@ -25,7 +25,6 @@ const Keyword = styled.span`
   `
 
 
-
 export default class TagList extends Component {
   render () {
     const { topics = [] } = this.props
