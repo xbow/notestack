@@ -51,8 +51,13 @@ class App extends Component {
           ...notes.slice(0, index),
           { ...notes[index], body, topicIDs },
           ...notes.slice(index + 1)
-        ]
+        ],
+      topics: [
+        ...newTopics,
+        ...this.state.topics
+      ]
     })
+    console.log('updated topics ', this.state.topics)
   }
 
   getExcerpts = () => {
