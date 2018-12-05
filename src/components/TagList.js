@@ -13,6 +13,7 @@ const Topic = styled.span`
   padding: 2px 8px;
   border-radius: 3px;
   background: purple;
+  border: 1px solid purple;
   color: lavender;
 `
 
@@ -28,17 +29,13 @@ const Keyword = styled.span`
 export default class TagList extends Component {
   render () {
     const { tags = [] } = this.props
+    console.log('Taglist render', tags)
     return (
+
       <TagListWrapper>
-        {tags.map(tag => (
-          tag.topic
-            ? <Topic key={tag.id}>
-              {tag.name}
-            </Topic>
-            : <Keyword key={tag.id}>
-              {tag.name}
-            </Keyword>
-        ))}
+        {tags.map(tag => {
+          return <Topic key={tag.id}>{tag.name}</Topic>
+        })}
       </TagListWrapper>
     )
   }

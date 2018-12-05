@@ -45,10 +45,11 @@ export default class TagInput extends Component {
 
   getSuggestions = value => {
     const { suggestableTags } = this.props
+    console.log('suggestable tags', suggestableTags)
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
-    return inputLength === 0 ? [] : suggestableTags.filter(item =>
-      item.name.toLowerCase().slice(0, inputLength) === inputValue
+    return inputLength === 0 ? [] : suggestableTags.filter(tag =>
+      tag.name.toLowerCase().slice(0, inputLength) === inputValue
     )
   }
 

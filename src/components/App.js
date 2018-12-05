@@ -44,6 +44,8 @@ class App extends Component {
     const newtagIDs = newTags.map(tag => tag.id)
     const tagIDsToSave = tagIDs.concat(newtagIDs)
 
+    console.log('saving note: tagIDs, newTags ', tagIDs, newTags)
+
     this.setState({
       notes: id == null ? [
         {
@@ -57,10 +59,10 @@ class App extends Component {
           { ...notes[index], body, tagIDs: tagIDsToSave },
           ...notes.slice(index + 1)
         ],
-      tags: [
+      tags: newTags > 0 ? [
         newTags,
         ...this.state.tags
-      ]
+      ] : [...this.state.tags]
     })
   }
 

@@ -74,7 +74,7 @@ export default class Edit extends Component {
       id,
       inputBody: body,
       tagIDs: tagIDs || [],
-      newTags: newTags || []
+      newTags: newTags || [],
     }
   }
 
@@ -113,7 +113,8 @@ export default class Edit extends Component {
         ...this.state.newTags,
         {
           id: newTagID,
-          name: tagName
+          topic: false,
+          name: tagName,
         }
       ]
     })
