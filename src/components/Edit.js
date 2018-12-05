@@ -104,6 +104,7 @@ export default class Edit extends Component {
     const newTopicID = uid()
 
     this.setState({
+      hasChanged: true,
       TopicIDs: [
         ...this.state.topicIDs,
         newTopicID
@@ -127,7 +128,11 @@ export default class Edit extends Component {
         this.state.newTopics,
       )
       this.state.createMode || this.setState({ redirect: true })
-      this.state.createMode && this.setState({ inputBody: '' })
+      this.state.createMode && this.setState({
+        inputBody: '',
+        topicIDs: [],
+        newTopics: []
+      })
     }
     this.textArea.current.focus()
   }
