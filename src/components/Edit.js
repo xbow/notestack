@@ -140,12 +140,7 @@ export default class Edit extends Component {
   }
 
   allowSaving () {
-    console.log(this.state.inputBody)
-    if (this.state.hasChanged && this.state.inputBody !== '') {
-      return true
-    } else {
-      return false
-    }
+    return this.state.hasChanged && this.state.inputBody !== '' ? true : false
   }
 
   conditionalRedirect () {
