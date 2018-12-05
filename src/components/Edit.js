@@ -111,7 +111,7 @@ export default class Edit extends Component {
     return this.getNoteTags().filter(tag => tag.topic).length > 0
   }
 
-  addNewTag = tagName => {
+  addNewTag = (tagName, isTopic) => {
     const newTagID = uid()
 
     this.setState({
@@ -120,6 +120,7 @@ export default class Edit extends Component {
         ...this.state.newTags,
         {
           id: newTagID,
+          topic: isTopic,
           name: tagName
         }
       ]
