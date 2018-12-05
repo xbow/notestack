@@ -34,6 +34,7 @@ export default class TagBrowser extends Component {
       <PageWrapper>
         <Navbar icons={this.navIcons} />
         <TagBrowserList>
+          <p>This list shows all tags. It does not yet distinguish between topics and keywords.</p>
           {tagsInAlphabeticalOrder.map(tag => <div key={tag.id}>{tag.name}</div>
           )}
         </TagBrowserList>
