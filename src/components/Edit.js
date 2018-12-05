@@ -56,6 +56,12 @@ export default class Edit extends Component {
     note: PropTypes.object
   }
 
+  /* 
+    default props do not seem to work as expected.
+    I seem to be solving everything in the constructor.
+    maybe I should get rid of them? 
+  */
+
   static defaultProps = {
     note: {
       id: null,
@@ -72,7 +78,7 @@ export default class Edit extends Component {
       hasChanged: false,
       createMode: !props.note.id,
       id,
-      inputBody: body,
+      inputBody: body || '',
       tagIDs: tagIDs || [],
       newTags: newTags || []
     }
@@ -133,6 +139,15 @@ export default class Edit extends Component {
     this.textArea.current.focus()
   }
 
+  allowSaving () {
+    console.log(this.state.inputBody)
+    if (this.state.hasChanged && this.state.inputBody !== '') {
+      return true
+    } else {
+      return false
+    }
+  }
+
   conditionalRedirect () {
     if (this.state.redirect) {
       return <Redirect to={this.nextRoute} />
@@ -169,7 +184,7 @@ export default class Edit extends Component {
           <TextButton
             label={createMode ? 'Submit' : 'Save'}
             onClick={this.submitHandler}
-            isActive={this.state.hasChanged && this.state.inputBody !== ''} />
+            isActive={this.allowSaving()} />
         </Footer>
       </PageWrapper >
     )
