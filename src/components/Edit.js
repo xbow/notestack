@@ -76,6 +76,7 @@ export default class Edit extends Component {
 
   pickTopic = id => {
     this.setState({
+      hasChanged: true,
       topicIDs: [
         ...this.state.topicIDs,
         id

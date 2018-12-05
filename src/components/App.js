@@ -39,10 +39,7 @@ class App extends Component {
     const newTopicIDs = newTopics.map(topic => topic.id)
     const topicIDsToSave = topicIDs.concat(newTopicIDs)
 
-    console.log('saveNote newTopics', newTopics)
-
     this.setState({
-
       notes: id == null ? [
         {
           id: uid(),
@@ -114,7 +111,6 @@ class App extends Component {
   }
 
   render () {
-    console.log('render', this.state.notes, this.state.topics)
     this.saveNotes()
     this.saveTopics()
     return (
