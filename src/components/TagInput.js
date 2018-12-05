@@ -65,22 +65,27 @@ export default class TagInput extends Component {
     </SuggestionsWrapper>
   }
 
-  pickSuggestion = tagID => {
-    this.props.onPick(tagID)
-    this.resetInput()
-  }
-
-  handleKeyDown = event => {
-    event.key === 'Enter' && this.handleSubmitTag(event)
-  }
-
   handleSubmitTag (event) {
     const tagName = event.target.value
     const alreadyApplied = this.props.appliedTags.find(tag => tag.name === tagName)
     const matchingTag = this.props.suggestableTags.find(tag => tag.name === tagName)
 
     !alreadyApplied && matchingTag && this.pickSuggestion(matchingTag.id)
-    !alreadyApplied && !matchingTag && this.props.addNewTag(tagName) && this.resetInput()
+    !alreadyApplied && !matchingTag && this.addNewTag(tagName)
+  }
+
+  pickSuggestion = tagID => {
+    this.props.onPick(tagID)
+    this.resetInput()
+  }
+
+  addNewTag (tagName) {
+    this.props.addNewTag(tagName)
+    this.resetInput()
+  }
+
+  handleKeyDown = event => {
+    event.key === 'Enter' && this.handleSubmitTag(event)
   }
 
   resetInput () {
