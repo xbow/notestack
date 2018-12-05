@@ -105,12 +105,13 @@ export default class TagInput extends Component {
   }
 
   render () {
+    console.log('hasTopic', this.props.hasTopic)
     return (
       <TagInputWrapper>
         <TagInputElement
           name="input-tag"
           ref={this.inputElement}
-          placeholder="Enter a keyword..."
+          placeholder={this.props.hasTopic ? 'Enter a keyword...' : 'Enter a topic...'}
           value={this.state.searchString}
           onKeyDown={this.handleKeyDown}
           onChange={this.onChangeHandler}

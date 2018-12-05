@@ -80,7 +80,7 @@ export default class Edit extends Component {
       id,
       inputBody: body || '',
       tagIDs: tagIDs || [],
-      newTags: newTags || []
+      newTags: newTags || [],
     }
   }
 
@@ -90,7 +90,8 @@ export default class Edit extends Component {
       tagIDs: [
         ...this.state.tagIDs,
         id
-      ]
+      ],
+      hasTopic: this.getHasTopic()
     })
   }
 
@@ -104,6 +105,10 @@ export default class Edit extends Component {
     const allTags = this.props.tags
     const tagIDsToExclude = this.state.tagIDs
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
+  }
+
+  getHasTopic () {
+    return this.getNoteTags().filter(tag => tag.topic).length > 0
   }
 
   addNewTag = tagName => {
@@ -158,6 +163,7 @@ export default class Edit extends Component {
         <Main>
           <TagList tags={this.getNoteTags()} />
           <TagInput
+            hasTopic={this.getHasTopic()}
             suggestableTags={this.getSuggestableTags()}
             appliedTags={this.getNoteTags()}
             onPick={this.pickTag}
