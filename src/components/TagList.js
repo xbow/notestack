@@ -27,13 +27,17 @@ const Keyword = styled.span`
 
 export default class TagList extends Component {
   render () {
-    const { topics = [] } = this.props
+    const { tags = [] } = this.props
     return (
       <TagListWrapper>
-        {topics.map(topic => (
-          <Keyword key={topic.id}>
-            {topic.name}
-          </Keyword>
+        {tags.map(tag => (
+          tag.topic
+            ? <Topic key={tag.id}>
+              {tag.name}
+            </Topic>
+            : <Keyword key={tag.id}>
+              {tag.name}
+            </Keyword>
         ))}
       </TagListWrapper>
     )

@@ -52,7 +52,7 @@ export default class Edit extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    topics: PropTypes.array.isRequired,
+    tags: PropTypes.array.isRequired,
     note: PropTypes.object
   }
 
@@ -60,60 +60,60 @@ export default class Edit extends Component {
     note: {
       id: null,
       inputBody: '',
-      topicIDs: [],
-      newTopics: [],
+      tagIDs: [],
+      newTags: [],
     }
   }
 
   constructor(props) {
     super(props)
-    const { id, body, topicIDs, newTopics } = props.note
+    const { id, body, tagIDs, newTags } = props.note
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
       id,
       inputBody: body,
-      topicIDs: topicIDs || [],
-      newTopics: newTopics || []
+      tagIDs: tagIDs || [],
+      newTags: newTags || []
     }
   }
 
-  pickTopic = id => {
+  pickTag = id => {
     this.setState({
       hasChanged: true,
-      topicIDs: [
-        ...this.state.topicIDs,
+      tagIDs: [
+        ...this.state.tagIDs,
         id
       ]
     })
   }
 
-  getNoteTopics () {
-    return this.state.topicIDs
-      .map(id => this.props.topics.find(topic => topic.id === id))
-      .concat(this.state.newTopics)
+  getNoteTags () {
+    return this.state.tagIDs
+      .map(id => this.props.tags.find(tag => tag.id === id))
+      .concat(this.state.newTags)
   }
 
-  getSuggestableTopics () {
-    const allTopics = this.props.topics
-    const topicsIDsToExclude = this.state.topicIDs
-    return allTopics.filter(topic => !topicsIDsToExclude.includes(topic.id))
+  getSuggestableTags () {
+    const allTags = this.props.tags
+    const tagIDsToExclude = this.state.tagIDs
+    return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
-  addNewTopic = topicName => {
-    const newTopicID = uid()
+  addNewTag = tagName => {
+    const newTagID = uid()
 
     this.setState({
       hasChanged: true,
-      TopicIDs: [
-        ...this.state.topicIDs,
-        newTopicID
+      tagIDs: [
+        ...this.state.tagIDs,
+        newTagID
       ],
-      newTopics: [
-        ...this.state.newTopics,
+      newTags: [
+        ...this.state.newTags,
         {
-          id: newTopicID,
-          name: topicName
+          id: newTagID,
+          name: tagName
         }
       ]
     })
@@ -124,14 +124,14 @@ export default class Edit extends Component {
       this.props.onSubmit(
         this.state.id,
         this.state.inputBody,
-        this.state.topicIDs,
-        this.state.newTopics,
+        this.state.tagIDs,
+        this.state.newTags,
       )
       this.state.createMode || this.setState({ redirect: true })
       this.state.createMode && this.setState({
         inputBody: '',
-        topicIDs: [],
-        newTopics: []
+        tagIDs: [],
+        newTags: []
       })
     }
     this.textArea.current.focus()
@@ -150,12 +150,12 @@ export default class Edit extends Component {
         {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
-          <TagList topics={this.getNoteTopics()} />
+          <TagList tags={this.getNoteTags()} />
           <TagInput
-            suggestableTopics={this.getSuggestableTopics()}
-            appliedTopics={this.getNoteTopics()}
-            onPick={this.pickTopic}
-            addNewTopic={this.addNewTopic}
+            suggestableTags={this.getSuggestableTags()}
+            appliedTags={this.getNoteTags()}
+            onPick={this.pickTag}
+            addNewTag={this.addNewTag}
           />
           <Textarea
             ref={this.textArea}

@@ -44,10 +44,10 @@ export default class TagInput extends Component {
   }
 
   getSuggestions = value => {
-    const { suggestableTopics } = this.props
+    const { suggestableTags } = this.props
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
-    return inputLength === 0 ? [] : suggestableTopics.filter(item =>
+    return inputLength === 0 ? [] : suggestableTags.filter(item =>
       item.name.toLowerCase().slice(0, inputLength) === inputValue
     )
   }
@@ -65,22 +65,22 @@ export default class TagInput extends Component {
     </SuggestionsWrapper>
   }
 
-  pickSuggestion = topicID => {
-    this.props.onPick(topicID)
+  pickSuggestion = tagID => {
+    this.props.onPick(tagID)
     this.resetInput()
   }
 
   handleKeyDown = event => {
-    event.key === 'Enter' && this.handleSubmitTopic(event)
+    event.key === 'Enter' && this.handleSubmitTag(event)
   }
 
-  handleSubmitTopic (event) {
-    const topicName = event.target.value
-    const alreadyApplied = this.props.appliedTopics.find(topic => topic.name === topicName)
-    const matchingTopic = this.props.suggestableTopics.find(topic => topic.name === topicName)
+  handleSubmitTag (event) {
+    const tagName = event.target.value
+    const alreadyApplied = this.props.appliedTags.find(tag => tag.name === tagName)
+    const matchingTag = this.props.suggestableTags.find(tag => tag.name === tagName)
 
-    !alreadyApplied && matchingTopic && this.pickSuggestion(matchingTopic.id)
-    !alreadyApplied && !matchingTopic && this.props.addNewTopic(topicName) && this.resetInput()
+    !alreadyApplied && matchingTag && this.pickSuggestion(matchingTag.id)
+    !alreadyApplied && !matchingTag && this.props.addNewTag(tagName) && this.resetInput()
   }
 
   resetInput () {
