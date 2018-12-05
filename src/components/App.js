@@ -36,20 +36,23 @@ class App extends Component {
   saveNote = (id, body, topicIDs, newTopics) => {
     const { notes } = this.state
     const index = notes.findIndex(item => item.id === id)
+    const newTopicIDs = newTopics.map(topic => topic.id)
+    const topicIDsToSave = topicIDs.concat(newTopicIDs)
 
     console.log('saveNote newTopics', newTopics)
 
     this.setState({
+
       notes: id == null ? [
         {
           id: uid(),
           body,
-          topicIDs,
+          topicIDs: topicIDsToSave
         },
         ...notes
       ] : [
           ...notes.slice(0, index),
-          { ...notes[index], body, topicIDs },
+          { ...notes[index], body, topicIDs: topicIDsToSave },
           ...notes.slice(index + 1)
         ],
       topics: [
@@ -57,7 +60,6 @@ class App extends Component {
         ...this.state.topics
       ]
     })
-    console.log('updated topics ', this.state.topics)
   }
 
   getExcerpts = () => {
@@ -112,6 +114,7 @@ class App extends Component {
   }
 
   render () {
+    console.log('render', this.state.notes, this.state.topics)
     this.saveNotes()
     this.saveTopics()
     return (
