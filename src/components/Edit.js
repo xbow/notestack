@@ -15,6 +15,9 @@ import TagList from './TagList'
 
 const Main = styled.main`
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `
 
 const Textarea = styled.textarea`
