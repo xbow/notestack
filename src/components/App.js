@@ -4,6 +4,7 @@ import uid from 'uid';
 
 import List from './List.js'
 import Edit from './Edit.js'
+import TagBrowser from './TagBrowser.js'
 
 let dummyNotes = [
   { id: uid(), body: 'This is a placeholder note. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc, auctor vestibulum dignissim nec, consectetur ut tellus. In auctor venenatis luctus.' },
@@ -124,6 +125,7 @@ class App extends Component {
             render={({ match }) => <Edit topics={this.state.topics} note={this.getNoteById(match.params.id)}
               onSubmit={this.saveNote} />}
           />
+          <Route path="/tags" render={() => <TagBrowser tags={this.state.topics} />} />
         </React.Fragment>
       </Router>
     )
