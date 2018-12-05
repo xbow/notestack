@@ -19,11 +19,11 @@ let dummyNotes = [
 ]
 
 let dummyTags = [
-  { id: uid(), name: 'Foo' },
-  { id: uid(), name: 'Fritz' },
-  { id: uid(), name: 'Brobnar' },
-  { id: uid(), name: 'Five' },
-  { id: uid(), name: 'Badabam' },
+  { id: uid(), topic: true, name: 'Foo' },
+  { id: uid(), topic: true, name: 'Fritz' },
+  { id: uid(), topic: true, name: 'Brobnar' },
+  { id: uid(), topic: true, name: 'Five' },
+  { id: uid(), topic: false, name: 'Badabam' },
 ]
 
 class App extends Component {
