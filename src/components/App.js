@@ -80,8 +80,6 @@ class App extends Component {
   }
 
   saveTags () {
-    // Change item name to Notestack-Tags
-
     localStorage.setItem('Notestack-Tags', JSON.stringify(this.state.tags))
   }
 

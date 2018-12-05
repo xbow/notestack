@@ -105,15 +105,6 @@ export default class Edit extends Component {
 
     this.setState({
       hasChanged: true,
-      /* Why is TopicIDs capitalized? 
-         renamed to TagIDs (keeping the inconsistent capitalization)
-         I have to figure out why the app works with the inconsistency
-         but breaks when I fix it.
-      */
-      TagIDs: [
-        ...this.state.tagIDs,
-        newTagID
-      ],
       newTags: [
         ...this.state.newTags,
         {
