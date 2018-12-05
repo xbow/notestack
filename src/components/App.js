@@ -41,8 +41,8 @@ class App extends Component {
   saveNote = (id, body, tagIDs, newTags) => {
     const { notes } = this.state
     const index = notes.findIndex(item => item.id === id)
-    const newtagIDs = newTags.map(tag => tag.id)
-    const tagIDsToSave = tagIDs.concat(newtagIDs)
+    const newTagIDs = newTags.map(tag => tag.id)
+    const tagIDsToSave = tagIDs.concat(newTagIDs)
 
     console.log('saving note: tagIDs, newTags ', tagIDs, newTags)
 
