@@ -68,8 +68,10 @@ export default class TagInput extends Component {
 
   handleSubmitTag (event) {
     const tagName = event.target.value
-    const alreadyApplied = this.props.appliedTags.find(tag => tag.name === tagName)
-    const matchingTag = this.props.suggestableTags.find(tag => tag.name === tagName)
+    const alreadyApplied = this.props.appliedTags
+      .find(tag => tag.name === tagName && tag.topic !== this.props.hasTopic)
+    const matchingTag = this.props.suggestableTags
+      .find(tag => tag.name === tagName && tag.topic !== this.props.hasTopic)
 
     !alreadyApplied && matchingTag && this.pickSuggestion(matchingTag.id)
     !alreadyApplied && !matchingTag && this.addNewTag(tagName, !this.props.hasTopic)
