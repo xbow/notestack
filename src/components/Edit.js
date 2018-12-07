@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import uid from 'uid';
 import ReactMarkdown from 'react-markdown';
-
+import { Controlled as CodeMirror } from 'react-codemirror2'
 
 import PropTypes from 'prop-types'
 import * as color from './res/colors'
@@ -14,6 +14,11 @@ import Footer from './Footer'
 import TextButton from './TextButton'
 import TagInput from './TagInput'
 import TagList from './TagList'
+
+require('codemirror/mode/markdown/markdown.js');
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/material.css');
+require('codemirror/theme/neat.css');
 
 const Main = styled.main`
   padding: 5px;
@@ -175,13 +180,29 @@ export default class Edit extends Component {
             onPick={this.pickTag}
             addNewTag={this.addNewTag}
           />
-          <Textarea
+          {/* <Textarea
             ref={this.textArea}
             value={this.state.inputBody}
             placeholder="Write a note..."
             onChange={event => this.setState({ hasChanged: true, inputBody: event.target.value })}
+          /> */}
+          <CodeMirror
+            value={this.state.inputBody}
+            options={{
+              mode: 'markdown',
+              cursorBlinkRate: 0,
+            }}
+            onBeforeChange={(editor, data, value) => {
+              this.setState({ inputBody: value })
+            }}
+            onChange={(editor, data, value) => {
+              this.setState({ hasChanged: true, inputBody: value })
+            }}
           />
-          <ReactMarkdown source={this.state.inputBody} />
+          <ReactMarkdown
+            className="Markdown"
+            source={this.state.inputBody}
+          />
         </Main>
         <Footer>
           <Left>
