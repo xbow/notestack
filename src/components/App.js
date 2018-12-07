@@ -78,7 +78,8 @@ class App extends Component {
   }
 
   getTagsByNoteId = id => {
-    return this.getNoteById(id).tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID))
+    const tagIDs = this.getNoteById(id).tagIDs
+    if (tagIDs) return tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID))
   }
 
   saveNotes () {
