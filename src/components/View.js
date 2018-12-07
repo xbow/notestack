@@ -9,6 +9,12 @@ import Footer from './Footer'
 import TextButton from './TextButton'
 import TagList from './TagList'
 
+const Main = styled.main`
+  padding: 0 5px;
+  overflow-y: scroll;
+`
+
+
 export default class View extends Component {
 
   navIcons = [
@@ -27,12 +33,12 @@ export default class View extends Component {
     return (
       <PageWrapper>
         <Navbar icons={this.navIcons} />
-        <main>
+        <Main>
           <TagList tags={tags} />
           <ReactMarkdown
             source={note.body}
           />
-        </main>
+        </Main>
         <Footer>
           <Link to={'/edit/' + note.id}>
             <TextButton label="Edit this note" />

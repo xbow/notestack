@@ -24,6 +24,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow-y: scroll;
 `
 
 const Left = styled.span`
