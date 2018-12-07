@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import uid from 'uid';
+import ReactMarkdown from 'react-markdown';
+
 
 import PropTypes from 'prop-types'
 import * as color from './res/colors'
@@ -179,6 +181,7 @@ export default class Edit extends Component {
             placeholder="Write a note..."
             onChange={event => this.setState({ hasChanged: true, inputBody: event.target.value })}
           />
+          <ReactMarkdown source={this.state.inputBody} />
         </Main>
         <Footer>
           <Left>
