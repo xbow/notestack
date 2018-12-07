@@ -15,7 +15,7 @@ import TagInput from './TagInput'
 import TagList from './TagList'
 
 require('codemirror/mode/markdown/markdown.js');
-require('codemirror/lib/codemirror.css');
+require('./res/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 

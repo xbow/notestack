@@ -40,7 +40,7 @@ export default class Card extends Component {
 
     return (
       <CardWrapper>
-        <Link to={'/edit/' + id}>
+        <Link to={'/note/' + id}>
           <TagList tags={tags} />
           <CardContent>{text}</CardContent>
         </Link>

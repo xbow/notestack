@@ -40,6 +40,9 @@ export default class View extends Component {
           />
         </Main>
         <Footer>
+          <Link to="/list">
+            <TextButton label="List notes" />
+          </Link>
           <Link to={'/edit/' + note.id}>
             <TextButton label="Edit this note" />
           </Link>
