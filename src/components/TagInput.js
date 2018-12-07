@@ -108,7 +108,6 @@ export default class TagInput extends Component {
   }
 
   render () {
-    console.log('hasTopic', this.props.hasTopic)
     return (
       <TagInputWrapper>
         <TagInputElement

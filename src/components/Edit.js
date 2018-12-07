@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import uid from 'uid';
-import ReactMarkdown from 'react-markdown';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 
 import PropTypes from 'prop-types'
@@ -27,27 +26,12 @@ const Main = styled.main`
   justify-content: flex-start;
 `
 
-const Textarea = styled.textarea`
-  height: 100%;
-  width: 100%;
-  font-size: 1em;
-  line-height: 1.5;
-  resize: none;
-  border: none;
-  background: ${color.background};
-
-  :focus {
-    outline: none;
-  }
-`
-
 const Left = styled.span`
   margin-right: auto;
 `
 
 export default class Edit extends Component {
 
-  textArea = React.createRef()
   nextRoute = '/list'
   navIcons = [
     {
@@ -152,7 +136,6 @@ export default class Edit extends Component {
         newTags: []
       })
     }
-    this.textArea.current.focus()
   }
 
   allowSaving () {
@@ -180,17 +163,11 @@ export default class Edit extends Component {
             onPick={this.pickTag}
             addNewTag={this.addNewTag}
           />
-          {/* <Textarea
-            ref={this.textArea}
-            value={this.state.inputBody}
-            placeholder="Write a note..."
-            onChange={event => this.setState({ hasChanged: true, inputBody: event.target.value })}
-          /> */}
           <CodeMirror
             value={this.state.inputBody}
             options={{
               mode: 'markdown',
-              cursorBlinkRate: 0,
+              lineWrapping: 'true',
             }}
             onBeforeChange={(editor, data, value) => {
               this.setState({ inputBody: value })
@@ -199,17 +176,14 @@ export default class Edit extends Component {
               this.setState({ hasChanged: true, inputBody: value })
             }}
           />
-          <ReactMarkdown
-            className="Markdown"
-            source={this.state.inputBody}
-          />
         </Main>
         <Footer>
-          <Left>
-            <Link to="/list">
-              <TextButton label="List notes" />
-            </Link>
-          </Left>
+          <Link to="/list">
+            <TextButton label="List notes" />
+          </Link>
+          <Link to={'/note/' + this.state.id}>
+            <TextButton label="View this note" />
+          </Link>
           <TextButton
             label={createMode ? 'Submit' : 'Save'}
             onClick={this.submitHandler}
