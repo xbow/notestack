@@ -22,6 +22,7 @@ const TagInputElement = styled.input`
 
 const SuggestionsWrapper = styled.div`
   position: absolute;
+  z-index: 1;
   min-width: 184px;
   background: ${color.white};
   border: 1px solid ${color.lineDark};
@@ -108,7 +109,6 @@ export default class TagInput extends Component {
   }
 
   render () {
-    console.log('hasTopic', this.props.hasTopic)
     return (
       <TagInputWrapper>
         <TagInputElement
@@ -119,7 +119,7 @@ export default class TagInput extends Component {
           onKeyDown={this.handleKeyDown}
           onChange={this.onChangeHandler}
         />
-        {this.state.suggestions.length > 0 ? this.renderSuggestions() : ''}
+        {this.state.suggestions.length > 0 && this.renderSuggestions()}
       </TagInputWrapper>
     )
   }

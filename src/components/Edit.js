@@ -59,12 +59,6 @@ export default class Edit extends Component {
     note: PropTypes.object
   }
 
-  /* 
-    default props do not seem to work as expected.
-    I seem to be solving everything in the constructor.
-    maybe I should get rid of them? 
-  */
-
   static defaultProps = {
     note: {
       id: null,
@@ -80,8 +74,8 @@ export default class Edit extends Component {
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
-      id,
-      inputBody: body || '',
+      id: id || null,
+      inputBody: body,
       tagIDs: tagIDs || [],
       newTags: newTags || [],
     }
@@ -94,7 +88,6 @@ export default class Edit extends Component {
         ...this.state.tagIDs,
         id
       ],
-      hasTopic: this.getHasTopic()
     })
   }
 
@@ -110,19 +103,17 @@ export default class Edit extends Component {
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
-  getHasTopic () {
+  getIfTopicInNoteTags () {
     return this.getNoteTags().filter(tag => tag.topic).length > 0
   }
 
   addNewTag = (tagName, isTopic) => {
-    const newTagID = uid()
-
     this.setState({
       hasChanged: true,
       newTags: [
         ...this.state.newTags,
         {
-          id: newTagID,
+          id: uid(),
           topic: isTopic,
           name: tagName
         }
@@ -167,7 +158,7 @@ export default class Edit extends Component {
         <Main>
           <TagList tags={this.getNoteTags()} />
           <TagInput
-            hasTopic={this.getHasTopic()}
+            hasTopic={this.getIfTopicInNoteTags()}
             suggestableTags={this.getSuggestableTags()}
             appliedTags={this.getNoteTags()}
             onPick={this.pickTag}

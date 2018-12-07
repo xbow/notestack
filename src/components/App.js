@@ -31,7 +31,6 @@ class App extends Component {
   state = {
     notes: this.loadNotes(),
     tags: this.loadTags(),
-    keywords: this.loadKeywords(),
   }
 
   saveNote = (id, body, tagIDs, newTags) => {

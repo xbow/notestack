@@ -7,13 +7,12 @@ const TagListWrapper = styled.div`
   overflow-x: wrap;
 `
 
-
 const Topic = styled.span`
   margin: 2px;
   padding: 2px 8px;
   border-radius: 3px;
-  background: palevioletred;
-  border: 1px solid palevioletred;
+  background: ${color.activeBackground};
+  border: 1px solid ${color.activeBackground};
   color: ${color.white};
 `
 
