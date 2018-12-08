@@ -182,9 +182,10 @@ export default class Edit extends Component {
           <Link to="/list">
             <TextButton label="List notes" />
           </Link>
+          { this.state.id &&
           <Link to={'/note/' + this.state.id}>
             <TextButton label="View this note" />
-          </Link>
+          </Link> }
           <TextButton
             label={createMode ? 'Submit' : 'Save'}
             onClick={this.submitHandler}
