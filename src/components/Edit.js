@@ -51,12 +51,6 @@ export default class Edit extends Component {
     note: PropTypes.object
   }
 
-  /* 
-    default props do not seem to work as expected.
-    I seem to be solving everything in the constructor.
-    maybe I should get rid of them? 
-  */
-
   static defaultProps = {
     note: {
       id: null,
@@ -68,15 +62,41 @@ export default class Edit extends Component {
 
   constructor(props) {
     super(props)
+    this.timer = null
+
     const { id, body, tagIDs, newTags } = props.note
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
-      id,
+      id: id || uid(),
       inputBody: body || '',
       tagIDs: tagIDs || [],
       newTags: newTags || [],
     }
+  }
+
+  componentWillUnmount() {
+    this.autoSaveHandler()
+  }
+
+  changeHandler = value => {
+    this.setState({
+      hasChanged: true,
+      inputBody: value,
+    })
+  }
+  
+  autoSaveHandler = (delay=0) => {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      console.log('saving...')
+      this.props.onSubmit(
+        this.state.id,
+        this.state.inputBody,
+        this.state.tagIDs,
+        this.state.newTags,
+      )
+    }, delay)
   }
 
   pickTag = id => {
@@ -88,6 +108,24 @@ export default class Edit extends Component {
       ],
       hasTopic: this.getHasTopic()
     })
+    this.autoSaveHandler()
+  }
+
+  addNewTag = (tagName, isTopic) => {
+    const newTagID = uid()
+
+    this.setState({
+      hasChanged: true,
+      newTags: [
+        ...this.state.newTags,
+        {
+          id: newTagID,
+          topic: isTopic,
+          name: tagName
+        }
+      ]
+    })
+    this.autoSaveHandler()
   }
 
   getNoteTags () {
@@ -106,54 +144,11 @@ export default class Edit extends Component {
     return this.getNoteTags().filter(tag => tag.topic).length > 0
   }
 
-  addNewTag = (tagName, isTopic) => {
-    const newTagID = uid()
-
-    this.setState({
-      hasChanged: true,
-      newTags: [
-        ...this.state.newTags,
-        {
-          id: newTagID,
-          topic: isTopic,
-          name: tagName
-        }
-      ]
-    })
-  }
-
-  submitHandler = () => {
-    if (this.state.inputBody !== '') {
-      this.props.onSubmit(
-        this.state.id,
-        this.state.inputBody,
-        this.state.tagIDs,
-        this.state.newTags,
-      )
-      this.state.createMode || this.setState({ redirect: true })
-      this.state.createMode && this.setState({
-        inputBody: '',
-        tagIDs: [],
-        newTags: []
-      })
-    }
-  }
-
-  allowSaving () {
-    return this.state.hasChanged && this.state.inputBody !== '' ? true : false
-  }
-
-  conditionalRedirect () {
-    if (this.state.redirect) {
-      return <Redirect to={this.nextRoute} />
-    }
-  }
-
   render () {
     const { createMode } = this.state
     return (
       <PageWrapper>
-        {this.conditionalRedirect()}
+        {/* {this.conditionalRedirect()} */}
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={this.getNoteTags()} />
@@ -171,10 +166,10 @@ export default class Edit extends Component {
               lineWrapping: 'true',
             }}
             onBeforeChange={(editor, data, value) => {
-              this.setState({ inputBody: value })
+              this.changeHandler(value)
             }}
             onChange={(editor, data, value) => {
-              this.setState({ hasChanged: true, inputBody: value })
+              this.autoSaveHandler(1200)
             }}
           />
         </Main>
@@ -186,10 +181,6 @@ export default class Edit extends Component {
           <Link to={'/note/' + this.state.id}>
             <TextButton label="View this note" />
           </Link> }
-          <TextButton
-            label={createMode ? 'Submit' : 'Save'}
-            onClick={this.submitHandler}
-            isActive={this.allowSaving()} />
         </Footer>
       </PageWrapper >
     )
