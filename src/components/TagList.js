@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import * as color from './res/colors'
 
 const TagListWrapper = styled.div`
-  margin: 0px 0px 8px;
+  margin: 0 0 8px;
   overflow-x: wrap;
 `
 
