@@ -33,6 +33,11 @@ class App extends Component {
     tags: this.loadTags(),
   }
 
+  componentDidUpdate() {
+    this.saveNotes()
+    this.saveTags()
+  }
+
   saveNote = (id, body, tagIDs, newTags) => {
     const { notes } = this.state
     const index = notes.findIndex(item => item.id === id)
@@ -83,37 +88,24 @@ class App extends Component {
     localStorage.setItem('Notestack-Tags', JSON.stringify(this.state.tags))
   }
 
-  saveKeywords () {
-    localStorage.setItem('Notestack-Keywords', JSON.stringify(this.state.keywords))
-  }
-
   loadNotes () {
-    try {
-      return JSON.parse(localStorage.getItem('Notestack')) || dummyNotes
-    } catch (err) {
-      return dummyNotes
-    }
+    return this.loadFromLocalStorage('Notestack', dummyNotes)
   }
 
-  loadTags () {
-    try {
-      return JSON.parse(localStorage.getItem('Notestack-Tags')) || dummyTags
-    } catch (err) {
-      return dummyTags
-    }
+  loadTags() {
+    return this.loadFromLocalStorage('Notestack-Tags', dummyTags)
   }
 
-  loadKeywords () {
+  loadFromLocalStorage (itemName, fallBack) {
+    console.log('loading', itemName, fallBack)
     try {
-      return JSON.parse(localStorage.getItem('Notestack-Keywords')) || []
+      return JSON.parse(localStorage.getItem(itemName)) || fallBack
     } catch (err) {
-      return []
+      return fallBack
     }
   }
 
   render () {
-    this.saveNotes()
-    this.saveTags()
     return (
       <Router>
         <React.Fragment>

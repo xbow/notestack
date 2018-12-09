@@ -25,8 +25,10 @@ export default class TagBrowser extends Component {
   render () {
     const { tags } = this.props
     const tagsInAlphabeticalOrder = tags.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
-      if (a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+      a = a.name.toLowerCase()
+      b = b.name.toLowerCase()
+      if (a < b) { return -1 }
+      if (a > b) { return 1 }
       return 0;
     })
 
