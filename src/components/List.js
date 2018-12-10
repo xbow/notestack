@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import Status from './Status'
 import Menu from './Menu'
 import Card from './Card'
 import Icon from './Icon'
@@ -57,16 +58,6 @@ const Main = styled.main`
   padding: 0;    
 `
 
-const Status = styled.aside`
-  display: flex;
-  align-items: flex-end;
-  padding: 5px 5px;
-  border-bottom: 1px solid ${color.lineLight};
-  color: ${color.lightText};
-  box-shadow: 0 12px 12px -12px ${color.lineLight};
-`
-
-
 const EmptyMessage = styled.div`
   padding: 65px 5px;
   text-align: center;
@@ -83,7 +74,6 @@ const CreateButton = styled.div`
     fill: ${color.background};
   }
 `
-
 
 export default class List extends Component {
 
