@@ -12,7 +12,7 @@ const TagInputWrapper = styled.div`
 const TagInputElement = styled.input`
     font-size: 1em;
     outline: none;
-    min-width: 180px;
+    width: 176px;
     border: 1px solid ${color.active};
     margin: 0 2px;
     padding: 2px 8px;
@@ -23,7 +23,7 @@ const TagInputElement = styled.input`
 const SuggestionsWrapper = styled.div`
   position: absolute;
   z-index: 3;
-  min-width: 184px;
+  width: 176px;
   background: ${color.white};
   border: 1px solid ${color.lineDark};
   margin: 0 2px;

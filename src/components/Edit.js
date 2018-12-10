@@ -154,7 +154,7 @@ export default class Edit extends Component {
         {/* {this.conditionalRedirect()} */}
         <Status className="status">Status</Status>
         <div className="taglist">
-          <TagList tags={this.getNoteTags()} />
+          <TagList className="note-page" tags={this.getNoteTags()} />
           <TagInput
             hasTopic={this.getHasTopic()}
             suggestableTags={this.getSuggestableTags()}

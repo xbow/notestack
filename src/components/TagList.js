@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { breakpoint, maxWidth, overWidth } from './res/breakpoint'
 import * as color from './res/colors'
 
 const TagListWrapper = styled.div`
-  margin: 0px 0px 8px;
-  overflow-x: wrap;
+  margin: 0 0 8px;
+  display: flex;
+  flex-wrap: wrap;
+
+  @media screen and (min-width: ${breakpoint}) {
+  &&.note-page {
+  flex-direction: column;
+  margin: 24px 0 12px;
+  }
+}
 `
 
-
 const Topic = styled.span`
+  align-self: flex-end;
   margin: 2px;
   padding: 2px 8px;
   border-radius: 3px;
@@ -18,7 +27,7 @@ const Topic = styled.span`
 `
 
 const Keyword = styled.span`
-  display: inline-block;
+  align-self: flex-end;
   margin: 2px;
   padding: 2px 8px;
   border-radius: 3px;
@@ -30,7 +39,7 @@ export default class TagList extends Component {
   render () {
     const { tags = [] } = this.props
     return (
-      <TagListWrapper>
+      <TagListWrapper className={this.props.className}>
         {tags.filter(tag => tag.topic).map(tag => (
           <Topic key={tag.id}>
             {tag.name}

@@ -7,6 +7,7 @@ export default styled.div`
   max-width: ${maxWidth};
   margin: 0 auto;
   display: grid;
+  grid-gap: 5px;
   grid-template-areas: "status"
                        "taglist"
                        "main"

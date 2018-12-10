@@ -39,7 +39,7 @@ export default class View extends Component {
       <Wrapper>
         <Status className="status">Status</Status>
         <aside className="taglist">
-          <TagList tags={tags} />
+          <TagList className="note-page" tags={tags} />
         </aside>
         <Main className="main">
           <ReactMarkdown
