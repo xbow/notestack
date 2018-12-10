@@ -8,10 +8,14 @@ import Menu from './Menu'
 import NewNoteFooter from './NewNoteFooter'
 import Card from './Card'
 import TextButton from './TextButton'
+import Icon from './Icon'
 import { breakpoint } from './res/breakpoint'
+import * as color from './res/colors'
 
 const Wrapper = styled.div`
   height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   grid-template-areas: "menu"
                        "status"
@@ -22,6 +26,8 @@ const Wrapper = styled.div`
     grid-template-areas: "menu status"
                          "menu main"
                          "footer footer";
+
+    grid-template-rows: 40px auto 0;
   }
 
   & .menu {
@@ -30,7 +36,12 @@ const Wrapper = styled.div`
 
   & .status {
     grid-area: status;
-    background: lime;
+    margin: auto 5px 0;
+    padding-bottom: 5px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: ${color.lineLight};
+    color: ${color.lightText};
   }
 
   & .main {
@@ -41,7 +52,7 @@ const Wrapper = styled.div`
 
   & .footer {
     grid-area: footer;
-    background: hotpink;
+    position: relative;  
   }
 `
 
@@ -54,6 +65,19 @@ const EmptyMessage = styled.div`
   text-align: center;
 `
 
+const CreateButton = styled.div`
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+
+  & svg {
+    height: 42px;
+    width: 42px;
+    fill: ${color.background};
+  }
+`
+
+
 export default class List extends Component {
 
   static propTypes = {
@@ -65,7 +89,7 @@ export default class List extends Component {
     {
       icon: 'plus-circle',
       link: '/create',
-      label: 'Create Note'
+      label: 'Create note'
     },
     {
       icon: 'tag',
@@ -75,7 +99,7 @@ export default class List extends Component {
     {
       icon: 'trash',
       link: '/trash',
-      label: 'Show trash'
+      label: 'Inspect trash'
     }
   ]
 
@@ -91,12 +115,13 @@ export default class List extends Component {
             ? items.map(item => <Card key={item.id} id={item.id} text={item.excerpt} tags={item.tags} />)
             : <EmptyMessage>no cards found</EmptyMessage>}
         </Main>
-        <div className="footer">Footer</div>
-        {/* <NewNoteFooter className="footer">
-          <Link to="/create">
-            <TextButton label="Create" />
-          </Link>
-        </NewNoteFooter> */}
+        <div className="footer">
+          <CreateButton>
+            <Link className="no-link" to="/create">
+              <Icon name="plus-circle" />
+            </Link>
+          </CreateButton>
+        </div>
       </Wrapper>
     )
   }

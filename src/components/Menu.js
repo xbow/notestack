@@ -10,10 +10,15 @@ import { breakpoint } from './res/breakpoint'
 const MenuWrapper = styled.nav`
   display: flex;
   flex-direction: row; 
+  margin: 12px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${color.lineLight};
 
   @media screen and (min-width: ${breakpoint}) {
     display: block;
     margin: 50px auto;
+    border: none;
 }
 `
 

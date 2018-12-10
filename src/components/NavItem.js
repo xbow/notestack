@@ -24,6 +24,16 @@ const NavItemWrapper = styled.div`
 const NavItemIcon = styled.span`
   display: inline-flex;
   align-self: center;
+
+  & > svg {
+    height: 32px;
+    width: 32px;
+
+    @media screen and (min-width: ${breakpoint}) {
+      height: 24px;
+      width: 24px;
+    }
+  }
 `
 
 const NavItemLabel = styled.span`
@@ -36,7 +46,6 @@ const NavItemLabel = styled.span`
     margin-right: 0;
   }
 `
-
 
 export default class Icon extends Component {
 
