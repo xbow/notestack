@@ -9,56 +9,66 @@ import NewNoteFooter from './NewNoteFooter'
 import Card from './Card'
 import TextButton from './TextButton'
 import Icon from './Icon'
-import { breakpoint } from './res/breakpoint'
+import { breakpoint, maxWidth, overWidth } from './res/breakpoint'
 import * as color from './res/colors'
 
 const Wrapper = styled.div`
   height: 100vh;
-  max-width: 1200px;
+  max-width: ${maxWidth};
   margin: 0 auto;
   display: grid;
   grid-template-areas: "menu"
                        "status"
                        "main"
                        "footer";
+  grid-template-rows: 48px 32px auto 0px;
   
   @media screen and (min-width: ${breakpoint}) {
-    grid-template-areas: "menu status"
+    grid-template-areas: ".    status"
                          "menu main"
                          "footer footer";
-
-    grid-template-rows: 40px auto 0;
+    grid-template-rows: 32px auto 0px;
+    padding: 0 24px;
+    grid-gap: 5px 48px;
   }
 
-  & .menu {
+  @media screen and (min-width: ${maxWidth}) {
+    padding-right: 9vw; 
+  }
+
+  .menu {
     grid-area: menu;
   }
 
-  & .status {
+  .status {
     grid-area: status;
-    margin: auto 5px 0;
-    padding-bottom: 5px;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: ${color.lineLight};
-    color: ${color.lightText};
   }
 
-  & .main {
+  .main {
     grid-area: main;
     overflow-y: scroll;
-    padding: 0 5px;
   }
 
-  & .footer {
+  .footer {
     grid-area: footer;
-    position: relative;  
+    position: relative;
+    background: deeppink;
   }
 `
 
 const Main = styled.main`
-
+  padding: 0;    
 `
+
+const Status = styled.aside`
+  display: flex;
+  align-items: flex-end;
+  padding: 5px 5px;
+  border-bottom: 1px solid ${color.lineLight};
+  color: ${color.lightText};
+  box-shadow: 0 12px 12px -12px ${color.lineLight};
+`
+
 
 const EmptyMessage = styled.div`
   padding: 65px 5px;
@@ -109,7 +119,7 @@ export default class List extends Component {
     return (
       <Wrapper>
         <Menu className="menu" navItems={this.navItems} />
-        <div className="status">Status</div>
+        <Status className="status">Status</Status>
         <Main className="main">
           {items
             ? items.map(item => <Card key={item.id} id={item.id} text={item.excerpt} tags={item.tags} />)

@@ -13,7 +13,7 @@ const NavItemWrapper = styled.div`
   @media screen and (min-width: ${breakpoint}) {
     display: flex;
     align-items: center;
-    margin: 8px;
+    margin: 8px 0;
     padding: 4px 12px;
     border-radius: 16px;
     background: ${color.paleHighlight};

@@ -10,15 +10,16 @@ import { breakpoint } from './res/breakpoint'
 const MenuWrapper = styled.nav`
   display: flex;
   flex-direction: row; 
-  margin: 12px;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: ${color.lineLight};
+  margin: 0;
+  border-bottom: 1px solid ${color.lineLight};
 
   @media screen and (min-width: ${breakpoint}) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     display: block;
-    margin: 50px auto;
-    border: none;
+    margin-top: 50px;
+    border-bottom: none;
 }
 `
 
@@ -40,7 +41,7 @@ export default class Navbar extends Component {
   render () {
     const navItems = this.props.items
     return (
-      <MenuWrapper className="menu">
+      <MenuWrapper className={this.props.className}>
         {this.renderNavItems()}
       </MenuWrapper>
     )
