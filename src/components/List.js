@@ -4,14 +4,49 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import PageWrapper from './PageWrapper'
-import Navbar from './Navbar'
+import Menu from './Menu'
 import NewNoteFooter from './NewNoteFooter'
 import Card from './Card'
 import TextButton from './TextButton'
+import { breakpoint } from './res/breakpoint'
+
+const Wrapper = styled.div`
+  height: 100vh;
+  display: grid;
+  grid-template-areas: "menu"
+                       "status"
+                       "main"
+                       "footer";
+  
+  @media screen and (min-width: ${breakpoint}) {
+    grid-template-areas: "menu status"
+                         "menu main"
+                         "footer footer";
+  }
+
+  & .menu {
+    grid-area: menu;
+  }
+
+  & .status {
+    grid-area: status;
+    background: lime;
+  }
+
+  & .main {
+    grid-area: main;
+    overflow-y: scroll;
+    padding: 0 5px;
+  }
+
+  & .footer {
+    grid-area: footer;
+    background: hotpink;
+  }
+`
 
 const Main = styled.main`
-  padding: 0 5px;
-  overflow-y: scroll;
+
 `
 
 const EmptyMessage = styled.div`
@@ -26,35 +61,43 @@ export default class List extends Component {
   }
 
 
-  navIcons = [
+  navItems = [
     {
-      name: 'tag',
-      link: '/tags'
+      icon: 'plus-circle',
+      link: '/create',
+      label: 'Create Note'
     },
     {
-      name: 'plus-circle',
-      link: '/create'
+      icon: 'tag',
+      link: '/tags',
+      label: 'Browse tags'
     },
+    {
+      icon: 'trash',
+      link: '/trash',
+      label: 'Show trash'
+    }
   ]
 
   render () {
     const { items } = this.props
 
     return (
-      <PageWrapper>
-        <Navbar icons={this.navIcons}></Navbar>
-        <Main>
+      <Wrapper>
+        <Menu className="menu" navItems={this.navItems} />
+        <div className="status">Status</div>
+        <Main className="main">
           {items
             ? items.map(item => <Card key={item.id} id={item.id} text={item.excerpt} tags={item.tags} />)
             : <EmptyMessage>no cards found</EmptyMessage>}
         </Main>
-        <NewNoteFooter>
+        <div className="footer">Footer</div>
+        {/* <NewNoteFooter className="footer">
           <Link to="/create">
             <TextButton label="Create" />
           </Link>
-        </NewNoteFooter>
-      </PageWrapper>
-
+        </NewNoteFooter> */}
+      </Wrapper>
     )
   }
 }

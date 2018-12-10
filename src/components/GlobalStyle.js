@@ -19,17 +19,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-header, footer {
-  & a {
-    text-decoration: none;
-  }
+a.no-link {
+  text-decoration: none;
 
-  & a, a:link, a:visited {
+  :link, :visited {
     color: inherit;
     cursor: default;
   }
 
-  & a:hover {
+  :hover {
     color: deeppink;
     cursor: default;
   }
