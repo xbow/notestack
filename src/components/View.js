@@ -3,17 +3,22 @@ import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 
-import PageWrapper from './PageWrapper'
+import Wrapper from './NoteWrapper'
+import Status from './Status'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import TextButton from './TextButton'
 import TagList from './TagList'
+import Icon from './Icon'
+import LeftButton from './LeftButton'
+import EditButton from './EditButton'
+
 
 const Main = styled.main`
   padding: 0 5px;
   overflow-y: scroll;
+  position: relative;
 `
-
 
 export default class View extends Component {
 
@@ -31,23 +36,29 @@ export default class View extends Component {
   render () {
     const { note, tags } = this.props
     return (
-      <PageWrapper>
-        <Navbar icons={this.navIcons} />
-        <Main>
+      <Wrapper>
+        <Status className="status">Status</Status>
+        <aside className="taglist">
           <TagList tags={tags} />
+        </aside>
+        <Main className="main">
           <ReactMarkdown
             source={note.body}
           />
+          <EditButton>
+            <Link className="no-link" to={'/edit/' + note.id}>
+              <Icon name="edit" />
+            </Link>
+          </EditButton>
         </Main>
-        <Footer>
-          <Link to="/list">
-            <TextButton label="List notes" />
-          </Link>
-          <Link to={'/edit/' + note.id}>
-            <TextButton label="Edit this note" />
-          </Link>
-        </Footer>
-      </PageWrapper>
+        <footer className="footer">
+          <LeftButton>
+            <Link className="no-link" to="/list">
+              <Icon name="back" />
+            </Link>
+          </LeftButton>
+        </footer>
+      </Wrapper>
     )
   }
 }

@@ -7,28 +7,31 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 import PropTypes from 'prop-types'
 import * as color from './res/colors'
 
+import Wrapper from './NoteWrapper'
+import Icon from './Icon'
 import PageWrapper from './PageWrapper'
+import Status from './Status'
 import Navbar from './Navbar'
-import Footer from './Footer'
 import TextButton from './TextButton'
 import TagInput from './TagInput'
 import TagList from './TagList'
+import LeftButton from './LeftButton'
+import RightButton from './RightButton'
 
 require('codemirror/mode/markdown/markdown.js');
 require('./res/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 
+
+
 const Main = styled.main`
   padding: 5px;
+  margin-bottom: 48px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   overflow-y: scroll;
-`
-
-const Left = styled.span`
-  margin-right: auto;
 `
 
 export default class Edit extends Component {
@@ -75,7 +78,7 @@ export default class Edit extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.autoSaveHandler()
   }
 
@@ -85,8 +88,8 @@ export default class Edit extends Component {
       inputBody: value,
     })
   }
-  
-  autoSaveHandler = (delay=0) => {
+
+  autoSaveHandler = (delay = 0) => {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       console.log('saving...')
@@ -147,10 +150,10 @@ export default class Edit extends Component {
   render () {
     const { createMode } = this.state
     return (
-      <PageWrapper>
+      <Wrapper>
         {/* {this.conditionalRedirect()} */}
-        <Navbar icons={this.navIcons} />
-        <Main>
+        <Status className="status">Status</Status>
+        <div className="taglist">
           <TagList tags={this.getNoteTags()} />
           <TagInput
             hasTopic={this.getHasTopic()}
@@ -159,6 +162,8 @@ export default class Edit extends Component {
             onPick={this.pickTag}
             addNewTag={this.addNewTag}
           />
+        </div>
+        <Main className="main">
           <CodeMirror
             value={this.state.inputBody}
             options={{
@@ -173,16 +178,20 @@ export default class Edit extends Component {
             }}
           />
         </Main>
-        <Footer>
-          <Link to="/list">
-            <TextButton label="List notes" />
-          </Link>
-          { this.state.id &&
-          <Link to={'/note/' + this.state.id}>
-            <TextButton label="View this note" />
-          </Link> }
-        </Footer>
-      </PageWrapper >
+        <footer className="footer">
+          <LeftButton>
+            <Link className="no-link" to="/list">
+              <Icon name="back" />
+            </Link>
+          </LeftButton>
+          {this.state.id &&
+            <RightButton>
+              <Link className="no-link" to={'/note/' + this.state.id}>
+                <Icon name="view" />
+              </Link>
+            </RightButton>}
+        </footer>
+      </Wrapper>
     )
   }
 }

@@ -7,6 +7,7 @@ import Status from './Status'
 import Menu from './Menu'
 import Card from './Card'
 import Icon from './Icon'
+import CreateButton from './CreateButton'
 import { breakpoint, maxWidth, overWidth } from './res/breakpoint'
 import * as color from './res/colors'
 
@@ -61,18 +62,6 @@ const Main = styled.main`
 const EmptyMessage = styled.div`
   padding: 65px 5px;
   text-align: center;
-`
-
-const CreateButton = styled.div`
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-
-  & svg {
-    height: 42px;
-    width: 42px;
-    fill: ${color.background};
-  }
 `
 
 export default class List extends Component {
