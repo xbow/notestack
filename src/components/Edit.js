@@ -72,13 +72,9 @@ export default class Edit extends Component {
       hasChanged: false,
       createMode: !props.note.id,
       id,
-<<<<<<< HEAD
-      inputBody: body
-=======
       inputBody: body,
       tagIDs: tagIDs || [],
       newTags: newTags || [],
->>>>>>> tags
     }
   }
 
