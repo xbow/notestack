@@ -12,6 +12,10 @@ import TagList from './TagList'
 const Main = styled.main`
   padding: 5px;
   overflow-y: scroll;
+
+  code {
+    font-size: 125%;
+  }
 `
 
 const Left = styled.span`

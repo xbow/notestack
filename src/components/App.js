@@ -68,11 +68,11 @@ class App extends Component {
   }
 
   getExcerpts = () => {
-    const first14Words = /(([^\s]+\s\s*){14})(.*)/s
+    const firstNWords = /(([^\s]+\s\s*){28})(.*)/s
     return this.state.notes.map(note => {
       return {
         id: note.id,
-        excerpt: note.body.replace(first14Words, "$1…"),
+        excerpt: note.body.replace(firstNWords, "$1…"),
         tags: note.tagIDs ? note.tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID)) : []
       }
     })
