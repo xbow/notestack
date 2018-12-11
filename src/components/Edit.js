@@ -62,25 +62,80 @@ export default class Edit extends Component {
 
   constructor(props) {
     super(props)
+    this.timer = null
+
     const { id, body, tagIDs, newTags } = props.note
     this.state = {
-      hasChanged: false,
       createMode: !props.note.id,
-      id: id || null,
+      id: id || uid(),
       inputBody: body || '',
       tagIDs: tagIDs || [],
       newTags: newTags || [],
     }
   }
 
+  componentWillUnmount () {
+    this.state.inputBody !== '' && this.saveNoteToApp()
+  }
+
+  changeHandler = value => {
+    this.setState({
+      inputBody: value,
+    }, () => this.autoSaveHandler(1200))
+  }
+
+  autoSaveHandler = (delay = 0) => {
+    const { inputBody, tagIDs, newTags } = this.state
+    clearTimeout(this.timer)
+    if (inputBody !== '') {
+      this.timer = setTimeout(() => {
+        console.log('saving...')
+        this.saveNoteToApp()
+        this.updateOwnState(tagIDs, newTags)
+      }, delay)
+    }
+  }
+
+  saveNoteToApp = () => {
+    const { id, inputBody, tagIDs, newTags } = this.state
+    this.props.onSubmit(
+      id,
+      inputBody,
+      tagIDs,
+      newTags,
+    )
+  }
+
+  updateOwnState (tagIDs, newTags) {
+    const newTagIDs = newTags.map(tag => tag.id)
+    const updatedTagIDs = tagIDs.concat(newTagIDs)
+    this.setState({
+      newTags: [],
+      tagIDs: updatedTagIDs,
+    })
+  }
+
   pickTag = id => {
     this.setState({
-      hasChanged: true,
       tagIDs: [
         ...this.state.tagIDs,
         id
       ],
-    })
+      hasTopic: this.getHasTopic()
+    }, () => this.autoSaveHandler())
+  }
+
+  addNewTag = (tagName, isTopic) => {
+    this.setState({
+      newTags: [
+        ...this.state.newTags,
+        {
+          id: uid(),
+          topic: isTopic,
+          name: tagName
+        }
+      ]
+    }, () => this.autoSaveHandler())
   }
 
   getNoteTags () {
@@ -95,61 +150,20 @@ export default class Edit extends Component {
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
-  getIfTopicInNoteTags () {
+  getHasTopic () {
     return this.getNoteTags().filter(tag => tag.topic).length > 0
-  }
-
-  addNewTag = (tagName, isTopic) => {
-    this.setState({
-      hasChanged: true,
-      newTags: [
-        ...this.state.newTags,
-        {
-          id: uid(),
-          topic: isTopic,
-          name: tagName
-        }
-      ]
-    })
-  }
-
-  submitHandler = () => {
-    if (this.state.inputBody !== '') {
-      this.props.onSubmit(
-        this.state.id,
-        this.state.inputBody,
-        this.state.tagIDs,
-        this.state.newTags,
-      )
-      this.state.createMode || this.setState({ redirect: true })
-      this.state.createMode && this.setState({
-        inputBody: '',
-        tagIDs: [],
-        newTags: []
-      })
-    }
-  }
-
-  allowSaving () {
-    return this.state.hasChanged && this.state.inputBody !== '' ? true : false
-  }
-
-  conditionalRedirect () {
-    if (this.state.redirect) {
-      return <Redirect to={this.nextRoute} />
-    }
   }
 
   render () {
     const { createMode } = this.state
     return (
       <PageWrapper>
-        {this.conditionalRedirect()}
+        {/* {this.conditionalRedirect()} */}
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={this.getNoteTags()} />
           <TagInput
-            hasTopic={this.getIfTopicInNoteTags()}
+            hasTopic={this.getHasTopic()}
             suggestableTags={this.getSuggestableTags()}
             appliedTags={this.getNoteTags()}
             onPick={this.pickTag}
@@ -162,25 +176,21 @@ export default class Edit extends Component {
               lineWrapping: 'true',
             }}
             onBeforeChange={(editor, data, value) => {
-              this.setState({ inputBody: value })
+              this.changeHandler(value)
             }}
             onChange={(editor, data, value) => {
-              this.setState({ hasChanged: true, inputBody: value })
+              this.autoSaveHandler(1200)
             }}
           />
         </Main>
         <Footer>
-          <Link to="/list">
+          <Left><Link to="/list">
             <TextButton label="List notes" />
-          </Link>
+          </Link></Left>
           {this.state.id &&
             <Link to={'/note/' + this.state.id}>
               <TextButton label="View this note" />
             </Link>}
-          <TextButton
-            label={createMode ? 'Submit' : 'Save'}
-            onClick={this.submitHandler}
-            isActive={this.allowSaving()} />
         </Footer>
       </PageWrapper >
     )

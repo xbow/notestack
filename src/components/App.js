@@ -48,9 +48,9 @@ class App extends Component {
     const tagIDsToSave = tagIDs.concat(newTagIDs)
 
     this.setState({
-      notes: id == null ? [
+      notes: index === -1 ? [
         {
-          id: uid(),
+          id,
           body,
           tagIDs: tagIDsToSave
         },
