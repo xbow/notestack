@@ -9,7 +9,6 @@ import TagList from './TagList'
 import * as color from './res/colors'
 
 const CardWrapper = styled.section`
-  position: relative;
   margin: 8px 0 0;
   border-bottom: 1px solid ${color.lineLight};
   padding: 8px 8px 14px;
@@ -23,24 +22,9 @@ const CardWrapper = styled.section`
     background: ${color.paleHighlight};
     border-color: ${color.active};
   }
-
-  :after {
-    content: '';
-    position: absolute;
-    height: 12px;
-    bottom: 14px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(255,255,255, 0.8), transparent); 
-  }
-
-  :hover:after {
-    background: linear-gradient(to top, ${color.paleHighlight}, transparent);
-  }
 `
 
 const CardContent = styled.div`
-  max-height: 132px;
   overflow: hidden;
   font-size: 0.95em;
 
@@ -68,6 +52,7 @@ export default class Card extends Component {
     const { text, id, tags } = this.props
 
     return (
+
       <CardWrapper>
         <Link to={'/note/' + id}>
           <TagList tags={tags} />
@@ -76,6 +61,7 @@ export default class Card extends Component {
           </CardContent>
         </Link>
       </CardWrapper>
+
     )
   }
 }
