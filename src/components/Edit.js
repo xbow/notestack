@@ -98,6 +98,10 @@ export default class Edit extends Component {
           tagIDs,
           newTags,
         )
+        this.setState({
+          newTags: [],
+          hasChanged: false
+        })
       }, delay)
     }
   }
