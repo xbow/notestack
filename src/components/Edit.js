@@ -76,7 +76,7 @@ export default class Edit extends Component {
   }
 
   componentWillUnmount () {
-    this.autoSaveHandler()
+    this.autoSaveHandler(0, true)
   }
 
   changeHandler = value => {
@@ -86,7 +86,7 @@ export default class Edit extends Component {
     })
   }
 
-  autoSaveHandler = (delay = 0) => {
+  autoSaveHandler = (delay = 0, unmount = false) => {
     const { hasChanged, id, inputBody, tagIDs, newTags } = this.state
     clearTimeout(this.timer)
     if (hasChanged && inputBody !== '') {
@@ -98,12 +98,19 @@ export default class Edit extends Component {
           tagIDs,
           newTags,
         )
-        this.setState({
-          newTags: [],
-          hasChanged: false
-        })
+        !unmount && this.updateOwnState(tagIDs, newTags)
       }, delay)
     }
+  }
+
+  updateOwnState (tagIDs, newTags) {
+    const newTagIDs = newTags.map(tag => tag.id)
+    const updatedTagIDs = tagIDs.concat(newTagIDs)
+    this.setState({
+      newTags: [],
+      tagIDs: updatedTagIDs,
+      hasChanged: false
+    })
   }
 
   pickTag = id => {
