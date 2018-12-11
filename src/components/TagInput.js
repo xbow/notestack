@@ -14,7 +14,7 @@ const TagInputElement = styled.input`
     outline: none;
     min-width: 180px;
     border: 1px solid ${color.active};
-    margin: 0 2px;
+    margin: 0 2px 12px;
     padding: 2px 8px;
     border-radius: 3px;
     background: inherit; 

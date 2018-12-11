@@ -9,6 +9,7 @@ const TagListWrapper = styled.div`
 
 
 const Topic = styled.span`
+  display: inline-block;
   margin: 2px;
   padding: 2px 8px;
   border-radius: 3px;

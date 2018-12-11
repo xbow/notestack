@@ -75,7 +75,7 @@ export default class Edit extends Component {
   }
 
   componentWillUnmount () {
-    this.saveNoteToApp()
+    this.state.inputBody !== '' && this.saveNoteToApp()
   }
 
   changeHandler = value => {
@@ -186,9 +186,9 @@ export default class Edit extends Component {
           />
         </Main>
         <Footer>
-          <Link to="/list">
+          <Left><Link to="/list">
             <TextButton label="List notes" />
-          </Link>
+          </Link></Left>
           {this.state.id &&
             <Link to={'/note/' + this.state.id}>
               <TextButton label="View this note" />

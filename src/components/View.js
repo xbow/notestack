@@ -10,10 +10,13 @@ import TextButton from './TextButton'
 import TagList from './TagList'
 
 const Main = styled.main`
-  padding: 0 5px;
+  padding: 5px;
   overflow-y: scroll;
 `
 
+const Left = styled.span`
+  margin-right: auto;
+`
 
 export default class View extends Component {
 
@@ -40,9 +43,11 @@ export default class View extends Component {
           />
         </Main>
         <Footer>
-          <Link to="/list">
-            <TextButton label="List notes" />
-          </Link>
+          <Left>
+            <Link to="/list">
+              <TextButton label="List notes" />
+            </Link>
+          </Left>
           <Link to={'/edit/' + note.id}>
             <TextButton label="Edit this note" />
           </Link>
