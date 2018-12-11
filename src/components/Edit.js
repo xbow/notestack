@@ -75,7 +75,7 @@ export default class Edit extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.autoSaveHandler()
   }
 
@@ -85,18 +85,21 @@ export default class Edit extends Component {
       inputBody: value,
     })
   }
-  
-  autoSaveHandler = (delay=0) => {
+
+  autoSaveHandler = (delay = 0) => {
+    const { hasChanged, id, inputBody, tagIDs, newTags } = this.state
     clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      console.log('saving...')
-      this.props.onSubmit(
-        this.state.id,
-        this.state.inputBody,
-        this.state.tagIDs,
-        this.state.newTags,
-      )
-    }, delay)
+    if (hasChanged && inputBody !== '') {
+      this.timer = setTimeout(() => {
+        console.log('saving...')
+        this.props.onSubmit(
+          id,
+          inputBody,
+          tagIDs,
+          newTags,
+        )
+      }, delay)
+    }
   }
 
   pickTag = id => {
@@ -177,10 +180,10 @@ export default class Edit extends Component {
           <Link to="/list">
             <TextButton label="List notes" />
           </Link>
-          { this.state.id &&
-          <Link to={'/note/' + this.state.id}>
-            <TextButton label="View this note" />
-          </Link> }
+          {this.state.id &&
+            <Link to={'/note/' + this.state.id}>
+              <TextButton label="View this note" />
+            </Link>}
         </Footer>
       </PageWrapper >
     )
