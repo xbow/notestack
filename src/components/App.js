@@ -4,6 +4,7 @@ import uid from 'uid';
 
 import List from './List.js'
 import Edit from './Edit.js'
+import TagBrowser from './TagBrowser.js'
 
 // foo
 
@@ -19,28 +20,51 @@ let dummyNotes = [
   { id: uid(), body: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. ' },
 ]
 
+let dummyTags = [
+  { id: 'dummyTopic1', topic: true, name: 'Foo' },
+  { id: 'dummyTopic2', topic: true, name: 'Fritz' },
+  { id: 'dummyTopic3', topic: true, name: 'Brobnar' },
+  { id: 'dummyTopic4', topic: true, name: 'Five' },
+  { id: 'dummyTopic5', topic: true, name: 'Badabam' },
+  { id: 'dummyKwd1', topic: false, name: 'JavaScript' },
+  { id: 'dummyKwd2', topic: false, name: 'JellyBeans' },
+  { id: 'dummyKwd3', topic: false, name: 'Jerry' },
+  { id: 'dummyKwd4', topic: false, name: 'June' },
+]
+
 class App extends Component {
 
   state = {
-    notes: this.load()
+    notes: this.loadNotes(),
+    tags: this.loadTags(),
+    keywords: this.loadKeywords(),
   }
 
-  saveNote = (id, body) => {
+  saveNote = (id, body, tagIDs, newTags) => {
     const { notes } = this.state
     const index = notes.findIndex(item => item.id === id)
+    const newTagIDs = newTags.map(tag => tag.id)
+    const tagIDsToSave = tagIDs.concat(newTagIDs)
+
+    console.log('saving note: tagIDs, newTags ', tagIDs, newTags)
 
     this.setState({
       notes: id == null ? [
         {
           id: uid(),
-          body
+          body,
+          tagIDs: tagIDsToSave
         },
         ...notes
       ] : [
           ...notes.slice(0, index),
-          { ...notes[index], body },
+          { ...notes[index], body, tagIDs: tagIDsToSave },
           ...notes.slice(index + 1)
-        ]
+        ],
+      tags: newTags > 0 ? [
+        newTags,
+        ...this.state.tags
+      ] : [...this.state.tags]
     })
   }
 
@@ -59,11 +83,15 @@ class App extends Component {
     return this.state.notes[index]
   }
 
-  save () {
+  saveNotes () {
     localStorage.setItem('Notestack', JSON.stringify(this.state.notes))
   }
 
-  load () {
+  saveTags () {
+    localStorage.setItem('Notestack-Tags', JSON.stringify(this.state.tags))
+  }
+
+  loadNotes () {
     try {
       return JSON.parse(localStorage.getItem('Notestack')) || dummyNotes
     } catch (err) {
@@ -71,19 +99,37 @@ class App extends Component {
     }
   }
 
+  loadTags () {
+    try {
+      return JSON.parse(localStorage.getItem('Notestack-Tags')) || dummyTags
+    } catch (err) {
+      return dummyTags
+    }
+  }
+
+  loadKeywords () {
+    try {
+      return JSON.parse(localStorage.getItem('Notestack-Keywords')) || []
+    } catch (err) {
+      return []
+    }
+  }
+
   render () {
-    this.save()
+    this.saveNotes()
+    this.saveTags()
     return (
       <Router>
         <React.Fragment>
           <Route exact path="/" render={() => <List items={this.getExcerpts()} />} />
           <Route path="/list" render={() => <List items={this.getExcerpts()} />} />
-          <Route path="/create" render={() => <Edit onSubmit={this.saveNote} />} />
+          <Route path="/create" render={() => <Edit tags={this.state.tags} onSubmit={this.saveNote} />} />
           <Route
             path="/edit/:id"
-            render={({ match }) => <Edit note={this.getNoteById(match.params.id)}
+            render={({ match }) => <Edit tags={this.state.tags} note={this.getNoteById(match.params.id)}
               onSubmit={this.saveNote} />}
           />
+          <Route path="/tags" render={() => <TagBrowser tags={this.state.tags} />} />
         </React.Fragment>
       </Router>
     )

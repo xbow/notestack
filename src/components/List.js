@@ -28,6 +28,10 @@ export default class List extends Component {
 
   navIcons = [
     {
+      name: 'tag',
+      link: '/tags'
+    },
+    {
       name: 'plus-circle',
       link: '/create'
     },
