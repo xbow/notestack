@@ -3,18 +3,17 @@ import styled from 'styled-components'
 import * as color from './res/colors'
 
 const TagListWrapper = styled.div`
-  margin: 0px 0px 8px;
+  margin: 0 0 8px;
   overflow-x: wrap;
 `
-
 
 const Topic = styled.span`
   margin: 2px;
   padding: 2px 8px;
   border-radius: 3px;
-  background: purple;
-  border: 1px solid purple;
-  color: lavender;
+  background: ${color.activeBackground};
+  border: 1px solid ${color.activeBackground};
+  color: ${color.white};
 `
 
 const Keyword = styled.span`
@@ -29,13 +28,20 @@ const Keyword = styled.span`
 export default class TagList extends Component {
   render () {
     const { tags = [] } = this.props
-    console.log('Taglist render', tags)
     return (
 
       <TagListWrapper>
-        {tags.map(tag => {
-          return <Topic key={tag.id}>{tag.name}</Topic>
-        })}
+        {tags.filter(tag => tag.topic).map(tag => (
+          <Topic key={tag.id}>
+            {tag.name}
+          </Topic>
+        ))}
+        {tags.filter(tag => !tag.topic).map(tag => (
+          <Keyword key={tag.id}>
+            {tag.name}
+          </Keyword>
+        ))}
+
       </TagListWrapper>
     )
   }

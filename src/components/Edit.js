@@ -15,6 +15,8 @@ import TagList from './TagList'
 
 const Main = styled.main`
   padding: 5px;
+  display: flex;
+  flex-direction: column;
 `
 
 const Textarea = styled.textarea`
@@ -71,8 +73,8 @@ export default class Edit extends Component {
     this.state = {
       hasChanged: false,
       createMode: !props.note.id,
-      id,
-      inputBody: body,
+      id: id || null,
+      inputBody: body || '',
       tagIDs: tagIDs || [],
       newTags: newTags || [],
     }
@@ -84,7 +86,7 @@ export default class Edit extends Component {
       tagIDs: [
         ...this.state.tagIDs,
         id
-      ]
+      ],
     })
   }
 
@@ -100,21 +102,19 @@ export default class Edit extends Component {
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
-  addNewTag = tagName => {
-    const newTagID = uid()
+  getIfTopicInNoteTags () {
+    return this.getNoteTags().filter(tag => tag.topic).length > 0
+  }
 
+  addNewTag = (tagName, isTopic) => {
     this.setState({
       hasChanged: true,
-      tagIDs: [
-        ...this.state.tagIDs,
-        newTagID
-      ],
       newTags: [
         ...this.state.newTags,
         {
-          id: newTagID,
-          topic: false,
-          name: tagName,
+          id: uid(),
+          topic: isTopic,
+          name: tagName
         }
       ]
     })
@@ -138,6 +138,10 @@ export default class Edit extends Component {
     this.textArea.current.focus()
   }
 
+  allowSaving () {
+    return this.state.hasChanged && this.state.inputBody !== '' ? true : false
+  }
+
   conditionalRedirect () {
     if (this.state.redirect) {
       return <Redirect to={this.nextRoute} />
@@ -153,6 +157,7 @@ export default class Edit extends Component {
         <Main>
           <TagList tags={this.getNoteTags()} />
           <TagInput
+            hasTopic={this.getIfTopicInNoteTags()}
             suggestableTags={this.getSuggestableTags()}
             appliedTags={this.getNoteTags()}
             onPick={this.pickTag}
@@ -174,7 +179,7 @@ export default class Edit extends Component {
           <TextButton
             label={createMode ? 'Submit' : 'Save'}
             onClick={this.submitHandler}
-            isActive={this.state.hasChanged && this.state.inputBody !== ''} />
+            isActive={this.allowSaving()} />
         </Footer>
       </PageWrapper >
     )

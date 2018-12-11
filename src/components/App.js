@@ -21,15 +21,11 @@ let dummyNotes = [
 ]
 
 let dummyTags = [
-  { id: 'dummyTopic1', topic: true, name: 'Foo' },
-  { id: 'dummyTopic2', topic: true, name: 'Fritz' },
-  { id: 'dummyTopic3', topic: true, name: 'Brobnar' },
-  { id: 'dummyTopic4', topic: true, name: 'Five' },
-  { id: 'dummyTopic5', topic: true, name: 'Badabam' },
-  { id: 'dummyKwd1', topic: false, name: 'JavaScript' },
-  { id: 'dummyKwd2', topic: false, name: 'JellyBeans' },
-  { id: 'dummyKwd3', topic: false, name: 'Jerry' },
-  { id: 'dummyKwd4', topic: false, name: 'June' },
+  { id: uid(), topic: true, name: 'Foo' },
+  { id: uid(), topic: true, name: 'Fritz' },
+  { id: uid(), topic: true, name: 'Brobnar' },
+  { id: uid(), topic: true, name: 'Five' },
+  { id: uid(), topic: false, name: 'Badabam' },
 ]
 
 class App extends Component {
@@ -37,7 +33,11 @@ class App extends Component {
   state = {
     notes: this.loadNotes(),
     tags: this.loadTags(),
-    keywords: this.loadKeywords(),
+  }
+
+  componentDidUpdate () {
+    this.saveNotes()
+    this.saveTags()
   }
 
   saveNote = (id, body, tagIDs, newTags) => {
@@ -45,8 +45,6 @@ class App extends Component {
     const index = notes.findIndex(item => item.id === id)
     const newTagIDs = newTags.map(tag => tag.id)
     const tagIDsToSave = tagIDs.concat(newTagIDs)
-
-    console.log('saving note: tagIDs, newTags ', tagIDs, newTags)
 
     this.setState({
       notes: id == null ? [
@@ -61,19 +59,20 @@ class App extends Component {
           { ...notes[index], body, tagIDs: tagIDsToSave },
           ...notes.slice(index + 1)
         ],
-      tags: newTags > 0 ? [
-        newTags,
+      tags: [
+        ...newTags,
         ...this.state.tags
-      ] : [...this.state.tags]
+      ]
     })
   }
 
   getExcerpts = () => {
     const first14Words = /(([^\s]+\s\s*){14})(.*)/s
-    return this.state.notes.map(item => {
+    return this.state.notes.map(note => {
       return {
-        id: item.id,
-        excerpt: item.body.replace(first14Words, "$1…")
+        id: note.id,
+        excerpt: note.body.replace(first14Words, "$1…"),
+        tags: note.tagIDs ? note.tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID)) : []
       }
     })
   }
@@ -92,32 +91,23 @@ class App extends Component {
   }
 
   loadNotes () {
-    try {
-      return JSON.parse(localStorage.getItem('Notestack')) || dummyNotes
-    } catch (err) {
-      return dummyNotes
-    }
+    return this.loadFromLocalStorage('Notestack', dummyNotes)
   }
 
   loadTags () {
-    try {
-      return JSON.parse(localStorage.getItem('Notestack-Tags')) || dummyTags
-    } catch (err) {
-      return dummyTags
-    }
+    return this.loadFromLocalStorage('Notestack-Tags', dummyTags)
   }
 
-  loadKeywords () {
+  loadFromLocalStorage (itemName, fallBack) {
+    console.log('loading', itemName, fallBack)
     try {
-      return JSON.parse(localStorage.getItem('Notestack-Keywords')) || []
+      return JSON.parse(localStorage.getItem(itemName)) || fallBack
     } catch (err) {
-      return []
+      return fallBack
     }
   }
 
   render () {
-    this.saveNotes()
-    this.saveTags()
     return (
       <Router>
         <React.Fragment>

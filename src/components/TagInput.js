@@ -22,6 +22,7 @@ const TagInputElement = styled.input`
 
 const SuggestionsWrapper = styled.div`
   position: absolute;
+  z-index: 1;
   min-width: 184px;
   background: ${color.white};
   border: 1px solid ${color.lineDark};
@@ -44,13 +45,13 @@ export default class TagInput extends Component {
   }
 
   getSuggestions = value => {
-    const { suggestableTags } = this.props
-    console.log('suggestable tags', suggestableTags)
+    const { suggestableTags, hasTopic } = this.props
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
-    return inputLength === 0 ? [] : suggestableTags.filter(tag =>
-      tag.name.toLowerCase().slice(0, inputLength) === inputValue
-    )
+    const matchInputValue = tag => tag.name.toLowerCase().slice(0, inputLength) === inputValue
+    return inputLength === 0 ? [] : suggestableTags
+      .filter(tag => tag.topic !== hasTopic)
+      .filter(tag => matchInputValue(tag))
   }
 
   renderSuggestions = () => {
@@ -66,22 +67,29 @@ export default class TagInput extends Component {
     </SuggestionsWrapper>
   }
 
+  handleSubmitTag (event) {
+    const tagName = event.target.value
+    const alreadyApplied = this.props.appliedTags
+      .find(tag => tag.name === tagName && tag.topic !== this.props.hasTopic)
+    const matchingTag = this.props.suggestableTags
+      .find(tag => tag.name === tagName && tag.topic !== this.props.hasTopic)
+
+    !alreadyApplied && matchingTag && this.pickSuggestion(matchingTag.id)
+    !alreadyApplied && !matchingTag && this.addNewTag(tagName, !this.props.hasTopic)
+  }
+
   pickSuggestion = tagID => {
     this.props.onPick(tagID)
     this.resetInput()
   }
 
-  handleKeyDown = event => {
-    event.key === 'Enter' && this.handleSubmitTag(event)
+  addNewTag (tagName, isTopic) {
+    this.props.addNewTag(tagName, isTopic)
+    this.resetInput()
   }
 
-  handleSubmitTag (event) {
-    const tagName = event.target.value
-    const alreadyApplied = this.props.appliedTags.find(tag => tag.name === tagName)
-    const matchingTag = this.props.suggestableTags.find(tag => tag.name === tagName)
-
-    !alreadyApplied && matchingTag && this.pickSuggestion(matchingTag.id)
-    !alreadyApplied && !matchingTag && this.props.addNewTag(tagName) && this.resetInput()
+  handleKeyDown = event => {
+    event.key === 'Enter' && this.handleSubmitTag(event)
   }
 
   resetInput () {
@@ -106,12 +114,12 @@ export default class TagInput extends Component {
         <TagInputElement
           name="input-tag"
           ref={this.inputElement}
-          placeholder="Enter a keyword..."
+          placeholder={this.props.hasTopic ? 'Enter a keyword...' : 'Enter a topic...'}
           value={this.state.searchString}
           onKeyDown={this.handleKeyDown}
           onChange={this.onChangeHandler}
         />
-        {this.state.suggestions.length > 0 ? this.renderSuggestions() : ''}
+        {this.state.suggestions.length > 0 && this.renderSuggestions()}
       </TagInputWrapper>
     )
   }

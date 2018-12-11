@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import TagList from './TagList'
+
 import * as color from './res/colors'
 
 const CardWrapper = styled.section`
@@ -34,11 +36,12 @@ export default class Card extends Component {
 
   render () {
 
-    const { text, id } = this.props
+    const { text, id, tags } = this.props
 
     return (
       <CardWrapper>
         <Link to={'/edit/' + id}>
+          <TagList tags={tags} />
           <CardContent>{text}</CardContent>
         </Link>
       </CardWrapper>
