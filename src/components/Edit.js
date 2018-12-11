@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import uid from 'uid';
+import { Controlled as CodeMirror } from 'react-codemirror2'
 
 import PropTypes from 'prop-types'
 import * as color from './res/colors'
@@ -13,24 +14,17 @@ import TextButton from './TextButton'
 import TagInput from './TagInput'
 import TagList from './TagList'
 
+require('codemirror/mode/markdown/markdown.js');
+require('./res/codemirror.css');
+require('codemirror/theme/material.css');
+require('codemirror/theme/neat.css');
+
 const Main = styled.main`
   padding: 5px;
   display: flex;
   flex-direction: column;
-`
-
-const Textarea = styled.textarea`
-  height: 100%;
-  width: 100%;
-  font-size: 1em;
-  line-height: 1.5;
-  resize: none;
-  border: none;
-  background: ${color.background};
-
-  :focus {
-    outline: none;
-  }
+  justify-content: flex-start;
+  overflow-y: scroll;
 `
 
 const Left = styled.span`
@@ -39,7 +33,6 @@ const Left = styled.span`
 
 export default class Edit extends Component {
 
-  textArea = React.createRef()
   nextRoute = '/list'
   navIcons = [
     {
@@ -135,7 +128,6 @@ export default class Edit extends Component {
         newTags: []
       })
     }
-    this.textArea.current.focus()
   }
 
   allowSaving () {
@@ -163,19 +155,28 @@ export default class Edit extends Component {
             onPick={this.pickTag}
             addNewTag={this.addNewTag}
           />
-          <Textarea
-            ref={this.textArea}
+          <CodeMirror
             value={this.state.inputBody}
-            placeholder="Write a note..."
-            onChange={event => this.setState({ hasChanged: true, inputBody: event.target.value })}
+            options={{
+              mode: 'markdown',
+              lineWrapping: 'true',
+            }}
+            onBeforeChange={(editor, data, value) => {
+              this.setState({ inputBody: value })
+            }}
+            onChange={(editor, data, value) => {
+              this.setState({ hasChanged: true, inputBody: value })
+            }}
           />
         </Main>
         <Footer>
-          <Left>
-            <Link to="/list">
-              <TextButton label="List notes" />
-            </Link>
-          </Left>
+          <Link to="/list">
+            <TextButton label="List notes" />
+          </Link>
+          {this.state.id &&
+            <Link to={'/note/' + this.state.id}>
+              <TextButton label="View this note" />
+            </Link>}
           <TextButton
             label={createMode ? 'Submit' : 'Save'}
             onClick={this.submitHandler}

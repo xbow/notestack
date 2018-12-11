@@ -4,6 +4,7 @@ import uid from 'uid';
 
 import List from './List.js'
 import Edit from './Edit.js'
+import View from './View.js'
 import TagBrowser from './TagBrowser.js'
 
 // foo
@@ -77,9 +78,14 @@ class App extends Component {
     })
   }
 
-  getNoteById = (id) => {
+  getNoteById = id => {
     const index = this.state.notes.findIndex(item => item.id === id)
     return this.state.notes[index]
+  }
+
+  getTagsByNoteId = id => {
+    const tagIDs = this.getNoteById(id).tagIDs
+    if (tagIDs) return tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID))
   }
 
   saveNotes () {
@@ -113,6 +119,13 @@ class App extends Component {
         <React.Fragment>
           <Route exact path="/" render={() => <List items={this.getExcerpts()} />} />
           <Route path="/list" render={() => <List items={this.getExcerpts()} />} />
+          <Route
+            path="/note/:id"
+            render={({ match }) => <View
+              note={this.getNoteById(match.params.id)}
+              tags={this.getTagsByNoteId(match.params.id)}
+            />}
+          />
           <Route path="/create" render={() => <Edit tags={this.state.tags} onSubmit={this.saveNote} />} />
           <Route
             path="/edit/:id"
