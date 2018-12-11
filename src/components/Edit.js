@@ -90,16 +90,23 @@ export default class Edit extends Component {
   }
 
   autoSaveHandler = (delay = 0) => {
+    const { hasChanged, id, inputBody, tagIDs, newTags } = this.state
     clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      console.log('saving...')
-      this.props.onSubmit(
-        this.state.id,
-        this.state.inputBody,
-        this.state.tagIDs,
-        this.state.newTags,
-      )
-    }, delay)
+    if (hasChanged && inputBody !== '') {
+      this.timer = setTimeout(() => {
+        console.log('saving...')
+        this.props.onSubmit(
+          id,
+          inputBody,
+          tagIDs,
+          newTags,
+        )
+        this.setState({
+          newTags: [],
+          hasChanged: false
+        })
+      }, delay)
+    }
   }
 
   pickTag = id => {
