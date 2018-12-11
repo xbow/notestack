@@ -66,7 +66,6 @@ export default class Edit extends Component {
 
     const { id, body, tagIDs, newTags } = props.note
     this.state = {
-      hasChanged: false,
       createMode: !props.note.id,
       id: id || uid(),
       inputBody: body || '',
@@ -76,31 +75,35 @@ export default class Edit extends Component {
   }
 
   componentWillUnmount () {
-    this.autoSaveHandler(0, true)
+    this.saveNoteToApp()
   }
 
   changeHandler = value => {
     this.setState({
-      hasChanged: true,
       inputBody: value,
-    })
+    }, () => this.autoSaveHandler(1200))
   }
 
-  autoSaveHandler = (delay = 0, unmount = false) => {
-    const { hasChanged, id, inputBody, tagIDs, newTags } = this.state
+  autoSaveHandler = (delay = 0) => {
+    const { inputBody, tagIDs, newTags } = this.state
     clearTimeout(this.timer)
-    if (hasChanged && inputBody !== '') {
+    if (inputBody !== '') {
       this.timer = setTimeout(() => {
         console.log('saving...')
-        this.props.onSubmit(
-          id,
-          inputBody,
-          tagIDs,
-          newTags,
-        )
-        !unmount && this.updateOwnState(tagIDs, newTags)
+        this.saveNoteToApp()
+        this.updateOwnState(tagIDs, newTags)
       }, delay)
     }
+  }
+
+  saveNoteToApp = () => {
+    const { id, inputBody, tagIDs, newTags } = this.state
+    this.props.onSubmit(
+      id,
+      inputBody,
+      tagIDs,
+      newTags,
+    )
   }
 
   updateOwnState (tagIDs, newTags) {
@@ -109,27 +112,23 @@ export default class Edit extends Component {
     this.setState({
       newTags: [],
       tagIDs: updatedTagIDs,
-      hasChanged: false
     })
   }
 
   pickTag = id => {
     this.setState({
-      hasChanged: true,
       tagIDs: [
         ...this.state.tagIDs,
         id
       ],
       hasTopic: this.getHasTopic()
-    })
-    this.autoSaveHandler()
+    }, () => this.autoSaveHandler())
   }
 
   addNewTag = (tagName, isTopic) => {
     const newTagID = uid()
 
     this.setState({
-      hasChanged: true,
       newTags: [
         ...this.state.newTags,
         {
@@ -138,8 +137,7 @@ export default class Edit extends Component {
           name: tagName
         }
       ]
-    })
-    this.autoSaveHandler()
+    }, () => this.autoSaveHandler())
   }
 
   getNoteTags () {
