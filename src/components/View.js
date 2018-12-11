@@ -16,6 +16,10 @@ const Main = styled.main`
   code {
     font-size: 125%;
   }
+
+  .Markdown {
+    line-height: 1.45;
+  }
 `
 
 const Left = styled.span`
@@ -42,7 +46,7 @@ export default class View extends Component {
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={tags} />
-          <ReactMarkdown
+          <ReactMarkdown className="Markdown"
             source={note.body}
           />
         </Main>

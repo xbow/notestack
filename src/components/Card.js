@@ -43,12 +43,16 @@ const CardContent = styled.div`
   max-height: 132px;
   overflow: hidden;
   font-size: 0.95em;
-  
-  h1 {
-    font-size: 1.15em;
-  }
-  h2, h3, h4, h5 {
-    font-size: 1.05em;
+
+  .Markdown {
+    line-height: 1.35;
+   
+    h1 {
+      font-size: 1.15em;
+    }
+    h2, h3, h4, h5 {
+      font-size: 1.05em;
+    }
   }
 `
 
@@ -68,7 +72,7 @@ export default class Card extends Component {
         <Link to={'/note/' + id}>
           <TagList tags={tags} />
           <CardContent>
-            <ReactMarkdown source={text} />
+            <ReactMarkdown className="Markdown" source={text} />
           </CardContent>
         </Link>
       </CardWrapper>
