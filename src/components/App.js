@@ -2,137 +2,88 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import uid from 'uid';
 
+import { configureStore } from 'redux-starter-kit'
+import reducer from '../duck/reducer'
+import { saveNote } from '../duck/actions'
+
 import List from './List.js'
 import Edit from './Edit.js'
 import View from './View.js'
 import TagBrowser from './TagBrowser.js'
 
-// foo
-
-let dummyNotes = [
-  { id: uid(), body: 'This is a placeholder note. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc, auctor vestibulum dignissim nec, consectetur ut tellus. In auctor venenatis luctus.' },
-  { id: uid(), body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.' },
-  { id: uid(), body: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. ' },
-  { id: uid(), body: 'This is a placeholder note. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc, auctor vestibulum dignissim nec, consectetur ut tellus. In auctor venenatis luctus.' },
-  { id: uid(), body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.' },
-  { id: uid(), body: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. ' },
-  { id: uid(), body: 'This is a placeholder note. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc, auctor vestibulum dignissim nec, consectetur ut tellus. In auctor venenatis luctus.' },
-  { id: uid(), body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.' },
-  { id: uid(), body: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. ' },
-]
-
-let dummyTags = [
-  { id: uid(), topic: true, name: 'Foo' },
-  { id: uid(), topic: true, name: 'Fritz' },
-  { id: uid(), topic: true, name: 'Brobnar' },
-  { id: uid(), topic: true, name: 'Five' },
-  { id: uid(), topic: false, name: 'Badabam' },
-]
+const store = configureStore({ reducer })
 
 class App extends Component {
 
-  state = {
-    notes: this.loadNotes(),
-    tags: this.loadTags(),
+  componentDidMount () {
+    store.subscribe(() => this.forceUpdate())
   }
 
   componentDidUpdate () {
-    this.saveNotes()
-    this.saveTags()
+    const state = store.getState()
+    this.saveNotes(state)
+    this.saveTags(state)
   }
 
   saveNote = (id, body, tagIDs, newTags) => {
-    const { notes } = this.state
-    const index = notes.findIndex(item => item.id === id)
-    const newTagIDs = newTags.map(tag => tag.id)
-    const tagIDsToSave = tagIDs.concat(newTagIDs)
-
-    this.setState({
-      notes: index === -1 ? [
-        {
-          id,
-          body,
-          tagIDs: tagIDsToSave
-        },
-        ...notes
-      ] : [
-          ...notes.slice(0, index),
-          { ...notes[index], body, tagIDs: tagIDsToSave },
-          ...notes.slice(index + 1)
-        ],
-      tags: [
-        ...newTags,
-        ...this.state.tags
-      ]
-    })
+    store.dispatch(saveNote({
+      id,
+      body,
+      tagIDs,
+      newTags
+    }))
   }
 
-  getExcerpts = () => {
+  getExcerpts = state => {
     const firstNWords = /(([^\s]+\s\s*){28})(.*)/s
-    return this.state.notes.map(note => {
+    return state.notes.map(note => {
       return {
         id: note.id,
         excerpt: note.body.replace(firstNWords, "$1…"),
-        tags: note.tagIDs ? note.tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID)) : []
+        tags: note.tagIDs ? note.tagIDs.map(tagID => state.tags.find(tag => tag.id === tagID)) : []
       }
     })
   }
 
-  getNoteById = id => {
-    const index = this.state.notes.findIndex(item => item.id === id)
-    return this.state.notes[index]
+  getNoteById = (id, state) => {
+    const index = state.notes.findIndex(item => item.id === id)
+    return state.notes[index]
   }
 
-  getTagsByNoteId = id => {
-    const tagIDs = this.getNoteById(id).tagIDs
-    if (tagIDs) return tagIDs.map(tagID => this.state.tags.find(tag => tag.id === tagID))
+  getTagsByNoteId = (id, state) => {
+    const tagIDs = this.getNoteById(id, state).tagIDs
+    if (tagIDs) return tagIDs.map(tagID => state.tags.find(tag => tag.id === tagID))
   }
 
-  saveNotes () {
-    localStorage.setItem('Notestack', JSON.stringify(this.state.notes))
+  saveNotes = state => {
+    localStorage.setItem('Notestack', JSON.stringify(state.notes))
   }
 
-  saveTags () {
-    localStorage.setItem('Notestack-Tags', JSON.stringify(this.state.tags))
-  }
-
-  loadNotes () {
-    return this.loadFromLocalStorage('Notestack', dummyNotes)
-  }
-
-  loadTags () {
-    return this.loadFromLocalStorage('Notestack-Tags', dummyTags)
-  }
-
-  loadFromLocalStorage (itemName, fallBack) {
-    console.log('loading', itemName, fallBack)
-    try {
-      return JSON.parse(localStorage.getItem(itemName)) || fallBack
-    } catch (err) {
-      return fallBack
-    }
+  saveTags = state => {
+    localStorage.setItem('Notestack-Tags', JSON.stringify(state.tags))
   }
 
   render () {
+    const state = store.getState()
     return (
       <Router>
         <React.Fragment>
-          <Route exact path="/" render={() => <List items={this.getExcerpts()} />} />
-          <Route path="/list" render={() => <List items={this.getExcerpts()} />} />
+          <Route exact path="/" render={() => <List items={this.getExcerpts(state)} />} />
+          <Route path="/list" render={() => <List items={this.getExcerpts(state)} />} />
           <Route
             path="/note/:id"
             render={({ match }) => <View
-              note={this.getNoteById(match.params.id)}
-              tags={this.getTagsByNoteId(match.params.id)}
+              note={this.getNoteById(match.params.id, state)}
+              tags={this.getTagsByNoteId(match.params.id, state)}
             />}
           />
-          <Route path="/create" render={() => <Edit tags={this.state.tags} onSubmit={this.saveNote} />} />
+          <Route path="/create" render={() => <Edit tags={state.tags} onSubmit={this.saveNote} />} />
           <Route
             path="/edit/:id"
-            render={({ match }) => <Edit tags={this.state.tags} note={this.getNoteById(match.params.id)}
+            render={({ match }) => <Edit tags={state.tags} note={this.getNoteById(match.params.id, state)}
               onSubmit={this.saveNote} />}
           />
-          <Route path="/tags" render={() => <TagBrowser tags={this.state.tags} />} />
+          <Route path="/tags" render={() => <TagBrowser tags={state.tags} />} />
         </React.Fragment>
       </Router>
     )
