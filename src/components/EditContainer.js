@@ -6,6 +6,7 @@ import { saveNote } from '../duck/actions'
 const mapStateToProps = (state, ownProps) => ({
   tags: state.tags,
   note: getNoteById(ownProps.noteID, state)
+
 })
 
 const mapDispatchToProps = {

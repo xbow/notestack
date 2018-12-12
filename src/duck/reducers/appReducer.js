@@ -1,5 +1,5 @@
 import { createReducer } from 'redux-starter-kit'
-import initialState from './initialState'
+import initialState from './appInitialState'
 
 const toggleIsArchived = (state, action) => {
   const noteID = action.payload

@@ -1,6 +1,5 @@
-import uid from 'uid';
-import reducer from './reducer'
-import * as actions from './actions'
+import reducer from './appReducer'
+import * as actions from '../actions'
 
 describe('reducer', () => {
   it('is true', () => {

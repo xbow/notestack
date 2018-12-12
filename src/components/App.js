@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import { configureStore } from 'redux-starter-kit'
-import reducer from '../duck/reducer'
+import reducer from '../duck/reducers/appReducer'
 import { Provider } from 'react-redux'
 
 import ListContainer from './ListContainer'

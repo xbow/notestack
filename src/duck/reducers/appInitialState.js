@@ -37,7 +37,6 @@ function loadFromLocalStorage (itemName, fallBack) {
 }
 
 export default {
-  editor: { noteID: '', inputBody: '', tagIDs: [], newTags: [] },
   notes: loadNotes(),
   tags: loadTags(),
 }
