@@ -86,6 +86,8 @@ describe('reducer', () => {
     })
   })
 
+
+  // missing: test if getHasTopic works.  
   it('can add a tagID', () => {
     const state = {
       id: '33',

@@ -50,7 +50,7 @@ const pickTag = (state, action) => {
       ...state.tagIDs,
       id
     ],
-    hasTopic: getHasTopic()
+    hasTopic: getHasTopic(state.tagIDs)
   })
 }
 
@@ -62,7 +62,7 @@ const addNewTag = (state, action) => {
       ...state.newTags,
       {
         id: uid(),
-        topic: isTopic,
+        isTopic,
         name: tagName
       }
     ]
