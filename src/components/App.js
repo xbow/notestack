@@ -5,11 +5,12 @@ import uid from 'uid';
 import { configureStore } from 'redux-starter-kit'
 import reducer from '../duck/reducer'
 import { saveNote } from '../duck/actions'
+import { Provider } from 'react-redux'
 
 import List from './List.js'
-import Edit from './Edit.js'
+import EditContainer from './EditContainer'
 import View from './View.js'
-import TagBrowser from './TagBrowser.js'
+import TagBrowserContainer from './TagBrowserContainer'
 
 const store = configureStore({ reducer })
 
@@ -66,26 +67,27 @@ class App extends Component {
   render () {
     const state = store.getState()
     return (
-      <Router>
-        <React.Fragment>
-          <Route exact path="/" render={() => <List items={this.getExcerpts(state)} />} />
-          <Route path="/list" render={() => <List items={this.getExcerpts(state)} />} />
-          <Route
-            path="/note/:id"
-            render={({ match }) => <View
-              note={this.getNoteById(match.params.id, state)}
-              tags={this.getTagsByNoteId(match.params.id, state)}
-            />}
-          />
-          <Route path="/create" render={() => <Edit tags={state.tags} onSubmit={this.saveNote} />} />
-          <Route
-            path="/edit/:id"
-            render={({ match }) => <Edit tags={state.tags} note={this.getNoteById(match.params.id, state)}
-              onSubmit={this.saveNote} />}
-          />
-          <Route path="/tags" render={() => <TagBrowser tags={state.tags} />} />
-        </React.Fragment>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <React.Fragment>
+            <Route exact path="/" render={() => <List items={this.getExcerpts(state)} />} />
+            <Route path="/list" render={() => <List items={this.getExcerpts(state)} />} />
+            <Route
+              path="/note/:id"
+              render={({ match }) => <View
+                note={this.getNoteById(match.params.id, state)}
+                tags={this.getTagsByNoteId(match.params.id, state)}
+              />}
+            />
+            <Route path="/create" render={() => <EditContainer />} />
+            <Route
+              path="/edit/:id"
+              render={({ match }) => <EditContainer noteID={match.params.id} />}
+            />
+            <Route path="/tags" render={() => <TagBrowserContainer />} />
+          </React.Fragment>
+        </Router>
+      </Provider>
     )
   }
 }
