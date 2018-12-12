@@ -7,9 +7,9 @@ import reducer from '../duck/reducer'
 import { saveNote } from '../duck/actions'
 import { Provider } from 'react-redux'
 
-import List from './List.js'
+import ListContainer from './ListContainer'
 import EditContainer from './EditContainer'
-import View from './View.js'
+import ViewContainer from './ViewContainer'
 import TagBrowserContainer from './TagBrowserContainer'
 
 const store = configureStore({ reducer })
@@ -24,15 +24,6 @@ class App extends Component {
     const state = store.getState()
     this.saveNotes(state)
     this.saveTags(state)
-  }
-
-  saveNote = (id, body, tagIDs, newTags) => {
-    store.dispatch(saveNote({
-      id,
-      body,
-      tagIDs,
-      newTags
-    }))
   }
 
   getExcerpts = state => {
@@ -70,14 +61,11 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <React.Fragment>
-            <Route exact path="/" render={() => <List items={this.getExcerpts(state)} />} />
-            <Route path="/list" render={() => <List items={this.getExcerpts(state)} />} />
+            <Route exact path="/" render={() => <ListContainer />} />
+            <Route path="/list" render={() => <ListContainer />} />
             <Route
               path="/note/:id"
-              render={({ match }) => <View
-                note={this.getNoteById(match.params.id, state)}
-                tags={this.getTagsByNoteId(match.params.id, state)}
-              />}
+              render={({ match }) => <ViewContainer noteID={match.params.id} />}
             />
             <Route path="/create" render={() => <EditContainer />} />
             <Route

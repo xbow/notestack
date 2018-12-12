@@ -1,5 +1,6 @@
 import Edit from './Edit'
 import { connect } from 'react-redux'
+import { getNoteById } from '../duck/selectors'
 import { saveNote } from '../duck/actions'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -12,8 +13,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit)
-
-const getNoteById = (id, state) => {
-  const index = state.notes.findIndex(item => item.id === id)
-  return state.notes[index]
-}

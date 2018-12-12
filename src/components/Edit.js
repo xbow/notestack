@@ -99,10 +99,12 @@ export default class Edit extends Component {
   saveNoteToApp = () => {
     const { id, inputBody, tagIDs, newTags } = this.state
     this.props.onSubmit(
-      id,
-      inputBody,
-      tagIDs,
-      newTags,
+      {
+        id,
+        body: inputBody,
+        tagIDs,
+        newTags,
+      }
     )
   }
 
