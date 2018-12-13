@@ -2,7 +2,7 @@ import TagBrowser from './TagBrowser'
 import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
-  tags: state.tags
+  tags: state.app.tags
 })
 
 export default connect(mapStateToProps)(TagBrowser)

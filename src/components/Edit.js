@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 
-import { configureStore } from 'redux-starter-kit'
-import reducer from '../duck/reducers/editReducer'
-import { Provider } from 'react-redux'
-
 import uid from 'uid';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 
@@ -23,8 +19,6 @@ require('codemirror/mode/markdown/markdown.js');
 require('./res/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
-
-const store = configureStore({ reducer })
 
 const Main = styled.main`
   padding: 5px;
@@ -51,23 +45,17 @@ export default class Edit extends Component {
     },
   ]
 
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    tags: PropTypes.array.isRequired,
-    note: PropTypes.object
-  }
-
   componentDidMount () {
-    store.subscribe(() => this.forceUpdate())
+    console.log('Edit did mount', this.props)
   }
 
   componentDidUpdate () {
-    const state = store.getState()
-    state.id === null && this.initializeEditor()
+    this.props.id === null && this.initializeEditor()
   }
 
+  // Problem: Empty notes are still saved.
   componentWillUnmount () {
-    store.getState().body !== '' && this.saveNoteToApp()
+    //store.getState().body !== '' && this.saveNoteToApp()
   }
 
   initializeEditor () {
@@ -85,7 +73,7 @@ export default class Edit extends Component {
   }
 
   autoSaveHandler = (delay = 0) => {
-    const { body, tagIDs, newTags } = store.getState()
+    const { body, tagIDs, newTags } = this.props
     clearTimeout(this.timer)
     if (body !== '') {
       this.timer = setTimeout(() => {
@@ -97,11 +85,11 @@ export default class Edit extends Component {
   }
 
   saveNoteToApp = () => {
-    const { id, body, tagIDs, newTags } = store.getState()
+    const { id, body, tagIDs, newTags } = this.props.note
     this.props.onSubmit(
       {
         id,
-        body: body,
+        body,
         tagIDs,
         newTags,
       }
@@ -131,43 +119,41 @@ export default class Edit extends Component {
   render () {
     const state = store.getState()
     return (
-      <Provider store={store}>
-        <PageWrapper>
-          <Navbar icons={this.navIcons} />
-          <Main>
-            <TagList tags={this.getNoteTags(state)} />
-            <TagInput
-              hasTopic={this.getHasTopic(state)}
-              suggestableTags={this.getSuggestableTags(state)}
-              appliedTags={this.getNoteTags(state)}
-              onPick={this.props.pickTag}
-              addNewTag={this.props.addNewTag}
-            />
-            <CodeMirror
-              value={state.body}
-              options={{
-                mode: 'markdown',
-                lineWrapping: 'true',
-              }}
-              onBeforeChange={(editor, data, value) => {
-                this.changeHandler(value)
-              }}
-              onChange={(editor, data, value) => {
-                this.autoSaveHandler(1200)
-              }}
-            />
-          </Main>
-          <Footer>
-            <Left><Link to="/list">
-              <TextButton label="List notes" />
-            </Link></Left>
-            {state.id &&
-              <Link to={'/note/' + state.id}>
-                <TextButton label="View this note" />
-              </Link>}
-          </Footer>
-        </PageWrapper >
-      </ Provider>
+      <PageWrapper>
+        <Navbar icons={this.navIcons} />
+        <Main>
+          <TagList tags={this.getNoteTags(state)} />
+          <TagInput
+            hasTopic={this.getHasTopic(state)}
+            suggestableTags={this.getSuggestableTags(state)}
+            appliedTags={this.getNoteTags(state)}
+            onPick={this.props.pickTag}
+            addNewTag={this.props.addNewTag}
+          />
+          <CodeMirror
+            value={state.body}
+            options={{
+              mode: 'markdown',
+              lineWrapping: 'true',
+            }}
+            onBeforeChange={(editor, data, value) => {
+              this.changeHandler(value)
+            }}
+            onChange={(editor, data, value) => {
+              this.autoSaveHandler(1200)
+            }}
+          />
+        </Main>
+        <Footer>
+          <Left><Link to="/list">
+            <TextButton label="List notes" />
+          </Link></Left>
+          {state.id &&
+            <Link to={'/note/' + state.id}>
+              <TextButton label="View this note" />
+            </Link>}
+        </Footer>
+      </PageWrapper >
 
     )
   }

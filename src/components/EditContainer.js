@@ -11,10 +11,14 @@ import {
   addNewTag
 } from '../duck/actions'
 
-const mapStateToProps = (state, ownProps) => ({
-  tags: state.tags,
-  note: getNoteById(ownProps.noteID, state)
-})
+const mapStateToProps = (state, ownProps) => {
+  console.log(state)
+  return {
+    tags: state.app.tags,
+    note: getNoteById(ownProps.noteID, state.app),
+    id: ownProps.noteID,
+  }
+}
 
 const mapDispatchToProps = {
   onSubmit: saveNote,
