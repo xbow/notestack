@@ -38,7 +38,6 @@ const Left = styled.span`
   margin-right: auto;
 `
 
-
 export default class Edit extends Component {
 
   navIcons = [
@@ -60,6 +59,18 @@ export default class Edit extends Component {
 
   componentDidMount () {
     store.subscribe(() => this.forceUpdate())
+  }
+
+  componentDidUpdate () {
+    const state = store.getState()
+    state.id === null && this.initializeEditor()
+  }
+
+  componentWillUnmount () {
+    store.getState().body !== '' && this.saveNoteToApp()
+  }
+
+  initializeEditor () {
     if (!this.props.note) {
       this.props.createNote()
     }
@@ -69,22 +80,14 @@ export default class Edit extends Component {
     }
   }
 
-  componentDidUpdate () {
-    const state = store.getState()
-  }
-
-  componentWillUnmount () {
-    state.inputBody !== '' && this.saveNoteToApp()
-  }
-
   changeHandler = value => {
     this.props.updateNoteBody((value), () => this.autoSaveHandler(1200))
   }
 
   autoSaveHandler = (delay = 0) => {
-    const { inputBody, tagIDs, newTags } = state
+    const { body, tagIDs, newTags } = store.getState()
     clearTimeout(this.timer)
-    if (inputBody !== '') {
+    if (body !== '') {
       this.timer = setTimeout(() => {
         console.log('saving...')
         this.saveNoteToApp()
@@ -94,11 +97,11 @@ export default class Edit extends Component {
   }
 
   saveNoteToApp = () => {
-    const { id, inputBody, tagIDs, newTags } = state
+    const { id, body, tagIDs, newTags } = store.getState()
     this.props.onSubmit(
       {
         id,
-        body: inputBody,
+        body: body,
         tagIDs,
         newTags,
       }
@@ -109,60 +112,63 @@ export default class Edit extends Component {
     this.props.addNewTag({ tagName, isTopic },
       () => this.autoSaveHandler())
 
-  getNoteTags () {
+  getNoteTags = state => {
     return state.tagIDs
       .map(id => this.props.tags.find(tag => tag.id === id))
       .concat(state.newTags)
   }
 
-  getSuggestableTags () {
+  getSuggestableTags = state => {
     const allTags = this.props.tags
     const tagIDsToExclude = state.tagIDs
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
-  getHasTopic () {
-    return this.getNoteTags().filter(tag => tag.topic).length > 0
+  getHasTopic = state => {
+    return this.getNoteTags(state).filter(tag => tag.topic).length > 0
   }
 
   render () {
     const state = store.getState()
     return (
-      <PageWrapper>
-        <Navbar icons={this.navIcons} />
-        <Main>
-          <TagList tags={this.getNoteTags()} />
-          <TagInput
-            hasTopic={this.getHasTopic()}
-            suggestableTags={this.getSuggestableTags()}
-            appliedTags={this.getNoteTags()}
-            onPick={this.props.pickTag}
-            addNewTag={this.props.addNewTag}
-          />
-          <CodeMirror
-            value={state.inputBody}
-            options={{
-              mode: 'markdown',
-              lineWrapping: 'true',
-            }}
-            onBeforeChange={(editor, data, value) => {
-              this.changeHandler(value)
-            }}
-            onChange={(editor, data, value) => {
-              this.autoSaveHandler(1200)
-            }}
-          />
-        </Main>
-        <Footer>
-          <Left><Link to="/list">
-            <TextButton label="List notes" />
-          </Link></Left>
-          {state.id &&
-            <Link to={'/note/' + state.id}>
-              <TextButton label="View this note" />
-            </Link>}
-        </Footer>
-      </PageWrapper >
+      <Provider store={store}>
+        <PageWrapper>
+          <Navbar icons={this.navIcons} />
+          <Main>
+            <TagList tags={this.getNoteTags(state)} />
+            <TagInput
+              hasTopic={this.getHasTopic(state)}
+              suggestableTags={this.getSuggestableTags(state)}
+              appliedTags={this.getNoteTags(state)}
+              onPick={this.props.pickTag}
+              addNewTag={this.props.addNewTag}
+            />
+            <CodeMirror
+              value={state.body}
+              options={{
+                mode: 'markdown',
+                lineWrapping: 'true',
+              }}
+              onBeforeChange={(editor, data, value) => {
+                this.changeHandler(value)
+              }}
+              onChange={(editor, data, value) => {
+                this.autoSaveHandler(1200)
+              }}
+            />
+          </Main>
+          <Footer>
+            <Left><Link to="/list">
+              <TextButton label="List notes" />
+            </Link></Left>
+            {state.id &&
+              <Link to={'/note/' + state.id}>
+                <TextButton label="View this note" />
+              </Link>}
+          </Footer>
+        </PageWrapper >
+      </ Provider>
+
     )
   }
 }
