@@ -31,7 +31,7 @@ const updateNoteBody = (state, action) => {
   })
 }
 
-const updateTagsAfterSaving = (state, action) => {
+const updateOwnState = (state, action) => {
   const { tagIDs, newTags } = action.payload
   const newTagIDs = newTags.map(tag => tag.id)
   const updatedTagIDs = tagIDs.concat(newTagIDs)
@@ -50,7 +50,6 @@ const pickTag = (state, action) => {
       ...state.tagIDs,
       id
     ],
-    hasTopic: getHasTopic(state.tagIDs)
   })
 }
 
@@ -73,7 +72,7 @@ export default createReducer(initialState, {
   createNote,
   loadNote,
   updateNoteBody,
-  updateTagsAfterSaving,
+  updateOwnState,
   pickTag,
   addNewTag,
 })

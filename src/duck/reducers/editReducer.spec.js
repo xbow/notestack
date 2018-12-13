@@ -121,15 +121,13 @@ describe('reducer', () => {
         isTopic: true
       }
     })
-    expect(newState).toEqual({
-      id: '33',
-      body: 'foo',
-      tagIDs: ['15', '22'],
-      newTags: [
-        { id: '73', name: 'test1', isTopic: false },
-        { id: 'someID', name: 'Brobnar', isTopic: true }
-      ]
-    })
+    expect(newState.id).toEqual('33')
+    expect(newState.body).toEqual('foo')
+    expect(newState.tagIDs).toEqual(['15', '22'])
+    expect(newState.newTags[0]).toEqual({ id: '73', name: 'test1', isTopic: false })
+    expect(newState.newTags[1].id).toMatch(/[a-zA-Z0-9]{7}/)
+    expect(newState.newTags[1].name).toEqual('Brobnar')
+    expect(newState.newTags[1].isTopic).toEqual(true)
   })
 
 })

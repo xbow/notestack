@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
+
+import { configureStore } from 'redux-starter-kit'
+import reducer from '../duck/reducers/editReducer'
+import { Provider } from 'react-redux'
+
 import uid from 'uid';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 
@@ -19,6 +24,8 @@ require('./res/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 
+const store = configureStore({ reducer })
+
 const Main = styled.main`
   padding: 5px;
   display: flex;
@@ -31,9 +38,9 @@ const Left = styled.span`
   margin-right: auto;
 `
 
+
 export default class Edit extends Component {
 
-  nextRoute = '/list'
   navIcons = [
     {
       name: 'tag',
@@ -51,53 +58,43 @@ export default class Edit extends Component {
     note: PropTypes.object
   }
 
-  static defaultProps = {
-    note: {
-      id: null,
-      inputBody: '',
-      tagIDs: [],
-      newTags: [],
+  componentDidMount () {
+    store.subscribe(() => this.forceUpdate())
+    if (!this.props.note) {
+      this.props.createNote()
+    }
+    else {
+      const { id, body, tagIDs } = this.props.note
+      this.props.loadNote({ id, body, tagIDs })
     }
   }
 
-  constructor(props) {
-    super(props)
-    this.timer = null
-
-    const { id, body, tagIDs, newTags } = props.note
-    this.state = {
-      createMode: !props.note.id,
-      id: id || uid(),
-      inputBody: body || '',
-      tagIDs: tagIDs || [],
-      newTags: newTags || [],
-    }
+  componentDidUpdate () {
+    const state = store.getState()
   }
 
   componentWillUnmount () {
-    this.state.inputBody !== '' && this.saveNoteToApp()
+    state.inputBody !== '' && this.saveNoteToApp()
   }
 
   changeHandler = value => {
-    this.setState({
-      inputBody: value,
-    }, () => this.autoSaveHandler(1200))
+    this.props.updateNoteBody((value), () => this.autoSaveHandler(1200))
   }
 
   autoSaveHandler = (delay = 0) => {
-    const { inputBody, tagIDs, newTags } = this.state
+    const { inputBody, tagIDs, newTags } = state
     clearTimeout(this.timer)
     if (inputBody !== '') {
       this.timer = setTimeout(() => {
         console.log('saving...')
         this.saveNoteToApp()
-        this.updateOwnState(tagIDs, newTags)
+        this.props.updateOwnState({ tagIDs, newTags })
       }, delay)
     }
   }
 
   saveNoteToApp = () => {
-    const { id, inputBody, tagIDs, newTags } = this.state
+    const { id, inputBody, tagIDs, newTags } = state
     this.props.onSubmit(
       {
         id,
@@ -108,47 +105,19 @@ export default class Edit extends Component {
     )
   }
 
-  updateOwnState (tagIDs, newTags) {
-    const newTagIDs = newTags.map(tag => tag.id)
-    const updatedTagIDs = tagIDs.concat(newTagIDs)
-    this.setState({
-      newTags: [],
-      tagIDs: updatedTagIDs,
-    })
-  }
-
-  pickTag = id => {
-    this.setState({
-      tagIDs: [
-        ...this.state.tagIDs,
-        id
-      ],
-      hasTopic: this.getHasTopic()
-    }, () => this.autoSaveHandler())
-  }
-
-  addNewTag = (tagName, isTopic) => {
-    this.setState({
-      newTags: [
-        ...this.state.newTags,
-        {
-          id: uid(),
-          topic: isTopic,
-          name: tagName
-        }
-      ]
-    }, () => this.autoSaveHandler())
-  }
+  addNewTag = (tagName, isTopic) =>
+    this.props.addNewTag({ tagName, isTopic },
+      () => this.autoSaveHandler())
 
   getNoteTags () {
-    return this.state.tagIDs
+    return state.tagIDs
       .map(id => this.props.tags.find(tag => tag.id === id))
-      .concat(this.state.newTags)
+      .concat(state.newTags)
   }
 
   getSuggestableTags () {
     const allTags = this.props.tags
-    const tagIDsToExclude = this.state.tagIDs
+    const tagIDsToExclude = state.tagIDs
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
@@ -157,10 +126,9 @@ export default class Edit extends Component {
   }
 
   render () {
-    const { createMode } = this.state
+    const state = store.getState()
     return (
       <PageWrapper>
-        {/* {this.conditionalRedirect()} */}
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={this.getNoteTags()} />
@@ -168,11 +136,11 @@ export default class Edit extends Component {
             hasTopic={this.getHasTopic()}
             suggestableTags={this.getSuggestableTags()}
             appliedTags={this.getNoteTags()}
-            onPick={this.pickTag}
-            addNewTag={this.addNewTag}
+            onPick={this.props.pickTag}
+            addNewTag={this.props.addNewTag}
           />
           <CodeMirror
-            value={this.state.inputBody}
+            value={state.inputBody}
             options={{
               mode: 'markdown',
               lineWrapping: 'true',
@@ -189,8 +157,8 @@ export default class Edit extends Component {
           <Left><Link to="/list">
             <TextButton label="List notes" />
           </Link></Left>
-          {this.state.id &&
-            <Link to={'/note/' + this.state.id}>
+          {state.id &&
+            <Link to={'/note/' + state.id}>
               <TextButton label="View this note" />
             </Link>}
         </Footer>

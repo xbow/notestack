@@ -11,19 +11,3 @@ export const getTagsByNoteId = (id, state) => {
 }
 
 // Edit
-
-export const getNoteTags = () => {
-  return state.tagIDs
-    .map(id => props.tags.find(tag => tag.id === id))
-    .concat(state.newTags)
-}
-
-export const getSuggestableTags = () => {
-  const allTags = props.tags
-  const tagIDsToExclude = state.tagIDs
-  return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
-}
-
-export const getHasTopic = tagIDs => {
-  return getNoteTags(tagIDs).filter(tag => tag.topic).length > 0
-}

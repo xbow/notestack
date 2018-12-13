@@ -84,7 +84,7 @@ export default class TagInput extends Component {
   }
 
   addNewTag (tagName, isTopic) {
-    this.props.addNewTag(tagName, isTopic)
+    this.props.addNewTag({ tagName, isTopic })
     this.resetInput()
   }
 
