@@ -26,6 +26,10 @@ const Left = styled.span`
   margin-right: auto;
 `
 
+const Center = styled.span`
+  margin-right: auto;
+`
+
 export default class View extends Component {
 
   navIcons = [
@@ -39,10 +43,20 @@ export default class View extends Component {
     },
   ]
 
+  onArchiveHandler = (id) => {
+    this.props.onArchive(id)
+    this.redirect = '/list'
+  }
+
+  conditionalRedirect () {
+    return this.redirect && <Redirect to={this.redirect} />
+  }
+  
   render () {
     const { note, tags } = this.props
     return (
       <PageWrapper>
+      {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={tags} />
@@ -56,8 +70,13 @@ export default class View extends Component {
               <TextButton label="List notes" />
             </Link>
           </Left>
+          <Center>
+            <TextButton label="Delete note" 
+              onClick={() => this.onArchiveHandler(note.id)}>
+            </TextButton>
+          </Center>
           <Link to={'/edit/' + note.id}>
-            <TextButton label="Edit this note" />
+            <TextButton label="Edit note" />
           </Link>
         </Footer>
       </PageWrapper>

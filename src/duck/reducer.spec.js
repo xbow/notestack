@@ -7,20 +7,20 @@ describe('reducer', () => {
     expect(true).toEqual(true)
   })
 
-  it('can set isArchived to true', () => {
+  it('can toggle isArchived', () => {
     const state = {
       notes: [
-        { id: '4', body: 'foo' },
-        { id: '11', body: 'archive this' }
+        { id: '4', body: 'foo', isArchived: false },
+        { id: '11', body: 'archive this', isArchived: false }
       ]
     }
     const newState = reducer(state, {
-      type: actions.archiveNote,
+      type: actions.toggleIsArchived,
       payload: '11'
     })
     expect(newState).toEqual({
       notes: [
-        { id: '4', body: 'foo' },
+        { id: '4', body: 'foo', isArchived: false },
         { id: '11', body: 'archive this', isArchived: true }
       ]
     })
@@ -41,7 +41,8 @@ describe('reducer', () => {
       notes: [{
         id: '5',
         body: '#This is a text note in **Markup**',
-        tagIDs: ['6', '7', '8']
+        tagIDs: ['6', '7', '8'],
+        isArchived: false,
       }],
       tags: [{
         id: '8', name: 'TestTag'

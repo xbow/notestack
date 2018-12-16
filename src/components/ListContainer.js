@@ -1,11 +1,16 @@
 import List from './List'
 import { connect } from 'react-redux'
+import { toggleIsArchived } from '../duck/actions'
 
 const mapStateToProps = (state, ownProps) => ({
   items: getExcerpts(state, ownProps.showArchived)
 })
 
-export default connect(mapStateToProps)(List)
+const mapDispatchToProps = {
+  onRestore: toggleIsArchived,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List)
 
 const getExcerpts = (state, showArchived) => {
   console.log('getExcerpts', showArchived)

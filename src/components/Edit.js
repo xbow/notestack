@@ -5,7 +5,6 @@ import uid from 'uid';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 
 import PropTypes from 'prop-types'
-import * as color from './res/colors'
 
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
@@ -32,7 +31,8 @@ const Left = styled.span`
 `
 
 const Center = styled.span`
-  margin-right: auto;`
+  margin-right: auto;
+`
 
 export default class Edit extends Component {
 

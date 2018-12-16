@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
-
+import ConditionalLink from './ConditionalLink'
 import TagList from './TagList'
+import Icon from './Icon'
 
 import * as color from './res/colors'
 
-const CardWrapper = styled.section`
+export const CardWrapper = styled.section`
+  position: relative;
   margin: 8px 0 0;
   border-bottom: 1px solid ${color.lineLight};
   padding: 8px 8px 14px;
 
-  &>a {
-  color: inherit;
-  text-decoration: none;
-  }
+  >a {
+    color: inherit;
+    text-decoration: none;
+    }
 
-    &:hover {
+  &:hover {
     background: ${color.paleHighlight};
     border-color: ${color.active};
   }
@@ -40,6 +41,12 @@ const CardContent = styled.div`
   }
 `
 
+const CardButtons = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+`
+
 export default class Card extends Component {
 
   static propTypes = {
@@ -49,19 +56,20 @@ export default class Card extends Component {
 
   render () {
 
-    const { text, id, tags } = this.props
+    const { text, tags, link, buttons } = this.props
 
     return (
-
       <CardWrapper>
-        <Link to={'/note/' + id}>
+        <ConditionalLink to={link}>
+          <CardButtons>
+            {buttons && buttons.map(button => <span onClick={button.action}><Icon name={button.icon} /></span>)}
+          </CardButtons>
           <TagList tags={tags} />
           <CardContent>
             <ReactMarkdown className="Markdown" source={text} />
           </CardContent>
-        </Link>
+        </ConditionalLink>
       </CardWrapper>
-
     )
   }
 }

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
 import NewNoteFooter from './NewNoteFooter'
 import Card from './Card'
+import Footer from './Footer'
 import TextButton from './TextButton'
 
 const Main = styled.main`
@@ -19,23 +20,43 @@ const EmptyMessage = styled.div`
   text-align: center;
 `
 
+const Left = styled.span`
+  margin-right: auto;
+`
+
 export default class List extends Component {
 
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.object).isRequired
   }
 
-
-  navIcons = [
-    {
-      name: 'tag',
-      link: '/tags'
-    },
-    {
-      name: 'plus-circle',
-      link: '/create'
-    },
-  ]
+  navIcons = !this.props.showArchived 
+    ? [
+        { name: 'trash',
+          link: '/trash'
+        },
+        {
+          name: 'tag',
+          link: '/tags'
+        },
+        {
+          name: 'plus-circle',
+          link: '/create'
+        },
+      ] : [
+        {
+          name: 'list',
+          link: '/list'
+        },
+        { 
+          name: 'tag',
+          link: '/tags'
+        },
+        {
+          name: 'plus-circle',
+          link: '/create'
+        },
+      ]
 
   render () {
     const { items } = this.props
@@ -43,15 +64,31 @@ export default class List extends Component {
       <PageWrapper>
         <Navbar icons={this.navIcons}></Navbar>
         <Main>
-          {items
-            ? items.map(item => <Card key={item.id} id={item.id} text={item.excerpt} tags={item.tags} />)
-            : <EmptyMessage>no cards found</EmptyMessage>}
+          {items.length > 0
+            ? items.map(item => 
+                <Card 
+                  key={item.id} 
+                  id={item.id} 
+                  text={item.excerpt} 
+                  tags={item.tags} 
+                  buttons={ this.props.showArchived && 
+                    [{ icon: 'restore', action: () => this.props.onRestore(item.id)}]}
+                  link={ !this.props.showArchived &&
+                    '/note/' + item.id}
+                  />)
+            : <EmptyMessage>No notes found</EmptyMessage>
+          }
         </Main>
-        <NewNoteFooter>
-          <Link to="/create">
-            <TextButton label="Create" />
-          </Link>
-        </NewNoteFooter>
+        { !this.props.showArchived 
+          ? <NewNoteFooter />
+          : <Footer>
+              <Left>
+                <Link to="/list">
+                  <TextButton label="Back to list"/>
+                  </Link>
+                </Left>
+              </Footer>
+        }
       </PageWrapper>
     )
   }

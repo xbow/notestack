@@ -2,6 +2,7 @@ import { createReducer } from 'redux-starter-kit'
 import initialState from './initialState'
 
 const toggleIsArchived = (state, action) => {
+  console.log('toggleIsArchived')
   const noteID = action.payload
   const { notes } = state
   const index = notes.findIndex(note => note.id === noteID)
@@ -29,7 +30,8 @@ const saveNote = (state, action) => {
       {
         id,
         body,
-        tagIDs: tagIDsToSave
+        tagIDs: tagIDsToSave,
+        isArchived: false,
       },
       ...notes
     ] : [
