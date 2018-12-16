@@ -33,7 +33,6 @@ class App extends Component {
   }
 
   render () {
-    const state = store.getState()
     return (
       <Provider store={store}>
         <Router>
