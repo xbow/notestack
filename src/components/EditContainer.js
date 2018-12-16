@@ -1,7 +1,7 @@
 import Edit from './Edit'
 import { connect } from 'react-redux'
 import { getNoteById } from '../duck/selectors'
-import { saveNote } from '../duck/actions'
+import { saveNote, toggleIsArchived } from '../duck/actions'
 
 const mapStateToProps = (state, ownProps) => ({
   tags: state.tags,
@@ -9,7 +9,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = {
-  onSubmit: saveNote
+  onSubmit: saveNote,
+  onArchive: toggleIsArchived,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit)

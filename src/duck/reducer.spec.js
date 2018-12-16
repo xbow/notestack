@@ -7,21 +7,21 @@ describe('reducer', () => {
     expect(true).toEqual(true)
   })
 
-  it('can toggle isArchived', () => {
+  it('can set isArchived to true', () => {
     const state = {
       notes: [
-        { id: '4', body: 'foo', isArchived: true },
-        { id: '11', body: 'delete this', isArchived: true }
+        { id: '4', body: 'foo' },
+        { id: '11', body: 'archive this' }
       ]
     }
     const newState = reducer(state, {
-      type: actions.toggleIsArchived,
+      type: actions.archiveNote,
       payload: '11'
     })
     expect(newState).toEqual({
       notes: [
-        { id: '4', body: 'foo', isArchived: true },
-        { id: '11', body: 'delete this', isArchived: false }
+        { id: '4', body: 'foo' },
+        { id: '11', body: 'archive this', isArchived: true }
       ]
     })
   })

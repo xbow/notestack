@@ -31,6 +31,9 @@ const Left = styled.span`
   margin-right: auto;
 `
 
+const Center = styled.span`
+  margin-right: auto;`
+
 export default class Edit extends Component {
 
   nextRoute = '/list'
@@ -66,6 +69,7 @@ export default class Edit extends Component {
 
     const { id, body, tagIDs, newTags } = props.note
     this.state = {
+      redirect: false,
       createMode: !props.note.id,
       id: id || uid(),
       inputBody: body || '',
@@ -140,6 +144,15 @@ export default class Edit extends Component {
     }, () => this.autoSaveHandler())
   }
 
+  onArchiveHandler = (id) => {
+    this.state.inputBody !== '' && this.props.onArchive(id)
+    this.redirect = '/list'
+  }
+
+  conditionalRedirect () {
+    return this.redirect && <Redirect to={this.redirect} />
+  }
+
   getNoteTags () {
     return this.state.tagIDs
       .map(id => this.props.tags.find(tag => tag.id === id))
@@ -160,7 +173,7 @@ export default class Edit extends Component {
     const { createMode } = this.state
     return (
       <PageWrapper>
-        {/* {this.conditionalRedirect()} */}
+        {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={this.getNoteTags()} />
@@ -187,11 +200,16 @@ export default class Edit extends Component {
         </Main>
         <Footer>
           <Left><Link to="/list">
-            <TextButton label="List notes" />
+            <TextButton label="Back to list" />
           </Link></Left>
+          <Center>
+            <TextButton label="Delete note" 
+            isActive={this.state.inputBody !== ''} 
+            onClick={() => this.onArchiveHandler(this.state.id)}></TextButton>
+          </Center>
           {this.state.id &&
             <Link to={'/note/' + this.state.id}>
-              <TextButton label="View this note" />
+              <TextButton label="View note" />
             </Link>}
         </Footer>
       </PageWrapper >

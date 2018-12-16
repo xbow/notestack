@@ -39,7 +39,6 @@ export default class List extends Component {
 
   render () {
     const { items } = this.props
-
     return (
       <PageWrapper>
         <Navbar icons={this.navIcons}></Navbar>
@@ -54,7 +53,6 @@ export default class List extends Component {
           </Link>
         </NewNoteFooter>
       </PageWrapper>
-
     )
   }
 }

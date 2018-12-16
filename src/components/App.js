@@ -37,8 +37,9 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <React.Fragment>
-            <Route exact path="/" render={() => <ListContainer />} />
-            <Route path="/list" render={() => <ListContainer />} />
+            <Route exact path="/" render={() => <ListContainer showArchived={false} />} />
+            <Route path="/list" render={() => <ListContainer showArchived={false} />} />
+            <Route path="/trash" render={() => <ListContainer showArchived={true} />} />
             <Route
               path="/note/:id"
               render={({ match }) => <ViewContainer noteID={match.params.id} />}
