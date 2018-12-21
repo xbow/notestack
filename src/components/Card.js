@@ -52,7 +52,6 @@ export default class Card extends Component {
     const { text, id, tags } = this.props
 
     return (
-
       <CardWrapper>
         <Link to={'/note/' + id}>
           <TagList tags={tags} />
