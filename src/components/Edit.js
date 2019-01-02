@@ -6,6 +6,7 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 
 import PropTypes from 'prop-types'
 
+import ConditionalLink from './ConditionalLink'
 import PageWrapper from './PageWrapper'
 import Navbar from './Navbar'
 import Footer from './Footer'
@@ -70,6 +71,7 @@ export default class Edit extends Component {
     const { id, body, tagIDs, newTags } = props.note
     this.state = {
       redirect: false,
+      createMode: !props.note.id,
       id: id || uid(),
       inputBody: body || '',
       tagIDs: tagIDs || [],
@@ -78,6 +80,7 @@ export default class Edit extends Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timer)
     this.state.inputBody !== '' && this.saveNoteToApp()
   }
 
@@ -201,14 +204,18 @@ export default class Edit extends Component {
             <TextButton label="Back to list" />
           </Link></Left>
           <Center>
-            <TextButton label="Delete note"
-              isActive={this.state.inputBody !== ''}
-              onClick={() => this.onArchiveHandler(this.state.id)}></TextButton>
+            <TextButton
+              label="Delete note"
+              isActive={!this.state.createMode}
+              onClick={() => this.onArchiveHandler(this.state.id)}
+            />
           </Center>
           {this.state.id &&
-            <Link to={'/note/' + this.state.id}>
-              <TextButton label="View note" />
-            </Link>}
+            <ConditionalLink to={this.state.inputBody !== '' ? '/note/' + this.state.id : null}>
+              <TextButton
+                label="View note"
+                isActive={this.state.inputBody !== ''} />
+            </ConditionalLink>}
         </Footer>
       </PageWrapper >
     )
