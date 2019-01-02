@@ -38,10 +38,6 @@ export default class List extends Component {
         link: '/trash'
       },
       {
-        name: 'tag',
-        link: '/tags'
-      },
-      {
         name: 'plus-circle',
         link: '/create'
       },
@@ -51,16 +47,12 @@ export default class List extends Component {
         link: '/list'
       },
       {
-        name: 'tag',
-        link: '/tags'
-      },
-      {
         name: 'plus-circle',
         link: '/create'
       },
     ]
 
-  render () {
+  render() {
     const { items } = this.props
     return (
       <PageWrapper>

@@ -40,12 +40,12 @@ export default class Edit extends Component {
   nextRoute = '/list'
   navIcons = [
     {
-      name: 'tag',
-      link: '/tags'
-    },
-    {
       name: 'list',
       link: '/list'
+    },
+    {
+      name: 'plus-circle',
+      link: '/create'
     },
   ]
 

@@ -34,13 +34,13 @@ export default class View extends Component {
 
   navIcons = [
     {
-      name: 'tag',
-      link: '/tags'
-    },
-    {
       name: 'list',
       link: '/list'
     },
+    {
+      name: 'plus-circle',
+      link: '/create'
+    }
   ]
 
   onArchiveHandler = (id) => {
@@ -48,15 +48,15 @@ export default class View extends Component {
     this.redirect = '/list'
   }
 
-  conditionalRedirect () {
+  conditionalRedirect() {
     return this.redirect && <Redirect to={this.redirect} />
   }
-  
-  render () {
+
+  render() {
     const { note, tags } = this.props
     return (
       <PageWrapper>
-      {this.conditionalRedirect()}
+        {this.conditionalRedirect()}
         <Navbar icons={this.navIcons} />
         <Main>
           <TagList tags={tags} />
@@ -71,7 +71,7 @@ export default class View extends Component {
             </Link>
           </Left>
           <Center>
-            <TextButton label="Delete note" 
+            <TextButton label="Delete note"
               onClick={() => this.onArchiveHandler(note.id)}>
             </TextButton>
           </Center>
