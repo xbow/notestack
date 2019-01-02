@@ -12,7 +12,7 @@ const Header = styled.header`
   padding: 6px 0 3px;
   border-bottom: 1px solid ${color.lineDark};
   display: grid;
-  grid-template-columns: 40px auto auto;
+  grid-template-columns: auto auto;
   align-items: center;
 `
 
@@ -41,10 +41,9 @@ export default class Navbar extends Component {
     navIcons: PropTypes.arrayOf(PropTypes.object)
   }
 
-  render () {
+  render() {
     return (
       <Header>
-        <Icon name="options" link="options" />
         <AppTitle>Notestack</AppTitle>
         <NavIcons>
           {this.props.icons
