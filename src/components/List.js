@@ -38,6 +38,10 @@ export default class List extends Component {
         link: '/trash'
       },
       {
+        name: 'tag',
+        link: '/tags'
+      },
+      {
         name: 'plus-circle',
         link: '/create'
       },
@@ -45,6 +49,10 @@ export default class List extends Component {
       {
         name: 'list',
         link: '/list'
+      },
+      {
+        name: 'tag',
+        link: '/tags'
       },
       {
         name: 'plus-circle',

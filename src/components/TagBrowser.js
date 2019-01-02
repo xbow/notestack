@@ -22,8 +22,8 @@ export default class TagBrowser extends Component {
     },
   ]
 
-  render () {
-    const { tags } = this.props
+  render() {
+    const tags = this.props.tags.slice()
     const tagsInAlphabeticalOrder = tags.sort((a, b) => {
       a = a.name.toLowerCase()
       b = b.name.toLowerCase()

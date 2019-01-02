@@ -38,6 +38,10 @@ export default class View extends Component {
       link: '/list'
     },
     {
+      name: 'tag',
+      link: '/tags'
+    },
+    {
       name: 'plus-circle',
       link: '/create'
     }
