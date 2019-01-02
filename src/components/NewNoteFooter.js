@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+
 import * as color from './res/colors'
 import Icon from './Icon'
 

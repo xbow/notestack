@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+
 import * as color from './res/colors'
 
 const Wrapper = styled.div`

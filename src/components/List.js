@@ -27,36 +27,38 @@ const Left = styled.span`
 export default class List extends Component {
 
   static propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object).isRequired
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    showArchived: PropTypes.bool
   }
 
-  navIcons = !this.props.showArchived 
+  navIcons = !this.props.showArchived
     ? [
-        { name: 'trash',
-          link: '/trash'
-        },
-        {
-          name: 'tag',
-          link: '/tags'
-        },
-        {
-          name: 'plus-circle',
-          link: '/create'
-        },
-      ] : [
-        {
-          name: 'list',
-          link: '/list'
-        },
-        { 
-          name: 'tag',
-          link: '/tags'
-        },
-        {
-          name: 'plus-circle',
-          link: '/create'
-        },
-      ]
+      {
+        name: 'trash',
+        link: '/trash'
+      },
+      {
+        name: 'tag',
+        link: '/tags'
+      },
+      {
+        name: 'plus-circle',
+        link: '/create'
+      },
+    ] : [
+      {
+        name: 'list',
+        link: '/list'
+      },
+      {
+        name: 'tag',
+        link: '/tags'
+      },
+      {
+        name: 'plus-circle',
+        link: '/create'
+      },
+    ]
 
   render () {
     const { items } = this.props
@@ -65,29 +67,29 @@ export default class List extends Component {
         <Navbar icons={this.navIcons}></Navbar>
         <Main>
           {items.length > 0
-            ? items.map(item => 
-                <Card 
-                  key={item.id} 
-                  id={item.id} 
-                  text={item.excerpt} 
-                  tags={item.tags} 
-                  buttons={ this.props.showArchived && 
-                    [{ icon: 'restore', action: () => this.props.onRestore(item.id)}]}
-                  link={ !this.props.showArchived &&
-                    '/note/' + item.id}
-                  />)
+            ? items.map(item =>
+              <Card
+                key={item.id}
+                id={item.id}
+                text={item.excerpt}
+                tags={item.tags}
+                link={!this.props.showArchived &&
+                  '/note/' + item.id}
+                buttons={this.props.showArchived &&
+                  [{ icon: 'restore', action: () => this.props.onRestore(item.id) }]}
+              />)
             : <EmptyMessage>No notes found</EmptyMessage>
           }
         </Main>
-        { !this.props.showArchived 
+        {!this.props.showArchived
           ? <NewNoteFooter />
           : <Footer>
-              <Left>
-                <Link to="/list">
-                  <TextButton label="Back to list"/>
-                  </Link>
-                </Left>
-              </Footer>
+            <Left>
+              <Link to="/list">
+                <TextButton label="Back to list" />
+              </Link>
+            </Left>
+          </Footer>
         }
       </PageWrapper>
     )
