@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+
 import ReactMarkdown from 'react-markdown'
 import ConditionalLink from './ConditionalLink'
 import TagList from './TagList'
@@ -51,20 +52,20 @@ export default class Card extends Component {
 
   static propTypes = {
     text: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    link: PropTypes.string,
+    buttons: PropTypes.arrayOf(PropTypes.object),
   }
 
-  render () {
-
+  render() {
     const { text, tags, link, buttons } = this.props
-
     return (
       <CardWrapper>
+        <CardButtons>
+          {buttons && buttons.map(button => <span onClick={button.action}><Icon name={button.icon} /></span>)}
+        </CardButtons>
+        <TagList tags={tags} />
         <ConditionalLink to={link}>
-          <CardButtons>
-            {buttons && buttons.map(button => <span onClick={button.action}><Icon name={button.icon} /></span>)}
-          </CardButtons>
-          <TagList tags={tags} />
           <CardContent>
             <ReactMarkdown className="Markdown" source={text} />
           </CardContent>
