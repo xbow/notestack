@@ -1,3 +1,11 @@
+## About this Project
+
+This is my digital graduation project from the coding bootcamp at [neuefische](https://neuefische.de), which I took part in from August to December 2018. I am still working on improving the app.
+
+For a live demo and some more information, go to https://notestack.netlify.com/.
+
+## Original React Readme
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
