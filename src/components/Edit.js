@@ -70,7 +70,6 @@ export default class Edit extends Component {
     const { id, body, tagIDs, newTags } = props.note
     this.state = {
       redirect: false,
-      createMode: !props.note.id,
       id: id || uid(),
       inputBody: body || '',
       tagIDs: tagIDs || [],
@@ -78,7 +77,7 @@ export default class Edit extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.state.inputBody !== '' && this.saveNoteToApp()
   }
 
@@ -112,7 +111,7 @@ export default class Edit extends Component {
     )
   }
 
-  updateOwnState (tagIDs, newTags) {
+  updateOwnState(tagIDs, newTags) {
     const newTagIDs = newTags.map(tag => tag.id)
     const updatedTagIDs = tagIDs.concat(newTagIDs)
     this.setState({
@@ -149,28 +148,27 @@ export default class Edit extends Component {
     this.redirect = '/list'
   }
 
-  conditionalRedirect () {
+  conditionalRedirect() {
     return this.redirect && <Redirect to={this.redirect} />
   }
 
-  getNoteTags () {
+  getNoteTags() {
     return this.state.tagIDs
       .map(id => this.props.tags.find(tag => tag.id === id))
       .concat(this.state.newTags)
   }
 
-  getSuggestableTags () {
+  getSuggestableTags() {
     const allTags = this.props.tags
     const tagIDsToExclude = this.state.tagIDs
     return allTags.filter(tag => !tagIDsToExclude.includes(tag.id))
   }
 
-  getHasTopic () {
+  getHasTopic() {
     return this.getNoteTags().filter(tag => tag.topic).length > 0
   }
 
-  render () {
-    const { createMode } = this.state
+  render() {
     return (
       <PageWrapper>
         {this.conditionalRedirect()}
@@ -203,9 +201,9 @@ export default class Edit extends Component {
             <TextButton label="Back to list" />
           </Link></Left>
           <Center>
-            <TextButton label="Delete note" 
-            isActive={this.state.inputBody !== ''} 
-            onClick={() => this.onArchiveHandler(this.state.id)}></TextButton>
+            <TextButton label="Delete note"
+              isActive={this.state.inputBody !== ''}
+              onClick={() => this.onArchiveHandler(this.state.id)}></TextButton>
           </Center>
           {this.state.id &&
             <Link to={'/note/' + this.state.id}>
