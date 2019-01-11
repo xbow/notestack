@@ -19,7 +19,9 @@ export const navbarLegend =
     }
   ]
 
-  <Navbar icons=navIcons />`}
+  ...
+
+  <Navbar icons={navIcons} />`}
     </code>
   </React.Fragment>
 
