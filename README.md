@@ -1,6 +1,6 @@
 ## About this Project
 
-This is my digital graduation project from the coding bootcamp at [neuefische](https://neuefische.de), which I took part in from August to December 2018. I am still working on improving the app.
+This is my digital graduation project from the coding bootcamp at [neuefische](https://neuefische.de), which I took part in from August to December 2018. It is an unfinished work in progress that I am no longer developing. 
 
 For a live demo and some more information, go to https://notestack.netlify.com/.
 
